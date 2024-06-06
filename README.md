@@ -1,17 +1,18 @@
-
-# Template
-
-**Please keep the total length of the tutorial below 25k characters.** You can include code that is linked to a repository. Keep the code snippets in the tutorial short.
-
 ## Tutorial on how to build a temperature and humidity sensor
+- [x] Title
+- [x] Your name and student credentials (xx666x)
+- [ ] Short project overview
+- [ ] How much time it might take to do (approximation)
+
+**Author:** Henrik Lagrosen, (hl223qb)
+
+**Overview:**
+
+**Time Investment:**
 
 Give a short and brief overview of what your project is about.
 What needs to be included:
 
-- [ ] Title
-- [ ] Your name and student credentials (xx666x)
-- [ ] Short project overview
-- [ ] How much time it might take to do (approximation)
 
 ### Objective
 
@@ -20,6 +21,8 @@ Describe why you have chosen to build this specific device. What purpose does it
 - [ ] Why you chose the project
 - [ ] What purpose does it serve
 - [ ] What insights you think it will give
+
+
 
 ### Material
 
@@ -30,12 +33,11 @@ Explain all material that is needed. All sensors, where you bought them and thei
 - [ ] Where you bought them and how much they cost
 
 
-> Example:
->| IoT Thing | For this         |
->| --------- | ---------------- |
->| Perhaps   | a table          |
->| is a      | jolly good idea? |
->
+|Image | Name | Info | Price |
+| ---- | ---- | ---- | ----- |
+| <Image> | LED 5mm Red | A red led light used for indicating status | 0.5$ at <link> |
+
+
 >In this project I have chosen to work with the Pycom LoPy4 device as seen in Fig. 1, it's a neat little device programmed by MicroPython and has several bands of connectivity. The device has many digital and analog input and outputs and is well suited for an IoT project.
 >
 >![LoPy!](https://pycom.io/wp-content/uploads/2018/08/lopySide-1.png =360x)
@@ -46,9 +48,11 @@ Explain all material that is needed. All sensors, where you bought them and thei
 
 How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
 
-- [ ] Chosen IDE
+- [x] Chosen IDE
 - [ ] How the code is uploaded
 - [ ] Steps that you needed to do for your computer. Installation of Node.js, extra drivers, etc.
+
+The IDE I chose for working with this project is Visual Studio Code. The most major factors behind the decision were the extendability of the code editor which allows for fine tuning the editor to my liking, and because I have a lot of previous experience with the editor.
 
 ### Putting everything together
 
