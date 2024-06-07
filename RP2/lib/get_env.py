@@ -13,3 +13,12 @@ def getSSID():
 
 def getWIFI_PASS():
     return WIFI_PASS
+
+def getBROKER_ADDRESS():
+    return BROKER_ADDRESS
+
+def getBROKER_PORT():
+    try:
+        return BROKER_PORT
+    except NameError:
+        return 1883 # Default port
