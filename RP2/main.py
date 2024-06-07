@@ -26,7 +26,7 @@ LED.off()
 wifi.connect()
 client = MQTTClient()
 client.connect()
-client.publish("test/topic", "RP2 is online")
+client.publish("log", "RP2 is online")
 
 # ------------------------- MAIN LOOP ------------------------ #
 
