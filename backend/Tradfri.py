@@ -4,6 +4,9 @@ from pytradfri.error import PytradfriError
 from pytradfri.util import load_json, save_json
 import uuid
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Tradfri:
     CREDENTIALS_PATH = "generated_tradfri_credentials.json"
@@ -16,6 +19,7 @@ class Tradfri:
     def setupAPI(self, apiFactory: APIFactory):
         self.api = apiFactory.request
         self.gateway = Gateway()
+        print("Connected to Tradfri Gateway")
 
     # ----------------------- AUTHENTICATE ----------------------- #
 
