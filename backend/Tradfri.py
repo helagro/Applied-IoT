@@ -59,6 +59,11 @@ class Tradfri:
     # --------------------------- INIT --------------------------- #
 
     def __init__(self):
+        if not self.GATEWAY_ADDR:
+            raise PytradfriError("E-3: TRADFRI_GATEWAY_ADDR is not set")
+
+        print("Connecting to Tradfri Gateway...")
+
         success = self.authWithGeneratedCredentials()
         if not success:
             key = self.askForKey()
