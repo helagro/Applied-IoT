@@ -1,6 +1,9 @@
 import paho.mqtt.client as mqtt
 
 def onMessage(client, userData, msg):
+    device = msg.topic.split("/")[-1]
+    print("Device:", device, end="  ")
+
     if msg.topic == "temperature":
         print("Temperature:", msg.payload.decode())
     elif msg.topic.startswith("motion"):

@@ -22,3 +22,6 @@ def getBROKER_PORT():
         return BROKER_PORT
     except NameError:
         return 1883 # Default port
+
+def getDEVICE_ID():
+    return DEVICE_ID
