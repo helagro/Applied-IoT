@@ -8,6 +8,6 @@ LED.off()
 
 while True:
     print("Temperature is: ", getTemperature(), "Motion?: ", motion.doesDetect())
-    time.sleep(5)
+    time.sleep(20)
 
    
