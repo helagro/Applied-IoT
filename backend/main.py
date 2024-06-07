@@ -1,4 +1,4 @@
 import mqtt
-import Tradfri
+from Tradfri import Tradfri
 
 Tradfri()
