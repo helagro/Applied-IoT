@@ -12,6 +12,7 @@ def onMessage(client, userData, msg):
     else:
         print("Unknown topic:", msg.topic + ":", msg.payload.decode())
 
+
 def onConnect(client, userdata, flags, reason_code, properties):
     client.subscribe("#")
 

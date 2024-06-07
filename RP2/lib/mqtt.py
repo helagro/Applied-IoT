@@ -14,8 +14,10 @@ from ubinascii import hexlify
 import machine
 from get_env import getBROKER_ADDRESS, getBROKER_PORT
 
+
 class MQTTException(Exception):
     pass
+
 
 class MQTTClient:
 
@@ -36,9 +38,11 @@ class MQTTClient:
         self.lw_qos = 0
         self.lw_retain = False
 
+
     def _send_str(self, s):
         self.sock.write(struct.pack("!H", len(s)))
         self.sock.write(s)
+
 
     def _recv_len(self):
         n = 0
@@ -50,8 +54,10 @@ class MQTTClient:
                 return n
             sh += 7
 
+
     def set_callback(self, f):
         self.cb = f
+
 
     def set_last_will(self, topic, msg, retain=False, qos=0):
         assert 0 <= qos <= 2
@@ -60,6 +66,7 @@ class MQTTClient:
         self.lw_msg = msg
         self.lw_qos = qos
         self.lw_retain = retain
+
 
     def connect(self, clean_session=True):
         self.sock = socket.socket()
@@ -96,12 +103,15 @@ class MQTTClient:
             raise MQTTException(resp[3])
         return resp[2] & 1
 
+
     def disconnect(self):
         self.sock.write(b"\xe0\0")
         self.sock.close()
 
+
     def ping(self):
         self.sock.write(b"\xc0\0")
+
 
     def publish(self, topic, msg, retain=False, qos=0):
         pkt = bytearray(b"\x30\0\0\0")
@@ -138,6 +148,7 @@ class MQTTClient:
         elif qos == 2:
             assert 0
 
+
     def subscribe(self, topic, qos=0):
         assert self.cb is not None, "Subscribe callback is not set"
         pkt = bytearray(b"\x82\0\0\0")
@@ -156,6 +167,7 @@ class MQTTClient:
                 if resp[3] == 0x80:
                     raise MQTTException(resp[3])
                 return
+
 
     # Wait for a single incoming MQTT message and process it.
     # Subscribed messages are delivered to a callback previously
@@ -192,6 +204,7 @@ class MQTTClient:
             self.sock.write(pkt)
         elif op & 6 == 4:
             assert 0
+
 
     # Checks whether a pending message from server is available.
     # If not, returns immediately with None. Otherwise, does

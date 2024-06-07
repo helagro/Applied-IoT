@@ -1,6 +1,7 @@
 from get_env import getSSID, getWIFI_PASS
 import network 
 
+
 def connect():
     wlan = network.WLAN(network.STA_IF)         # Put modem on Station mode
 
@@ -20,6 +21,7 @@ def connect():
     ip = wlan.ifconfig()[0]
     print('\nConnected on {}'.format(ip))
     return ip
+
 
 def disconnect():
     wlan = network.WLAN(network.STA_IF)         # Put modem on Station mode
