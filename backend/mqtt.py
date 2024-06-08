@@ -7,8 +7,7 @@ def onMessage(client, userData, msg: any) -> None:
         device: int = int(msg.topic.split("/")[-1])
         print("Device:", device, end="  ")
     except ValueError:
-        print("Invalid device ID:", msg.topic.split("/")[-1])
-        return
+        pass
 
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
         print("Temperature:", msg.payload.decode())
@@ -21,6 +20,10 @@ def onMessage(client, userData, msg: any) -> None:
     elif msg.topic.startswith(Sensor.BUTTON.value):
         print("Button pressed:", msg.payload.decode())
         execute(Sensor.BUTTON, msg.payload.decode() == "True", device)
+
+    elif msg.topic.startswith(Sensor.LIGHT.value):
+        print("Light intensity:", msg.payload.decode())
+        execute(Sensor.LIGHT, float(msg.payload.decode()), device)
 
     else:
         print("Unknown topic:", msg.topic + ":", msg.payload.decode())

@@ -1,6 +1,6 @@
 # -------------------------- IMPORTS ------------------------- #
 
-from machine import Pin
+from machine import ADC, Pin
 import dht
 import machine
 from get_env import getDisabledSensors
@@ -16,6 +16,8 @@ if "temperature" not in getDisabledSensors():
 if "button" not in getDisabledSensors():
     btnPin = Pin(16, Pin.IN)
 
+if "light" not in getDisabledSensors():
+    lightPin = ADC(Pin(17))
 
 # -------------------------- GETTERS ------------------------- #
 
@@ -40,3 +42,12 @@ def isBtnPressed() -> bool:
     if "button" in getDisabledSensors():
         return False
     return btnPin.value() == False
+
+
+def getLightIntensity() -> float | None:
+    if "light" in getDisabledSensors():
+        return None
+    
+    lightReading = lightPin.read_u16()
+    return 1 - round(lightReading / 65535)
+
