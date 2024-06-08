@@ -28,12 +28,12 @@ def init():
 
 # ----------------------- AUTHENTICATE ----------------------- #
 
-def authWithGeneratedCredentials(self):
-    conf = load_json(self.CREDENTIALS_PATH)
+def authWithGeneratedCredentials():
+    conf = load_json(CREDENTIALS_PATH)
 
     try:
-        api_factory = APIFactory(host=self.GATEWAY_ADDR, psk_id=conf["identity"], psk=conf["key"])
-        self.setupAPI(api_factory)
+        api_factory = APIFactory(host=GATEWAY_ADDR, psk_id=conf["identity"], psk=conf["key"])
+        setupAPI(api_factory)
         return True
 
     except KeyError: 
