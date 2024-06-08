@@ -5,6 +5,5 @@ import threading
 
 print("Devices:", tradfri.getDevices())
 
-mqtt.connect()
-
 threading.Thread(target=start).start()
+threading.Thread(target=lambda: mqtt.connect()).start()
