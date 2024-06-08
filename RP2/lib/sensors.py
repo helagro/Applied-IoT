@@ -17,7 +17,7 @@ if "button" not in getDisabledSensors():
     btnPin = Pin(16, Pin.IN)
 
 if "light" not in getDisabledSensors():
-    lightPin = ADC(Pin(17))
+    lightPin = ADC(Pin(28))
 
 # -------------------------- GETTERS ------------------------- #
 

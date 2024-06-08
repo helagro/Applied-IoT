@@ -97,7 +97,7 @@ while True:
         tempCounter = 0
 
     if(lightCounter >= lightCounterMax):
-        # pollLight()
+        pollLight()
         lightCounter = 0
 
     pollBtn()
