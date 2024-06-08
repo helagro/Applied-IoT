@@ -8,5 +8,6 @@ class Sensor(Enum):
     BUTTON = 'button'
     LIGHT = 'light'
 
+
 class Action(Enum):
     SET_STATE = 0

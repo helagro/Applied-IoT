@@ -1,7 +1,5 @@
 import mqtt
-from Tradfri import Tradfri
-
-tradfri = Tradfri()
+import tradfri
 
 print("Devices:", tradfri.getDevices())
 
