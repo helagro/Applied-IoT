@@ -77,13 +77,13 @@ class Tradfri:
     # --------------------------- OTHER -------------------------- #
 
     def getDevices(self):
-        devices = self.api(self.gateway.get_devices())
+        devices = self.api(self.api(self.gateway.get_devices()))
         applicableDevices = []
 
         for device in devices:
             if device.has_light_control or device.has_socket_control or device.has_blind_control:
                 applicableDevices.append({"id": device.id, "name": device.name})
-                
+
         return applicableDevices
             
 
