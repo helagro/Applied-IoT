@@ -8,11 +8,15 @@ def onMessage(client, userData, msg):
 
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
         print("Temperature:", msg.payload.decode())
-        execute(Sensor.TEMPERATURE, float(msg.payload.decode()))
+        execute(Sensor.TEMPERATURE, float(msg.payload.decode()), device)
 
     elif msg.topic.startswith(Sensor.MOTION.value):
         print("Motion detected:", msg.payload.decode())
-        execute(Sensor.MOTION, msg.payload.decode() == "True")
+        execute(Sensor.MOTION, msg.payload.decode() == "True", device)
+
+    elif msg.topic.startswith(Sensor.BUTTON.value):
+        print("Button pressed:", msg.payload.decode())
+        execute(Sensor.BUTTON, msg.payload.decode() == "True", device)
 
     else:
         print("Unknown topic:", msg.topic + ":", msg.payload.decode())

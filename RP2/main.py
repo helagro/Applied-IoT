@@ -1,49 +1,91 @@
-import motion
 import time
-from machine import Pin
-from temperature import getTemperature
 import wifi
 from mqtt import MQTTClient
 from get_env import getDEVICE_ID
+import sensors
 
 # ------------------------- VARIABLES ------------------------ #
 
-MOTION_POLL_INTERVAL = 5
-TEMP_POLL_INTERVAL = 30
-
-TEMP_COUNTER_MAX = TEMP_POLL_INTERVAL // MOTION_POLL_INTERVAL
-tempCounter = 0
-
 deviceID = getDEVICE_ID()
 
-# ----------------------- PIN SETUP ---------------------- #
+# Polling intervals in seconds
+MAIN_POLL_INTERVAL = 1
+MOTION_POLL_INTERVAL = 10
+TEMP_POLL_INTERVAL = 10
 
-LED = Pin("LED", Pin.OUT)
-LED.off()
+# Max values for counters to determine when to poll
+motionCounterMax = MOTION_POLL_INTERVAL // MAIN_POLL_INTERVAL
+tempCounterMax = TEMP_POLL_INTERVAL // MAIN_POLL_INTERVAL
+
+# Poll counters
+motionCounter = motionCounterMax
+tempCounter = tempCounterMax
+
+# Previous values
+prevMotion = False
+prevTemp = 0
+prevBtn = False
 
 # ----------------------- NETWORK SETUP ---------------------- #
 
 wifi.connect()
 client = MQTTClient()
 client.connect()
-client.publish("log", "RP2 is online")
+client.publish("log", "RP2 is online :)")
+
+# -------------------------- METHODS ------------------------- #
+
+def pollMotion():
+    global prevMotion
+    detectsMotion = sensors.doesDetectMotion()
+
+    if detectsMotion:
+        client.publish(f"motion/{deviceID}", "True")
+    elif prevMotion == True: # so doesn't spam broker with "False" messages
+        client.publish(f"motion/{deviceID}", "False")
+
+    prevMotion = detectsMotion
+
+
+def pollTemp():
+    global prevTemp
+    temp = sensors.getTemperature()
+
+    if temp != prevTemp:
+        client.publish(f"temperature/{deviceID}", str(temp))
+
+    prevTemp = temp
+
+
+def pollBtn():
+    global prevBtn
+    btnPressed = sensors.isBtnPressed()
+    if prevBtn == btnPressed: return
+
+    if btnPressed:
+        client.publish(f"button/{deviceID}", "True")
+    else:
+        client.publish(f"button/{deviceID}", "False")
+
+    prevBtn = btnPressed
 
 # ------------------------- MAIN LOOP ------------------------ #
 
 while True:
-    if(tempCounter >= TEMP_COUNTER_MAX):
-        client.publish(f"temperature/{deviceID}", str(getTemperature()))
+    if(motionCounter >= motionCounterMax):
+        pollMotion()
+        motionCounter = 0
+
+    if(tempCounter >= tempCounterMax):
+        pollTemp()
         tempCounter = 0
 
-    if motion.doesDetect():
-        print("Motion detected!")
-        client.publish(f"motion/{deviceID}", "True")
-        LED.on()
-    else:
-        client.publish(f"motion/{deviceID}", "False")
-        LED.off()
+    pollBtn()
 
-    time.sleep(MOTION_POLL_INTERVAL)
+    time.sleep(MAIN_POLL_INTERVAL)
+
+    # Increment counters
+    motionCounter += 1
     tempCounter += 1
 
    

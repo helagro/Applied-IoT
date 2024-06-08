@@ -6,7 +6,8 @@ class Automation:
     sensor: str
     operatorID: int
     threshold: int
-    deviceID: int
+    tradfriDeviceID: int
     actionID: int
     actionPayload: any
+    sensorDeviceID: int = -1
     
