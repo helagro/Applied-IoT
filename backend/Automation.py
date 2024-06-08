@@ -11,3 +11,14 @@ class Automation:
     actionPayload: any
     sensorDeviceID: int = -1
     
+    def dict(self):
+        return {
+            "name": self.name,
+            "sensor": self.sensor,
+            "operatorID": self.operatorID,
+            "threshold": self.threshold,
+            "tradfriDeviceID": self.tradfriDeviceID,
+            "actionID": self.actionID,
+            "actionPayload": self.actionPayload,
+            "sensorDeviceID": self.sensorDeviceID
+        }
