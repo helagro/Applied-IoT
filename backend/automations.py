@@ -7,8 +7,8 @@ automations = [
     Automation("Off when cold", Sensor.TEMPERATURE, Comparator.LESS_OR_EQUAL, 25, 65541, Action.SET_STATE, False, 0),
     Automation("On when warm", Sensor.TEMPERATURE, Comparator.GREATER_OR_EQUAL, 26, 65541, Action.SET_STATE, True),
     Automation("Toggle outlet", Sensor.BUTTON, Comparator.EQUAL, True, 65539, Action.TOGGLE, None, 0),
-    Automation("off when bright", Sensor.BUTTON, Comparator.GREATER_OR_EQUAL, 0.5, 65538, Action.SET_STATE, False, 0),
-    Automation("on when dark", Sensor.BUTTON, Comparator.LESS, 0.5, 65538, Action.SET_STATE, True, 0),
+    Automation("off when bright", Sensor.LIGHT, Comparator.GREATER_OR_EQUAL, 0.5, 65537, Action.SET_STATE, False, 0),
+    Automation("on when dark", Sensor.LIGHT, Comparator.LESS, 0.5, 65537, Action.SET_STATE, True, 0),
 ]
 
 def execute(sensor: int, value: any, sensorDeviceID: int):
