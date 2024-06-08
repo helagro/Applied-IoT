@@ -10,7 +10,7 @@ class Comparator(Enum):
     NOT_EQUAL = 5
 
 
-def shouldExecute(value, comparator, threshold):
+def shouldExecute(value: any, comparator: int, threshold: any):
     if comparator == Comparator.EQUAL:
         return value == threshold
     elif comparator == Comparator.GREATER:
@@ -24,4 +24,4 @@ def shouldExecute(value, comparator, threshold):
     elif comparator == Comparator.NOT_EQUAL:
         return value != threshold
     else:
-        return False
+        raise ValueError("E-8: Invalid comparator ID")

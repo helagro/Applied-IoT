@@ -9,7 +9,7 @@ automations = [
     Automation("Toggle outlet", Sensor.BUTTON, Comparator.EQUAL, True, 65539, Action.TOGGLE, None, 0),
 ]
 
-def execute(sensor, value, sensorDeviceID):
+def execute(sensor: int, value: any, sensorDeviceID: int):
     for automation in automations:
         if sensor == automation.sensor and \
             (sensorDeviceID == automation.sensorDeviceID or sensorDeviceID == -1) and \

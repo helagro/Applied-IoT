@@ -2,9 +2,13 @@ import paho.mqtt.client as mqtt
 from values import Sensor
 from automations import execute
 
-def onMessage(client, userData, msg):
-    device = int(msg.topic.split("/")[-1])
-    print("Device:", device, end="  ")
+def onMessage(client, userData, msg: any) -> None:
+    try:
+        device: int = int(msg.topic.split("/")[-1])
+        print("Device:", device, end="  ")
+    except ValueError:
+        print("Invalid device ID:", msg.topic.split("/")[-1])
+        return
 
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
         print("Temperature:", msg.payload.decode())
@@ -31,6 +35,6 @@ client.on_connect = onConnect
 client.on_message = onMessage
 
 
-def connect():
+def connect() -> None:
     client.connect("localhost", 1883, 60)
     client.loop_forever()

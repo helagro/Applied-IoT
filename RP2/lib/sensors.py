@@ -19,13 +19,13 @@ if "button" not in getDisabledSensors():
 
 # -------------------------- GETTERS ------------------------- #
 
-def doesDetectMotion():
+def doesDetectMotion() -> bool:
     if "motion" in getDisabledSensors():
         return False
     return motionPin.value() == 1
 
 
-def getTemperature():
+def getTemperature() -> float | None:
     if "temperature" in getDisabledSensors():
         return None
     try:
@@ -36,7 +36,7 @@ def getTemperature():
         return None
     
 
-def isBtnPressed():
+def isBtnPressed() -> bool:
     if "button" in getDisabledSensors():
         return False
     return btnPin.value() == False

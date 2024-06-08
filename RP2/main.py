@@ -35,7 +35,7 @@ client.publish("log", "RP2 is online :)")
 
 # -------------------------- METHODS ------------------------- #
 
-def pollMotion():
+def pollMotion() -> None:
     global prevMotion
     detectsMotion = sensors.doesDetectMotion()
 
@@ -47,7 +47,7 @@ def pollMotion():
     prevMotion = detectsMotion
 
 
-def pollTemp():
+def pollTemp() -> None:
     global prevTemp
     temp = sensors.getTemperature()
 
@@ -57,7 +57,7 @@ def pollTemp():
     prevTemp = temp
 
 
-def pollBtn():
+def pollBtn() -> None:
     global prevBtn
     btnPressed = sensors.isBtnPressed()
     if prevBtn == btnPressed: return

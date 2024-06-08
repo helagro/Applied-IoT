@@ -19,12 +19,12 @@ class Action(Enum):
 
 
 CREDENTIALS_PATH = "generated_tradfri_credentials.json"
-GATEWAY_ADDR = os.environ.get("TRADFRI_GATEWAY_ADDR")
+GATEWAY_ADDR: str = os.environ.get("TRADFRI_GATEWAY_ADDR")
 
 api = None
 gateway = None
 
-def init():
+def init() -> None:
     if not GATEWAY_ADDR:
             raise PytradfriError("E-3: TRADFRI_GATEWAY_ADDR is not set")
 
@@ -37,7 +37,7 @@ def init():
 
 # ----------------------- AUTHENTICATE ----------------------- #
 
-def authWithGeneratedCredentials():
+def authWithGeneratedCredentials() -> bool:
     conf = load_json(CREDENTIALS_PATH)
 
     try:
@@ -49,7 +49,7 @@ def authWithGeneratedCredentials():
         return False    
 
 
-def askForKey():
+def askForKey() -> str:
     print(
         "Please provide the Security Code on the back of your gateway:",
         end=" ",
@@ -63,7 +63,7 @@ def askForKey():
     return key
 
 
-def authWithKey(key: str):
+def authWithKey(key: str) -> None:
     identity = uuid.uuid4().hex
     apiFactory = APIFactory(host=GATEWAY_ADDR, psk_id=identity)
 
@@ -75,7 +75,7 @@ def authWithKey(key: str):
         raise PytradfriError("E-2: Invalid key")
 
 
-def setupAPI(apiFactory: APIFactory):
+def setupAPI(apiFactory: APIFactory) -> None:
     global api, gateway
 
     api = apiFactory.request
@@ -84,7 +84,7 @@ def setupAPI(apiFactory: APIFactory):
 
 # --------------------------- METHODS -------------------------- #
 
-def getDevices():
+def getDevices() -> list[dict]:
     devices = api(api(gateway.get_devices()))
     applicableDevices = []
 
@@ -95,7 +95,7 @@ def getDevices():
     return applicableDevices
         
 
-def execute(deviceID: int, action: int, payload: any):
+def execute(deviceID: int, action: int, payload: any) -> None:
     device = getDevice(deviceID)
     deviceControl = getDeviceControl(device)
 
@@ -128,11 +128,11 @@ def execute(deviceID: int, action: int, payload: any):
         raise PytradfriError(f"E-5: Invalid action {action}")
 
 
-def getDevice(deviceID):
+def getDevice(deviceID: int):
     return api(gateway.get_device(deviceID))
 
 
-def getDeviceControl(device):
+def getDeviceControl(device: any):
     if device.has_light_control:
         return device.light_control
     elif device.has_socket_control:
@@ -143,7 +143,7 @@ def getDeviceControl(device):
         raise PytradfriError(f"E-6: Device {device.id} has no control")
     
 
-def afterTemporaryOn(deviceID, deviceControl):
+def afterTemporaryOn(deviceID: int, deviceControl: any) -> None:
     api(deviceControl.set_state(False))
     timers.pop(deviceID)
 
