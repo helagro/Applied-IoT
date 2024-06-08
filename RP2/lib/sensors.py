@@ -49,5 +49,5 @@ def getLightIntensity() -> float | None:
         return None
     
     lightReading = lightPin.read_u16()
-    return 1 - round(lightReading / 65535)
+    return round(1 - lightReading / 65535, 2)
 

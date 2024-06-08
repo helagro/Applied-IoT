@@ -12,7 +12,7 @@ deviceID = getDEVICE_ID()
 MAIN_POLL_INTERVAL = 1
 MOTION_POLL_INTERVAL = 10
 TEMP_POLL_INTERVAL = 10
-LIGHT_POLL_INTERVAL = 10
+LIGHT_POLL_INTERVAL = 60
 
 # Max values for counters to determine when to poll
 motionCounterMax = MOTION_POLL_INTERVAL // MAIN_POLL_INTERVAL
@@ -35,7 +35,7 @@ prevLight = 0
 wifi.connect()
 client = MQTTClient()
 client.connect()
-client.publish("log", "RP2 is online :)")
+client.publish("log", "RP2 is online :)))")
 
 # -------------------------- METHODS ------------------------- #
 
@@ -107,5 +107,6 @@ while True:
     # Increment counters
     motionCounter += 1
     tempCounter += 1
+    lightCounter += 1
 
    
