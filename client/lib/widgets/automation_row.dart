@@ -1,31 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tradfri_extension/logic/Automation.dart';
+import 'package:tradfri_extension/logic/automations_backend.dart';
 
 class AutomationRow extends StatelessWidget {
-  final String name;
-  final String subtitle;
-  final Function()? onTap;
+  final Automation automation;
+  final AutomationsBackend backend;
 
-  const AutomationRow({
-    required this.name,
-    required this.subtitle,
-    this.onTap,
-  });
+  const AutomationRow({required this.automation, required this.backend});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Row(children: [
-      Text("Server URL"),
-      SizedBox(width: 20),
+    return Flex(direction: Axis.horizontal, children: [
       Expanded(
-          child: CupertinoTextField(
-        placeholder: "Enter server URL",
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9:/._-]')),
-        ],
-      ))
-    ]));
+          child: Container(
+              padding: EdgeInsets.all(10),
+              child: Row(children: [
+                Text(automation.name),
+                SizedBox(width: 10),
+                Text(
+                    "${automation.sensor} ${backend.sensorMap[automation.sensor]}"),
+              ])))
+    ]);
   }
 }

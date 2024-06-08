@@ -21,6 +21,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
     print("Setting up backend...");
     await _backend.setup();
     await _backend.getData();
+    setState(() {});
   }
 
   @override
@@ -29,9 +30,12 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
       child: Center(
           child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 900),
-              child: Column(
-                children: [AutomationRow(name: "Title", subtitle: "Subtitle")],
-              ))),
+              child: ListView.builder(
+                  itemBuilder: (context, i) {
+                    return AutomationRow(
+                        automation: _backend.automations[i], backend: _backend);
+                  },
+                  itemCount: _backend.automations.length))),
     );
   }
 }
