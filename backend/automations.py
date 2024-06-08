@@ -1,7 +1,7 @@
 from Automation import Automation
 from values import Sensor, Action
 from compare import Comparator, shouldExecute
-from tradfri import executeTradfri
+from tradfri import execute as executeTradfri
 
 automations = {
     Automation("On when motion", Sensor.MOTION, Comparator.EQUAL, 1, 65541, Action.SET_STATE, True),
