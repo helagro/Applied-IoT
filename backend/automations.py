@@ -3,10 +3,10 @@ from values import Sensor, Action
 from compare import Comparator, shouldExecute
 from tradfri import execute as executeTradfri
 
-automations = {
+automations = [
     Automation("On when motion", Sensor.MOTION, Comparator.EQUAL, 1, 65541, Action.SET_STATE, True),
     Automation("Off when no motion", Sensor.MOTION, Comparator.EQUAL, 0, 65541, Action.SET_STATE, False),
-}
+]
 
 def execute(sensor, value):
     for automation in automations:
