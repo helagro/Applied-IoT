@@ -107,7 +107,8 @@ def execute(deviceID: int, action: int, payload: any):
             timers[deviceID].cancel()
 
         api(deviceControl.set_state(True))
-        timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl)).start()
+        timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl))
+        timer.start()
         timers[deviceID] = timer
     else:
         raise PytradfriError(f"E-5: Invalid action {action}")
