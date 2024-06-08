@@ -15,6 +15,7 @@ timers = {}
 class Action(Enum):
     SET_STATE = 0
     TEMPORARY_ON = 1
+    TOGGLE = 2
 
 
 CREDENTIALS_PATH = "generated_tradfri_credentials.json"
@@ -102,6 +103,7 @@ def execute(deviceID: int, action: int, payload: any):
 
     if action == Action.SET_STATE:
         api(deviceControl.set_state(payload))
+
     elif action == Action.TEMPORARY_ON:
         if(timers.get(deviceID)):
             timers[deviceID].cancel()
@@ -110,6 +112,18 @@ def execute(deviceID: int, action: int, payload: any):
         timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl))
         timer.start()
         timers[deviceID] = timer
+
+    elif action == Action.TOGGLE:
+        if device.has_light_control:
+            api(deviceControl.set_state(not deviceControl.lights[0].state))
+        elif device.has_socket_control:
+            api(deviceControl.set_state(not deviceControl.sockets[0].state))
+        elif device.has_blind_control:
+            api(deviceControl.set_state(not deviceControl.blinds[0].state))
+        else:
+            raise PytradfriError(f"E-7: Device {device.id} has no valid control")
+        
+
     else:
         raise PytradfriError(f"E-5: Invalid action {action}")
 

@@ -6,6 +6,7 @@ from tradfri import execute as executeTradfri, Action
 automations = [
     Automation("Off when cold", Sensor.TEMPERATURE, Comparator.LESS_OR_EQUAL, 24, 65541, Action.SET_STATE, False, 0),
     Automation("On when warm", Sensor.TEMPERATURE, Comparator.GREATER_OR_EQUAL, 25, 65541, Action.SET_STATE, True),
+    Automation("Toggle outlet", Sensor.BUTTON, Comparator.EQUAL, 1, 65538, Action.TOGGLE, None, 0),
 ]
 
 def execute(sensor, value, sensorDeviceID):

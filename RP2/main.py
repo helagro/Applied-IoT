@@ -1,7 +1,7 @@
 import time
 import wifi
 from mqtt import MQTTClient
-from get_env import getDEVICE_ID
+from get_env import getDEVICE_ID, getDisabledSensors
 import sensors
 
 # ------------------------- VARIABLES ------------------------ #
@@ -70,6 +70,8 @@ def pollBtn():
     prevBtn = btnPressed
 
 # ------------------------- MAIN LOOP ------------------------ #
+
+print("Disabled sensors:", getDisabledSensors())
 
 while True:
     if(motionCounter >= motionCounterMax):

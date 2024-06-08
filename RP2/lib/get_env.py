@@ -6,6 +6,8 @@ except ImportError:
     print("Error: env.py not found. Please create env.py and add the necessary environment variables.")
     exit(1)
 
+disabledSensors = DISABLED_SENSORS.split(",") if DISABLED_SENSORS else []
+
 # -------------------------- GETTERS ------------------------- #
 
 
@@ -30,3 +32,7 @@ def getBROKER_PORT():
 
 def getDEVICE_ID():
     return DEVICE_ID
+
+
+def getDisabledSensors():
+    return disabledSensors
