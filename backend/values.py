@@ -9,5 +9,3 @@ class Sensor(Enum):
     LIGHT = 'light'
 
 
-class Action(Enum):
-    SET_STATE = 0

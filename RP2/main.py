@@ -8,7 +8,7 @@ from get_env import getDEVICE_ID
 
 # ------------------------- VARIABLES ------------------------ #
 
-MOTION_POLL_INTERVAL = 3
+MOTION_POLL_INTERVAL = 5
 TEMP_POLL_INTERVAL = 30
 
 TEMP_COUNTER_MAX = TEMP_POLL_INTERVAL // MOTION_POLL_INTERVAL

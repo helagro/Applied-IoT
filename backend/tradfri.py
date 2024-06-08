@@ -5,9 +5,16 @@ from pytradfri.util import load_json, save_json
 import uuid
 import os
 from dotenv import load_dotenv
-from values import Action
+from enum import Enum
+import threading
 
 load_dotenv()
+
+
+class Action(Enum):
+    SET_STATE = 0
+    TEMPORARY_ON = 1
+
 
 CREDENTIALS_PATH = "generated_tradfri_credentials.json"
 GATEWAY_ADDR = os.environ.get("TRADFRI_GATEWAY_ADDR")
@@ -94,6 +101,9 @@ def execute(deviceID: int, action: int, payload: any):
 
     if action == Action.SET_STATE:
         api(deviceControl.set_state(payload))
+    elif action == Action.TEMPORARY_ON:
+        api(deviceControl.set_state(True))
+        threading.Timer(payload, lambda: api(deviceControl.set_state(False))).start()
     else:
         raise PytradfriError(f"E-5: Invalid action {action}")
 

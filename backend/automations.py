@@ -1,11 +1,10 @@
 from Automation import Automation
-from values import Sensor, Action
+from values import Sensor
 from compare import Comparator, shouldExecute
-from tradfri import execute as executeTradfri
+from tradfri import execute as executeTradfri, Action
 
 automations = [
-    Automation("On when motion", Sensor.MOTION, Comparator.EQUAL, 1, 65541, Action.SET_STATE, True),
-    Automation("Off when no motion", Sensor.MOTION, Comparator.EQUAL, 0, 65541, Action.SET_STATE, False),
+    Automation("On when motion", Sensor.MOTION, Comparator.EQUAL, 1, 65541, Action.TEMPORARY_ON, 30),
 ]
 
 def execute(sensor, value):
