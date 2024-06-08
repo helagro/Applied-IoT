@@ -3,10 +3,11 @@ from tradfri import getDevices
 
 app = Flask(__name__)
 
-@app.route('/api/v1/ikea-devices', methods=['GET'])
+@app.route('/api/ikea-devices', methods=['GET'])
 def getIkeaDevices():
     return jsonify(getDevices())
 
 
 def start():
+    print("Starting server")
     app.run()
