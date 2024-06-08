@@ -4,11 +4,11 @@ from compare import Comparator, shouldExecute
 from tradfri import execute as executeTradfri, Action
 
 automations = [
-    Automation("Off when cold", Sensor.TEMPERATURE, Comparator.LESS_OR_EQUAL, 25, 65541, Action.SET_STATE, False, 0),
-    Automation("On when warm", Sensor.TEMPERATURE, Comparator.GREATER_OR_EQUAL, 26, 65541, Action.SET_STATE, True),
+    Automation(1, "Off when cold", Sensor.TEMPERATURE, Comparator.LESS_OR_EQUAL, 25, 65541, Action.SET_STATE, False, 0),
+    Automation(2, "On when warm", Sensor.TEMPERATURE, Comparator.GREATER_OR_EQUAL, 26, 65541, Action.SET_STATE, True),
     Automation(0, "Toggle outlet", Sensor.BUTTON.value, Comparator.EQUAL.value, True, 65539, Action.TOGGLE.value, None, 0),
-    Automation("off when bright", Sensor.LIGHT, Comparator.GREATER_OR_EQUAL, 0.5, 65537, Action.SET_STATE, False, 0),
-    Automation("on when dark", Sensor.LIGHT, Comparator.LESS, 0.5, 65537, Action.SET_STATE, True, 0),
+    Automation(3, "off when bright", Sensor.LIGHT, Comparator.GREATER_OR_EQUAL, 0.5, 65537, Action.SET_STATE, False, 0),
+    Automation(4, "on when dark", Sensor.LIGHT, Comparator.LESS, 0.5, 65537, Action.SET_STATE, True, 0),
 ]
 
 def execute(sensor: int, value: any, sensorDeviceID: int):
