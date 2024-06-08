@@ -15,7 +15,12 @@ def getIkeaDevices():
 
 @app.route('/api/automations', methods=['GET'])
 def getAutomations():
-    return jsonify({automation.dict() for automation in automations})
+    automationDicts = []
+
+    for automation in automations:
+        automationDicts.append(automation.dict())
+
+    return jsonify(automationDicts)
 
 
 @app.route('/api/sensors', methods=['GET'])
