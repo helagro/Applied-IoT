@@ -16,9 +16,12 @@ def onMessage(client, userData, msg):
 def onConnect(client, userdata, flags, reason_code, properties):
     client.subscribe("#")
 
+
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.on_connect = onConnect
 client.on_message = onMessage
 
-client.connect("localhost", 1883, 60)
-client.loop_forever()
+
+def connect():
+    client.connect("localhost", 1883, 60)
+    client.loop_forever()

@@ -7,3 +7,6 @@ class Sensor(Enum):
     # TODO
     BUTTON = 'button'
     LIGHT = 'light'
+
+class Action(Enum):
+    SET_STATE = 0

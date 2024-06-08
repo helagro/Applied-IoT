@@ -8,6 +8,6 @@ class Automation:
     operatorID: int
     value: int
     deviceID: int
-    actionPayload: any
     actionID: int
+    actionPayload: any
     

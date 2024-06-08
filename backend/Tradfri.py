@@ -5,6 +5,7 @@ from pytradfri.util import load_json, save_json
 import uuid
 import os
 from dotenv import load_dotenv
+from values import Action
 
 load_dotenv()
 
@@ -72,3 +73,26 @@ class Tradfri:
         if not success:
             key = self.askForKey()
             self.authWithKey(key)
+
+    # --------------------------- OTHER -------------------------- #
+
+    def getDevices(self):
+        devices = self.api(self.gateway.get_devices())
+        applicableDevices = []
+
+        for device in devices:
+            if device.has_light_control or device.has_socket_control or device.has_blind_control:
+                applicableDevices.append({"id": device.id, "name": device.name})
+                
+        return applicableDevices
+            
+
+    def execute(self, deviceID, action, payload):
+        device = self.getDevice(deviceID)
+        print("Executing action:", action, "with payload:", payload, "on device:", device)
+
+        if action == Action.SET_STATE:
+            self.api(deviceID).light_control.set_state(payload)
+
+    def getDevice(self, deviceID):
+        return self.api(self.gateway.get_device(deviceID))
