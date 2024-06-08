@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tradfri_extension/screens/automations_screen.dart';
 import 'package:tradfri_extension/screens/settings_screen.dart';
 
 void main() {
@@ -49,16 +50,18 @@ class MainPage extends StatelessWidget {
           appBar: AppBar(
             bottom: const TabBar(
               tabs: [
-                Tab(icon: Icon(Icons.directions_car)),
+                Tab(text: "Automations"),
                 Tab(icon: Icon(Icons.directions_transit)),
-                Tab(text: "Settings",),
+                Tab(
+                  text: "Settings",
+                ),
               ],
             ),
             title: const Text('Tradfri Extension'),
           ),
           body: TabBarView(
             children: [
-              Icon(Icons.directions_car),
+              AutomationsScreen(),
               Icon(Icons.directions_transit),
               Settings(),
             ],

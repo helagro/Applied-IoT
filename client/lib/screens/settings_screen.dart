@@ -18,7 +18,7 @@ class _SettingsState extends State<Settings> {
                   child: Column(
                     children: [
                       Row(children: [
-                        SettingsRow(title: "Test", subtitle: "Sub")
+                        SettingsRow(title: "Test", subtitle: "Subtitle")
                       ])
                     ],
                   )))),

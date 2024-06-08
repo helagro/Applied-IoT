@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Automation:
+    id: int
     name: str
     sensor: str
     operatorID: int
@@ -13,6 +14,7 @@ class Automation:
     
     def dict(self):
         return {
+            "id": self.id,
             "name": self.name,
             "sensor": self.sensor,
             "operatorID": self.operatorID,
