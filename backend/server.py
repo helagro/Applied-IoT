@@ -3,7 +3,6 @@ from tradfri import getDevices, Action
 from automations import automations
 from values import Sensor
 from compare import Comparator
-from dataclasses import asdict
 
 app = Flask(__name__)
 
@@ -19,10 +18,10 @@ def getAutomations():
     automationDicts = []
 
     for automation in automations:
-        automationDict = asdict(automation)
-        automationDict["sensor"] = Sensor(automation["sensor"]).name
-        automationDict["operatorID"] = Comparator(automation["operatorID"]).name
-        automationDict["actionID"] = Action(automation["actionID"]).name
+        automationDict = dict(automation)
+        automationDict["sensor"] = Sensor(automationDict["sensor"]).name
+        automationDict["operatorID"] = Comparator(automationDict["operatorID"]).name
+        automationDict["actionID"] = Action(automationDict["actionID"]).name
 
         automationDicts.append(automationDict)
 
