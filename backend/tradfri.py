@@ -9,6 +9,7 @@ from enum import Enum
 import threading
 
 load_dotenv()
+timers = {}
 
 
 class Action(Enum):
@@ -102,8 +103,12 @@ def execute(deviceID: int, action: int, payload: any):
     if action == Action.SET_STATE:
         api(deviceControl.set_state(payload))
     elif action == Action.TEMPORARY_ON:
+        if(timers.get(deviceID)):
+            timers[deviceID].cancel()
+
         api(deviceControl.set_state(True))
-        threading.Timer(payload, lambda: api(deviceControl.set_state(False))).start()
+        timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl)).start()
+        timers[deviceID] = timer
     else:
         raise PytradfriError(f"E-5: Invalid action {action}")
 
@@ -122,5 +127,10 @@ def getDeviceControl(device):
     else:
         raise PytradfriError(f"E-6: Device {device.id} has no control")
     
+
+def afterTemporaryOn(deviceID, deviceControl):
+    api(deviceControl.set_state(False))
+    timers.pop(deviceID)
+
     
 init()
