@@ -3,7 +3,7 @@ from values import Sensor
 from automations import execute
 
 def onMessage(client, userData, msg):
-    device = msg.topic.split("/")[-1]
+    device = int(msg.topic.split("/")[-1])
     print("Device:", device, end="  ")
 
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
