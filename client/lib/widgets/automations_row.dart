@@ -19,7 +19,7 @@ class AutomationsRow extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Text(items[0]),
             ),
             Expanded(
@@ -31,11 +31,11 @@ class AutomationsRow extends StatelessWidget {
               child: Text(items[2]),
             ),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Text(items[3]),
             ),
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Text(items[4]),
             ),
             Expanded(

@@ -50,7 +50,7 @@ class MainPage extends StatelessWidget {
           length: 3,
           child: Scaffold(
             appBar: AppBar(
-              bottom: const TabBar(
+              title: const TabBar(
                 tabs: [
                   Tab(text: "Automations"),
                   Tab(icon: Icon(Icons.directions_transit)),
@@ -59,7 +59,6 @@ class MainPage extends StatelessWidget {
                   ),
                 ],
               ),
-              title: const Text('Tradfri Extension'),
             ),
             body: TabBarView(
               children: [

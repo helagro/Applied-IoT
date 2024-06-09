@@ -18,7 +18,14 @@ class AutomationsBackend {
 
   Future<void> setup() async {
     final prefs = await SharedPreferences.getInstance();
-    _url = prefs.getString('server_url') ?? 'http://192.168.3.46:5000';
+    final String? url = prefs.getString('server_url');
+
+    if (url == null || url.isEmpty) {
+      errorToast(
+          'E-13: Server URL not set! Please set it in the settings page');
+    } else {
+      _url = url;
+    }
   }
 
   //--------------------------------<  LOAD DATA  >-----------------------------
