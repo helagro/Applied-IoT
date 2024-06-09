@@ -84,6 +84,9 @@ def deleteAutomation(id):
 # -------------------------- METHODS ------------------------- #
 
 def automationFromData(data) -> Automation:
+    if id not in data:
+        data['id'] = 10 # TODO: change
+
     return Automation(
         id=data['id'],
         name=data['name'],

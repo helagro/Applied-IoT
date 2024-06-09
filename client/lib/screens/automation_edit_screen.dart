@@ -96,11 +96,11 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                     const BoxConstraints(maxWidth: 200),
                                 child: Row(children: [
                                   ElevatedButton(
-                                      onPressed: () async {},
+                                      onPressed: () => onSave(context),
                                       child: const Text("Save")),
                                   const SizedBox(width: 20),
                                   ElevatedButton(
-                                      onPressed: () => onSave(context),
+                                      onPressed: () => onDelete(context),
                                       child: const Text("Delete")),
                                 ]),
                               ),
@@ -149,6 +149,15 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
         payloadWrapper.value,
         sensorDeviceID);
 
+    await widget.backend.loadAutomations();
+
+    if (context.mounted) {
+      Navigator.pop(context, true);
+    }
+  }
+
+  void onDelete(BuildContext context) async {
+    await widget.backend.deleteAutomation(widget.automation.id);
     await widget.backend.loadAutomations();
 
     if (context.mounted) {
