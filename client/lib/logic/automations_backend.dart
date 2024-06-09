@@ -46,7 +46,7 @@ class AutomationsBackend {
           .toList();
 
       await loadAutomations();
-    } on SocketException catch (e) {
+    } on Exception catch (e) {
       errorToast('E-9: $e');
     }
   }
@@ -60,7 +60,7 @@ class AutomationsBackend {
       _automations = automationsMap
           .map<Automation>((json) => Automation.fromJson(json))
           .toList();
-    } on SocketException catch (e) {
+    } on Exception catch (e) {
       errorToast('E-10: $e');
     }
   }
@@ -119,7 +119,7 @@ class AutomationsBackend {
           'sensorDeviceID': sensorDeviceID
         }),
       );
-    } on SocketException catch (e) {
+    } on Exception catch (e) {
       errorToast('E-12: $e');
     }
   }
@@ -129,7 +129,7 @@ class AutomationsBackend {
 
     try {
       await http.delete(Uri.parse('$_url/api/automations/$id'));
-    } on SocketException catch (e) {
+    } on Exception catch (e) {
       errorToast('E-11: $e');
     }
   }
