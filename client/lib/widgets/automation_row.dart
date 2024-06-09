@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tradfri_extension/logic/Automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
+import 'package:tradfri_extension/screens/automation_edit_screen.dart';
 import 'package:tradfri_extension/widgets/automations_row.dart';
 
 class AutomationRow extends StatelessWidget {
@@ -22,6 +23,11 @@ class AutomationRow extends StatelessWidget {
               child: InkWell(
                   onTap: () {
                     print("Pressed ${automation.name}");
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => AutomationEditScreen(
+                                automation: automation, backend: backend)));
                   },
                   child: AutomationsRow([
                     automation.name,

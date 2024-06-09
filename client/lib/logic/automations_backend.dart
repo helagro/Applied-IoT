@@ -12,6 +12,7 @@ class AutomationsBackend {
   Map<String, dynamic> _sensorMap = {};
   Map<String, dynamic> _comparators = {};
   Map<String, dynamic> _actions = {};
+  List<dynamic> _devices = [];
 
   Future<void> setup() async {
     final prefs = await SharedPreferences.getInstance();
@@ -28,6 +29,9 @@ class AutomationsBackend {
           json.decode(await http.read(Uri.parse('$_url/api/comparators')));
 
       _actions = json.decode(await http.read(Uri.parse('$_url/api/actions')));
+
+      _devices =
+          json.decode(await http.read(Uri.parse('$_url/api/ikea-devices')));
 
       final String automationsStr =
           await http.read(Uri.parse('$_url/api/automations'));
@@ -54,4 +58,5 @@ class AutomationsBackend {
   Map<String, dynamic> get sensorMap => _sensorMap;
   Map<String, dynamic> get comparators => _comparators;
   Map<String, dynamic> get actions => _actions;
+  List<dynamic> get devices => _devices;
 }
