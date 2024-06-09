@@ -209,3 +209,4 @@ pyrightconfig.json
 .vscode
 env.py
 generated_tradfri_credentials.json
+automations.json

@@ -36,11 +36,11 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
           Automation newAutomation = Automation(
               id: null,
               name: "",
-              sensor: _backend.sensorMap.keys.first,
-              operatorID: _backend.comparators.keys.first,
+              sensor: _backend.sensorMap.values.first,
+              operatorID: _backend.comparators.values.first,
               threshold: 0,
               sensorDeviceID: 0,
-              actionID: _backend.actions.keys.first,
+              actionID: _backend.actions.values.first,
               tradfriDeviceID: _backend.devices.first.id,
               actionPayload: null);
 
@@ -50,7 +50,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
                   builder: (context) => AutomationEditScreen(
                       automation: newAutomation,
                       backend: _backend))).then((value) {
-            if (value == true) setState(() {});
+            if (value == true && mounted) setState(() {});
           });
         },
         child: const Icon(Icons.add),
@@ -81,7 +81,9 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
                             automation: _backend.automations[i],
                             backend: _backend,
                             reload: () {
-                              setState(() {});
+                              if (mounted) {
+                                setState(() {});
+                              }
                             });
                       },
                       itemCount: _backend.automations.length),

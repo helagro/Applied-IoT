@@ -35,11 +35,11 @@ class AutomationRow extends StatelessWidget {
                   },
                   child: AutomationsRow([
                     automation.name,
-                    automation.sensor,
-                    automation.operatorID.toString(),
+                    backend.sensorMapReverse[automation.sensor]!,
+                    backend.comparatorsReverse[automation.operatorID]!,
                     automation.threshold.toString(),
                     backend.getDeviceById(automation.tradfriDeviceID).name,
-                    automation.actionID,
+                    backend.actionsReverse[automation.actionID]!,
                     jsonEncode(automation.actionPayload),
                   ]))))
     ]);

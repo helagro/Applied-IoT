@@ -7,6 +7,7 @@ import 'package:tradfri_extension/logic/Automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
 
 class AutomationsRow extends StatelessWidget {
+  static const double columnGap = 6;
   final List<String> items;
 
   const AutomationsRow(this.items);
@@ -14,7 +15,7 @@ class AutomationsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth > 800) {
+      if (constraints.maxWidth > 820) {
         return Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -22,26 +23,32 @@ class AutomationsRow extends StatelessWidget {
               flex: 3,
               child: Text(items[0]),
             ),
+            const SizedBox(width: columnGap),
             Expanded(
               flex: 3,
               child: Text(items[1]),
             ),
+            const SizedBox(width: columnGap),
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Text(items[2]),
             ),
+            const SizedBox(width: columnGap),
             Expanded(
               flex: 1,
               child: Text(items[3]),
             ),
+            const SizedBox(width: columnGap),
             Expanded(
               flex: 3,
               child: Text(items[4]),
             ),
+            const SizedBox(width: columnGap),
             Expanded(
               flex: 2,
               child: Text(items[5]),
             ),
+            const SizedBox(width: columnGap),
             Expanded(
               flex: 2,
               child: Text(

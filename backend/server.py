@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from Automation import Automation
 from tradfri import getDevices, Action
-from automations import automations
+from automations import automations, save
 from values import Sensor
 from compare import Comparator
 
@@ -53,7 +53,7 @@ def updateAutomation(id):
             automations[i] = automationFromData(data)
             break
 
-    print(id, data, flush=True)
+    save()
     return jsonify({"message": "PUT request received"})
 
 
@@ -66,7 +66,7 @@ def createAutomation():
 
     automations.append(automationFromData(data))
 
-    print(id, data, flush=True)
+    save()
     return jsonify({"message": "PUT request received"})
 
 
@@ -79,6 +79,7 @@ def deleteAutomation(id):
             automations.remove(automation)
             print("Deleted automation:", automation, flush=True)
 
+    save()
     return jsonify({"message": "DELETE request received"})
 
 # -------------------------- METHODS ------------------------- #

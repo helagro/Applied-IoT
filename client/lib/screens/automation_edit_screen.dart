@@ -118,10 +118,9 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     sensorDeviceController = TextEditingController(
         text: widget.automation.sensorDeviceID.toString());
 
-    sensorWrapper = Wrapper(widget.backend.sensorMap[widget.automation.sensor]);
-    comparatorWrapper =
-        Wrapper(widget.backend.comparators[widget.automation.operatorID]);
-    actionWrapper = Wrapper(widget.backend.actions[widget.automation.actionID]);
+    sensorWrapper = Wrapper(widget.automation.sensor);
+    comparatorWrapper = Wrapper(widget.automation.operatorID);
+    actionWrapper = Wrapper(widget.automation.actionID);
     payloadWrapper = Wrapper(widget.automation.actionPayload);
     deviceWrapper = Wrapper(widget.automation.tradfriDeviceID);
   }

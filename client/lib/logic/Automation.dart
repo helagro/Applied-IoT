@@ -2,10 +2,10 @@ class Automation {
   dynamic id;
   String name;
   String sensor;
-  String operatorID;
+  int operatorID;
   dynamic threshold;
   int tradfriDeviceID;
-  String actionID;
+  int actionID;
   dynamic actionPayload;
   int sensorDeviceID;
 
