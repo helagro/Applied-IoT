@@ -4,13 +4,7 @@ from compare import Comparator, shouldExecute
 from tradfri import execute as executeTradfri, Action
 import json
 
-automations = [
-    Automation(1, "Off when cold", Sensor.TEMPERATURE.value, Comparator.LESS_OR_EQUAL.value, 25, 65541, Action.SET_STATE.value, False, 0),
-    Automation(2, "On when warm", Sensor.TEMPERATURE.value, Comparator.GREATER_OR_EQUAL.value, 26, 65541, Action.SET_STATE.value, True),
-    Automation(0, "Toggle outlet", Sensor.BUTTON.value, Comparator.EQUAL.value, True, 65539, Action.TOGGLE.value, None, 0),
-    Automation(3, "off when bright", Sensor.LIGHT.value, Comparator.GREATER_OR_EQUAL.value, 0.5, 65537, Action.SET_STATE.value, False, 0),
-    Automation(4,"on when dark", Sensor.LIGHT.value, Comparator.LESS.value, 0.5, 65537, Action.SET_STATE.value, True, 0),
-]
+automations = []
 
 def load():
     try:
