@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from Automation import Automation
 from tradfri import getDevices, Action
 from automations import automations
 from values import Sensor
@@ -40,22 +41,30 @@ def getActions():
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
 @app.route('/api/automations/<id>', methods=['PUT'])
-def createAutomation(id):
+def updateAutomation(id):
     if request.is_json:
         data = request.get_json()
     else:
         return jsonify({"error": "Request body must be JSON"}), 400
+    
+    for i, automation in enumerate(automations):
+        if automation.id == int(id):
+            automations[i] = Automation(data)
+            print("Updated automation:", automations[i], flush=True)
+            break
 
     print(id, data, flush=True)
     return jsonify({"message": "PUT request received"})
 
 
 @app.route('/api/automations', methods=['PUT'])
-def updateAutomation():
+def createAutomation():
     if request.is_json:
         data = request.get_json()
     else:
         return jsonify({"error": "Request body must be JSON"}), 400
+
+    automations.append(Automation(data))
 
     print(id, data, flush=True)
     return jsonify({"message": "PUT request received"})

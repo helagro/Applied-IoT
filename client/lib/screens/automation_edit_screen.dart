@@ -106,7 +106,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                         await widget.backend.loadAutomations();
 
                                         if (context.mounted) {
-                                          Navigator.pop(context);
+                                          Navigator.pop(context, true);
                                         }
                                       },
                                       child: const Text("Save")),
@@ -119,8 +119,9 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                             "Automation \"${widget.automation.name}\" was deleted");
 
                                         await widget.backend.loadAutomations();
+
                                         if (context.mounted) {
-                                          Navigator.pop(context);
+                                          Navigator.pop(context, true);
                                         }
                                       },
                                       child: const Text("Delete")),

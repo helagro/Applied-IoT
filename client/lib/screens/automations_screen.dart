@@ -48,7 +48,10 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
               context,
               CupertinoPageRoute(
                   builder: (context) => AutomationEditScreen(
-                      automation: newAutomation, backend: _backend)));
+                      automation: newAutomation,
+                      backend: _backend))).then((value) {
+            if (value == true) setState(() {});
+          });
         },
         child: const Icon(Icons.add),
       ),
@@ -76,7 +79,10 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
                       itemBuilder: (context, i) {
                         return AutomationRow(
                             automation: _backend.automations[i],
-                            backend: _backend);
+                            backend: _backend,
+                            reload: () {
+                              setState(() {});
+                            });
                       },
                       itemCount: _backend.automations.length),
                 ),

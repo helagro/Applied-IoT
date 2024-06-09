@@ -11,8 +11,10 @@ import 'package:tradfri_extension/widgets/automations_row.dart';
 class AutomationRow extends StatelessWidget {
   final Automation automation;
   final AutomationsBackend backend;
+  final Function? reload;
 
-  const AutomationRow({required this.automation, required this.backend});
+  const AutomationRow(
+      {required this.automation, required this.backend, this.reload});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,10 @@ class AutomationRow extends StatelessWidget {
                         context,
                         CupertinoPageRoute(
                             builder: (context) => AutomationEditScreen(
-                                automation: automation, backend: backend)));
+                                automation: automation,
+                                backend: backend))).then((value) {
+                      if (value == true && reload != null) reload!();
+                    });
                   },
                   child: AutomationsRow([
                     automation.name,
