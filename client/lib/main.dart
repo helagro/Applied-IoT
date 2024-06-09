@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 import 'package:tradfri_extension/screens/automations_screen.dart';
 import 'package:tradfri_extension/screens/settings_screen.dart';
 
@@ -43,28 +44,30 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: "Automations"),
-                Tab(icon: Icon(Icons.directions_transit)),
-                Tab(
-                  text: "Settings",
-                ),
+    return ToastificationWrapper(
+      child: MaterialApp(
+        home: DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              bottom: const TabBar(
+                tabs: [
+                  Tab(text: "Automations"),
+                  Tab(icon: Icon(Icons.directions_transit)),
+                  Tab(
+                    text: "Settings",
+                  ),
+                ],
+              ),
+              title: const Text('Tradfri Extension'),
+            ),
+            body: TabBarView(
+              children: [
+                AutomationsScreen(),
+                Icon(Icons.directions_transit),
+                Settings(),
               ],
             ),
-            title: const Text('Tradfri Extension'),
-          ),
-          body: TabBarView(
-            children: [
-              AutomationsScreen(),
-              Icon(Icons.directions_transit),
-              Settings(),
-            ],
           ),
         ),
       ),

@@ -3,25 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SettingsRow extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final Function()? onTap;
+  final String text;
+  final TextEditingController? controller;
 
   const SettingsRow({
-    required this.title,
-    required this.subtitle,
-    this.onTap,
+    required this.text,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: Row(children: [
-      Text("Server URL"),
+      Text(text),
       SizedBox(width: 20),
       Expanded(
           child: CupertinoTextField(
-        placeholder: "Enter server URL",
+        controller: controller,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9:/._-]')),
         ],

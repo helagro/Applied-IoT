@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tradfri_extension/logic/Tradfri_device.dart';
+import 'package:tradfri_extension/toasts.dart';
 import 'dart:convert';
 
 import 'Automation.dart';
@@ -39,7 +40,7 @@ class AutomationsBackend {
 
       await loadAutomations();
     } on SocketException catch (e) {
-      print('E-9: $e');
+      errorToast('E-9: $e');
     }
   }
 
@@ -53,7 +54,7 @@ class AutomationsBackend {
           .map<Automation>((json) => Automation.fromJson(json))
           .toList();
     } on SocketException catch (e) {
-      print('E-10: $e');
+      errorToast('E-10: $e');
     }
   }
 

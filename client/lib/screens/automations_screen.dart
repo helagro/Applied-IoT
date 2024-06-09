@@ -23,7 +23,6 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
   }
 
   void setupBackend() async {
-    print("Setting up backend...");
     await _backend.setup();
     await _backend.getData();
     setState(() {});

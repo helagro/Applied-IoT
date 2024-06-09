@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toastification/toastification.dart';
 import 'package:tradfri_extension/logic/Automation.dart';
 import 'package:tradfri_extension/logic/Tradfri_device.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
 import 'package:tradfri_extension/logic/wrapper.dart';
+import 'package:tradfri_extension/toasts.dart';
 import 'package:tradfri_extension/widgets/automation_dropdown.dart';
 import 'package:tradfri_extension/widgets/automation_edit_row.dart';
 import 'package:tradfri_extension/widgets/automation_edit_text_row.dart';
@@ -91,8 +92,8 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                     const BoxConstraints(maxWidth: 200),
                                 child: Row(children: [
                                   ElevatedButton(
-                                      onPressed: () {
-                                        widget.backend.updateAutomation(
+                                      onPressed: () async {
+                                        await widget.backend.updateAutomation(
                                             widget.automation.id,
                                             nameController.text,
                                             sensorWrapper.value,
@@ -102,24 +103,25 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                             actionWrapper.value,
                                             payloadWrapper.value);
 
-                                        widget.backend.loadAutomations();
+                                        await widget.backend.loadAutomations();
 
-                                        Navigator.pop(context);
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
                                       },
                                       child: const Text("Save")),
                                   const SizedBox(width: 20),
                                   ElevatedButton(
-                                      onPressed: () {
-                                        widget.backend.deleteAutomation(
+                                      onPressed: () async {
+                                        await widget.backend.deleteAutomation(
                                             widget.automation.id);
+                                        infoToast(
+                                            "Automation \"${widget.automation.name}\" was deleted");
 
-                                        Fluttertoast.showToast(
-                                            msg:
-                                                "Deleted automation, reloading...");
-
-                                        widget.backend.loadAutomations();
-
-                                        Navigator.pop(context);
+                                        await widget.backend.loadAutomations();
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
                                       },
                                       child: const Text("Delete")),
                                 ]),

@@ -22,7 +22,6 @@ class AutomationRow extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: InkWell(
                   onTap: () {
-                    print("Pressed ${automation.name}");
                     Navigator.push(
                         context,
                         CupertinoPageRoute(
