@@ -19,9 +19,6 @@ class AutomationEditTextRow extends StatelessWidget {
         name: name,
         child: CupertinoTextField(
           controller: controller,
-          inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9:/._-]')),
-          ],
         ));
   }
 }

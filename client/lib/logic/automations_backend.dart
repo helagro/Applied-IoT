@@ -64,6 +64,16 @@ class AutomationsBackend {
   Map<String, dynamic> get actions => _actions;
   List<TradfriDevice> get devices => _devices;
 
+  Map<String, dynamic> getDeviceMap() {
+    Map<String, dynamic> map = {};
+
+    for (TradfriDevice device in _devices) {
+      map[device.name] = device.id;
+    }
+
+    return map;
+  }
+
   TradfriDevice getDeviceById(int id) {
     return _devices.firstWhere((element) => element.id == id);
   }
@@ -75,9 +85,9 @@ class AutomationsBackend {
       String name,
       String sensor,
       String threshold,
-      String operatorID,
-      TradfriDevice tradfriDevice,
-      String actionID,
+      int operatorID,
+      int tradfriDevice,
+      int actionID,
       dynamic actionPayload) async {
     print(
         "id: $id, name: $name, sensor: $sensor, threshold: $threshold, operatorID: $operatorID, tradfriDevice: $tradfriDevice, actionID: $actionID, actionPayload: $actionPayload");

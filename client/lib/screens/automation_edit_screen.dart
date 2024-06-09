@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tradfri_extension/logic/Automation.dart';
 import 'package:tradfri_extension/logic/Tradfri_device.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
+import 'package:tradfri_extension/logic/wrapper.dart';
 import 'package:tradfri_extension/widgets/automation_dropdown.dart';
 import 'package:tradfri_extension/widgets/automation_edit_row.dart';
 import 'package:tradfri_extension/widgets/automation_edit_text_row.dart';
@@ -19,6 +20,13 @@ class AutomationEditScreen extends StatefulWidget {
 class _AutomationEditScreenState extends State<AutomationEditScreen> {
   late TextEditingController nameController;
   late TextEditingController valueController;
+  late Wrapper sensorWrapper;
+  late Wrapper comparatorWrapper;
+  late Wrapper actionWrapper;
+  late Wrapper payloadWrapper;
+  late Wrapper deviceWrapper;
+
+  /* ------------------------ LIVECYCLE ----------------------- */
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +53,13 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                             AutomationEditRow(
                                 name: "Sensor",
                                 child: AutomationDropdown(
-                                    initialSelection: widget.backend
-                                        .sensorMap[widget.automation.sensor],
-                                    entries: widget.backend.sensorMap)),
+                                  entries: widget.backend.sensorMap,
+                                  wrapper: sensorWrapper,
+                                )),
                             AutomationEditRow(
                                 name: "Comparison",
                                 child: AutomationDropdown(
-                                    initialSelection:
-                                        widget.backend.comparators[
-                                            widget.automation.operatorID],
+                                    wrapper: comparatorWrapper,
                                     entries: widget.backend.comparators)),
                             AutomationEditTextRow(
                               name: "Value",
@@ -61,27 +67,18 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                             ),
                             AutomationEditRow(
                                 name: "Device",
-                                child: DropdownMenu<dynamic>(
-                                  initialSelection:
-                                      widget.automation.tradfriDeviceID,
-                                  dropdownMenuEntries: [
-                                    for (TradfriDevice device
-                                        in widget.backend.devices)
-                                      DropdownMenuEntry(
-                                          value: device.id, label: device.name)
-                                  ],
-                                )),
+                                child: AutomationDropdown(
+                                    wrapper: deviceWrapper,
+                                    entries: widget.backend.getDeviceMap())),
                             AutomationEditRow(
                                 name: "Action",
                                 child: AutomationDropdown(
-                                    initialSelection: widget.backend
-                                        .actions[widget.automation.actionID],
+                                    wrapper: actionWrapper,
                                     entries: widget.backend.actions)),
                             AutomationEditRow(
                                 name: "Payload",
                                 child: AutomationDropdown(
-                                    initialSelection:
-                                        widget.automation.actionPayload,
+                                    wrapper: payloadWrapper,
                                     entries: const {
                                       "True": true,
                                       "False": false,
@@ -97,19 +94,12 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                         widget.backend.updateAutomation(
                                             widget.automation.id,
                                             nameController.text,
-                                            widget.backend.sensorMap.keys.firstWhere((key) =>
-                                                widget.backend.sensorMap[key] ==
-                                                widget.backend.sensorMap[
-                                                    widget.automation.sensor]),
+                                            sensorWrapper.value,
                                             valueController.text,
-                                            widget.backend.comparators.keys.firstWhere((key) =>
-                                                widget.backend.comparators[key] ==
-                                                widget.backend.comparators[widget
-                                                    .automation.operatorID]),
-                                            widget.backend.devices
-                                                .firstWhere((device) => device.id == widget.automation.tradfriDeviceID),
-                                            widget.backend.actions.keys.firstWhere((key) => widget.backend.actions[key] == widget.backend.actions[widget.automation.actionID]),
-                                            widget.automation.actionPayload);
+                                            comparatorWrapper.value,
+                                            deviceWrapper.value,
+                                            actionWrapper.value,
+                                            payloadWrapper.value);
                                         Navigator.pop(context);
                                       },
                                       child: const Text("Save")),
@@ -126,9 +116,18 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                         ))))));
   }
 
+  /* ------------------------- METHODS ------------------------ */
+
   void setupControllers() {
     nameController = TextEditingController(text: widget.automation.name);
     valueController =
         TextEditingController(text: widget.automation.threshold.toString());
+
+    sensorWrapper = Wrapper(widget.backend.sensorMap[widget.automation.sensor]);
+    comparatorWrapper =
+        Wrapper(widget.backend.comparators[widget.automation.operatorID]);
+    actionWrapper = Wrapper(widget.backend.actions[widget.automation.actionID]);
+    payloadWrapper = Wrapper(widget.automation.actionPayload);
+    deviceWrapper = Wrapper(widget.automation.tradfriDeviceID);
   }
 }
