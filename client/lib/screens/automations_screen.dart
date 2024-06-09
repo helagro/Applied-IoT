@@ -35,7 +35,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Automation newAutomation = Automation(
-              id: -1,
+              id: null,
               name: "",
               sensor: _backend.sensorMap.keys.first,
               operatorID: _backend.comparators.keys.first,

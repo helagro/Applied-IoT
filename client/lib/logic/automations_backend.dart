@@ -82,7 +82,7 @@ class AutomationsBackend {
   /* ------------------------- MODIFIERS ------------------------ */
 
   Future<void> updateAutomation(
-      int id,
+      dynamic id,
       String name,
       String sensor,
       String threshold,
@@ -90,8 +90,11 @@ class AutomationsBackend {
       int tradfriDevice,
       int actionID,
       dynamic actionPayload) async {
-    final response = await http.put(
-      Uri.parse('$_url/api/automations/$id'),
+    final String uri =
+        id == null ? '$_url/api/automations' : '$_url/api/automations/$id';
+
+    await http.put(
+      Uri.parse(uri),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -110,7 +113,9 @@ class AutomationsBackend {
         "id: $id, name: $name, sensor: $sensor, threshold: $threshold, operatorID: $operatorID, tradfriDevice: $tradfriDevice, actionID: $actionID, actionPayload: $actionPayload");
   }
 
-  Future<void> deleteAutomation(int id) async {
-    final response = await http.delete(Uri.parse('$_url/api/automations/$id'));
+  Future<void> deleteAutomation(dynamic id) async {
+    if (id == null) return;
+
+    await http.delete(Uri.parse('$_url/api/automations/$id'));
   }
 }

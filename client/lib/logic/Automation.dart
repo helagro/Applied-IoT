@@ -1,5 +1,5 @@
 class Automation {
-  int id;
+  dynamic id;
   String name;
   String sensor;
   String operatorID;

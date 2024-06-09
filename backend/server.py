@@ -39,6 +39,17 @@ def getActions():
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
+@app.route('/api/automations', methods=['PUT'])
+def updateAutomation(id):
+    if request.is_json:
+        data = request.get_json()
+    else:
+        return jsonify({"error": "Request body must be JSON"}), 400
+
+    print(id, data, flush=True)
+    return jsonify({"message": "PUT request received"})
+
+
 @app.route('/api/automations/<id>', methods=['PUT'])
 def updateAutomation(id):
     if request.is_json:
