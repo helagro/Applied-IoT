@@ -2,7 +2,7 @@ from Automation import Automation
 from values import Sensor
 from compare import Comparator, shouldExecute
 from tradfri import execute as executeTradfri, Action
-from flask import jsonify, json
+import json
 
 automations = [
     Automation(1, "Off when cold", Sensor.TEMPERATURE.value, Comparator.LESS_OR_EQUAL.value, 25, 65541, Action.SET_STATE.value, False, 0),
@@ -24,7 +24,7 @@ def load():
 
 def save():
     with open('automations.json', 'w') as f:
-        f.write(jsonify([automation.dict() for automation in automations]))
+        f.write(json.dumps([automation.dict() for automation in automations]))
 
 
 def execute(sensor: int, value: any, sensorDeviceID: int):
