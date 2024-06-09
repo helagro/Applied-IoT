@@ -66,7 +66,7 @@ def deleteAutomation(id):
     print(id, flush=True)
 
     for automation in automations:
-        if automation.id == id:
+        if automation.id == int(id):
             automations.remove(automation)
             print("Deleted automation:", automation, flush=True)
 
