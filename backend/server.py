@@ -48,6 +48,7 @@ def updateAutomation(id):
         return jsonify({"error": "Request body must be JSON"}), 400
 
     print(id, data, flush=True)
+    return jsonify({"message": "PUT request received"})
 
 # --------------------------- START -------------------------- #
 
