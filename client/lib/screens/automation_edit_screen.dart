@@ -22,6 +22,7 @@ class AutomationEditScreen extends StatefulWidget {
 class _AutomationEditScreenState extends State<AutomationEditScreen> {
   late TextEditingController nameController;
   late TextEditingController valueController;
+  late TextEditingController sensorDeviceController;
   late Wrapper sensorWrapper;
   late Wrapper comparatorWrapper;
   late Wrapper actionWrapper;
@@ -86,44 +87,20 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                       "False": false,
                                       "None": null
                                     })),
+                            AutomationEditTextRow(
+                                name: "Sensor Device",
+                                controller: sensorDeviceController),
                             Center(
                               child: ConstrainedBox(
                                 constraints:
                                     const BoxConstraints(maxWidth: 200),
                                 child: Row(children: [
                                   ElevatedButton(
-                                      onPressed: () async {
-                                        await widget.backend.updateAutomation(
-                                            widget.automation.id,
-                                            nameController.text,
-                                            sensorWrapper.value,
-                                            valueController.text,
-                                            comparatorWrapper.value,
-                                            deviceWrapper.value,
-                                            actionWrapper.value,
-                                            payloadWrapper.value);
-
-                                        await widget.backend.loadAutomations();
-
-                                        if (context.mounted) {
-                                          Navigator.pop(context, true);
-                                        }
-                                      },
+                                      onPressed: () async {},
                                       child: const Text("Save")),
                                   const SizedBox(width: 20),
                                   ElevatedButton(
-                                      onPressed: () async {
-                                        await widget.backend.deleteAutomation(
-                                            widget.automation.id);
-                                        successToast(
-                                            "Automation \"${widget.automation.name}\" was deleted");
-
-                                        await widget.backend.loadAutomations();
-
-                                        if (context.mounted) {
-                                          Navigator.pop(context, true);
-                                        }
-                                      },
+                                      onPressed: () => onSave(context),
                                       child: const Text("Delete")),
                                 ]),
                               ),
@@ -138,6 +115,8 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     nameController = TextEditingController(text: widget.automation.name);
     valueController =
         TextEditingController(text: widget.automation.threshold.toString());
+    sensorDeviceController = TextEditingController(
+        text: widget.automation.sensorDeviceID.toString());
 
     sensorWrapper = Wrapper(widget.backend.sensorMap[widget.automation.sensor]);
     comparatorWrapper =
@@ -145,5 +124,35 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     actionWrapper = Wrapper(widget.backend.actions[widget.automation.actionID]);
     payloadWrapper = Wrapper(widget.automation.actionPayload);
     deviceWrapper = Wrapper(widget.automation.tradfriDeviceID);
+  }
+
+  /* --------------------- EVENT LISTENERS -------------------- */
+
+  void onSave(BuildContext context) async {
+    int sensorDeviceID;
+
+    try {
+      sensorDeviceID = int.parse(sensorDeviceController.text);
+    } catch (e) {
+      errorToast("E-14: $e");
+      return;
+    }
+
+    await widget.backend.updateAutomation(
+        widget.automation.id,
+        nameController.text,
+        sensorWrapper.value,
+        valueController.text,
+        comparatorWrapper.value,
+        deviceWrapper.value,
+        actionWrapper.value,
+        payloadWrapper.value,
+        sensorDeviceID);
+
+    await widget.backend.loadAutomations();
+
+    if (context.mounted) {
+      Navigator.pop(context, true);
+    }
   }
 }

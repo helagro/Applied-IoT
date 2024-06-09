@@ -49,8 +49,8 @@ def updateAutomation(id):
     
     for i, automation in enumerate(automations):
         if automation.id == int(id):
-            automations[i] = Automation(data)
             print("Updated automation:", automations[i], flush=True)
+            automations[i] = automationFromData(data)
             break
 
     print(id, data, flush=True)
@@ -64,7 +64,7 @@ def createAutomation():
     else:
         return jsonify({"error": "Request body must be JSON"}), 400
 
-    automations.append(Automation(data))
+    automations.append(automationFromData(data))
 
     print(id, data, flush=True)
     return jsonify({"message": "PUT request received"})
@@ -80,6 +80,22 @@ def deleteAutomation(id):
             print("Deleted automation:", automation, flush=True)
 
     return jsonify({"message": "DELETE request received"})
+
+# -------------------------- METHODS ------------------------- #
+
+def automationFromData(data) -> Automation:
+    return Automation(
+        id=data['id'],
+        name=data['name'],
+        sensor=data['sensor'],
+        operatorID=data['operatorID'],
+        threshold=data['threshold'],
+        tradfriDeviceID=data['tradfriDeviceID'],
+        actionID=data['actionID'],
+        actionPayload=data['actionPayload'],
+        sensorDeviceID=data['sensorDeviceID']
+    )
+
 
 # --------------------------- START -------------------------- #
 

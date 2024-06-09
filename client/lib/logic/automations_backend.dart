@@ -97,7 +97,8 @@ class AutomationsBackend {
       int operatorID,
       int tradfriDevice,
       int actionID,
-      dynamic actionPayload) async {
+      dynamic actionPayload,
+      int sensorDeviceID) async {
     final String uri =
         id == null ? '$_url/api/automations' : '$_url/api/automations/$id';
 
@@ -112,9 +113,10 @@ class AutomationsBackend {
           'sensor': sensor,
           'threshold': threshold,
           'operatorID': operatorID,
-          'tradfriDevice': tradfriDevice,
+          'tradfriDeviceID': tradfriDevice,
           'actionID': actionID,
-          'actionPayload': actionPayload
+          'actionPayload': actionPayload,
+          'sensorDeviceID': sensorDeviceID
         }),
       );
     } on SocketException catch (e) {
