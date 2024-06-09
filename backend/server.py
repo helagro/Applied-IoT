@@ -39,8 +39,8 @@ def getActions():
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
-@app.route('/api/automations', methods=['PUT'])
-def updateAutomation():
+@app.route('/api/automations/<id>', methods=['PUT'])
+def updateAutomation(id):
     if request.is_json:
         data = request.get_json()
     else:
@@ -50,8 +50,8 @@ def updateAutomation():
     return jsonify({"message": "PUT request received"})
 
 
-@app.route('/api/automations/<id>', methods=['PUT'])
-def updateAutomation(id):
+@app.route('/api/automations', methods=['PUT'])
+def updateAutomation():
     if request.is_json:
         data = request.get_json()
     else:
