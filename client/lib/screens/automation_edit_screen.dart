@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tradfri_extension/logic/Automation.dart';
 import 'package:tradfri_extension/logic/Tradfri_device.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
@@ -111,6 +112,10 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                       onPressed: () {
                                         widget.backend.deleteAutomation(
                                             widget.automation.id);
+
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                "Deleted automation, reloading...");
 
                                         widget.backend.loadAutomations();
 
