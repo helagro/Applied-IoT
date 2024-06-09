@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
 import 'package:tradfri_extension/widgets/automation_row.dart';
+import 'package:tradfri_extension/widgets/automations_row.dart';
 
 class AutomationsScreen extends StatefulWidget {
   const AutomationsScreen({Key? key}) : super(key: key);
@@ -30,13 +31,33 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
     return CupertinoPageScaffold(
       child: Center(
           child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 900),
-              child: ListView.builder(
-                  itemBuilder: (context, i) {
-                    return AutomationRow(
-                        automation: _backend.automations[i], backend: _backend);
-                  },
-                  itemCount: _backend.automations.length))),
+              constraints: const BoxConstraints(maxWidth: 900),
+              child: Column(children: [
+                Flex(direction: Axis.horizontal, children: [
+                  Expanded(
+                      child: Container(
+                          padding: const EdgeInsets.all(10),
+                          child: const AutomationsRow([
+                            "NAME",
+                            "SENSOR",
+                            "COMPARISON",
+                            "VALUE",
+                            "DEVICE",
+                            "ACTION",
+                            "PAYLOAD"
+                          ])))
+                ]),
+                const SizedBox(height: 7),
+                Expanded(
+                  child: ListView.builder(
+                      itemBuilder: (context, i) {
+                        return AutomationRow(
+                            automation: _backend.automations[i],
+                            backend: _backend);
+                      },
+                      itemCount: _backend.automations.length),
+                ),
+              ]))),
     );
   }
 }

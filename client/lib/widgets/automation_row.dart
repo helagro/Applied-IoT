@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tradfri_extension/logic/Automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
+import 'package:tradfri_extension/widgets/automations_row.dart';
 
 class AutomationRow extends StatelessWidget {
   final Automation automation;
@@ -14,18 +15,23 @@ class AutomationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Sensors ${jsonEncode(backend.sensorMap)}");
-
     return Flex(direction: Axis.horizontal, children: [
       Expanded(
           child: Container(
-              padding: EdgeInsets.all(10),
-              child: Row(children: [
-                Text(automation.name),
-                SizedBox(width: 10),
-                Text(
-                    "${automation.sensor} ${backend.sensorMap[automation.sensor]}"),
-              ])))
+              padding: const EdgeInsets.all(10),
+              child: InkWell(
+                  onTap: () {
+                    print("Pressed ${automation.name}");
+                  },
+                  child: AutomationsRow([
+                    automation.name,
+                    automation.sensor,
+                    automation.operatorID,
+                    automation.threshold.toString(),
+                    automation.tradfriDeviceID.toString(),
+                    automation.actionID,
+                    jsonEncode(automation.actionPayload),
+                  ]))))
     ]);
   }
 }
