@@ -22,16 +22,15 @@ class AutomationsBackend {
 
   Future<void> getData() async {
     try {
-      _sensorMap =
-          json.decode(await http.read(Uri.parse(_url + '/api/sensors')));
+      _sensorMap = json.decode(await http.read(Uri.parse('$_url/api/sensors')));
 
       _comparators =
-          json.decode(await http.read(Uri.parse(_url + '/api/comparators')));
+          json.decode(await http.read(Uri.parse('$_url/api/comparators')));
 
-      _actions = json.decode(await http.read(Uri.parse(_url + '/api/actions')));
+      _actions = json.decode(await http.read(Uri.parse('$_url/api/actions')));
 
       final String automationsStr =
-          await http.read(Uri.parse(_url + '/api/automations'));
+          await http.read(Uri.parse('$_url/api/automations'));
       final automationsMap =
           json.decode(automationsStr).cast<Map<String, dynamic>>();
       _automations = automationsMap
@@ -44,8 +43,8 @@ class AutomationsBackend {
           _comparators["EQUAL"]!.toString() +
           " " +
           _actions["TOGGLE"]!.toString());
-    } on SocketException {
-      print('No connection to server!');
+    } on SocketException catch (e) {
+      print('E-9: $e');
     }
   }
 
