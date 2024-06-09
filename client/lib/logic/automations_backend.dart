@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tradfri_extension/logic/Tradfri_device.dart';
 import 'dart:convert';
 
 import 'Automation.dart';
@@ -12,7 +13,7 @@ class AutomationsBackend {
   Map<String, dynamic> _sensorMap = {};
   Map<String, dynamic> _comparators = {};
   Map<String, dynamic> _actions = {};
-  List<dynamic> _devices = [];
+  List<TradfriDevice> _devices = [];
 
   Future<void> setup() async {
     final prefs = await SharedPreferences.getInstance();
@@ -30,8 +31,11 @@ class AutomationsBackend {
 
       _actions = json.decode(await http.read(Uri.parse('$_url/api/actions')));
 
-      _devices =
-          json.decode(await http.read(Uri.parse('$_url/api/ikea-devices')));
+      _devices = json
+          .decode(await http.read(Uri.parse('$_url/api/ikea-devices')))
+          .cast<Map<String, dynamic>>()
+          .map<TradfriDevice>((json) => TradfriDevice.fromJson(json))
+          .toList();
 
       final String automationsStr =
           await http.read(Uri.parse('$_url/api/automations'));
