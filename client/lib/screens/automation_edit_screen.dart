@@ -115,7 +115,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                       onPressed: () async {
                                         await widget.backend.deleteAutomation(
                                             widget.automation.id);
-                                        infoToast(
+                                        successToast(
                                             "Automation \"${widget.automation.name}\" was deleted");
 
                                         await widget.backend.loadAutomations();

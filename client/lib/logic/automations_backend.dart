@@ -94,29 +94,34 @@ class AutomationsBackend {
     final String uri =
         id == null ? '$_url/api/automations' : '$_url/api/automations/$id';
 
-    await http.put(
-      Uri.parse(uri),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'name': name,
-        'sensor': sensor,
-        'threshold': threshold,
-        'operatorID': operatorID,
-        'tradfriDevice': tradfriDevice,
-        'actionID': actionID,
-        'actionPayload': actionPayload
-      }),
-    );
-
-    print(
-        "id: $id, name: $name, sensor: $sensor, threshold: $threshold, operatorID: $operatorID, tradfriDevice: $tradfriDevice, actionID: $actionID, actionPayload: $actionPayload");
+    try {
+      await http.put(
+        Uri.parse(uri),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'name': name,
+          'sensor': sensor,
+          'threshold': threshold,
+          'operatorID': operatorID,
+          'tradfriDevice': tradfriDevice,
+          'actionID': actionID,
+          'actionPayload': actionPayload
+        }),
+      );
+    } on SocketException catch (e) {
+      errorToast('E-12: $e');
+    }
   }
 
   Future<void> deleteAutomation(dynamic id) async {
     if (id == null) return;
 
-    await http.delete(Uri.parse('$_url/api/automations/$id'));
+    try {
+      await http.delete(Uri.parse('$_url/api/automations/$id'));
+    } on SocketException catch (e) {
+      errorToast('E-11: $e');
+    }
   }
 }

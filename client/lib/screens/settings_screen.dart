@@ -48,7 +48,7 @@ class _SettingsState extends State<Settings> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setString('server_url', serverUrl);
 
-      infoToast('Settings saved');
+      successToast('Settings saved');
     });
   }
 }
