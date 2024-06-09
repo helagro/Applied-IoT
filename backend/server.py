@@ -51,7 +51,7 @@ def createAutomation(id):
 
 
 @app.route('/api/automations', methods=['PUT'])
-def createAutomation():
+def updateAutomation():
     if request.is_json:
         data = request.get_json()
     else:
