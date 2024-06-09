@@ -37,6 +37,14 @@ class AutomationsBackend {
           .map<TradfriDevice>((json) => TradfriDevice.fromJson(json))
           .toList();
 
+      await loadAutomations();
+    } on SocketException catch (e) {
+      print('E-9: $e');
+    }
+  }
+
+  Future<void> loadAutomations() async {
+    try {
       final String automationsStr =
           await http.read(Uri.parse('$_url/api/automations'));
       final automationsMap =
@@ -44,15 +52,8 @@ class AutomationsBackend {
       _automations = automationsMap
           .map<Automation>((json) => Automation.fromJson(json))
           .toList();
-
-      print("Automations: " +
-          _sensorMap["LIGHT"]! +
-          " " +
-          _comparators["EQUAL"]!.toString() +
-          " " +
-          _actions["TOGGLE"]!.toString());
     } on SocketException catch (e) {
-      print('E-9: $e');
+      print('E-10: $e');
     }
   }
 
@@ -78,7 +79,7 @@ class AutomationsBackend {
     return _devices.firstWhere((element) => element.id == id);
   }
 
-  /* ------------------------- SETTERS ------------------------ */
+  /* ------------------------- MODIFIERS ------------------------ */
 
   Future<void> updateAutomation(
       int id,
@@ -107,5 +108,9 @@ class AutomationsBackend {
 
     print(
         "id: $id, name: $name, sensor: $sensor, threshold: $threshold, operatorID: $operatorID, tradfriDevice: $tradfriDevice, actionID: $actionID, actionPayload: $actionPayload");
+  }
+
+  Future<void> deleteAutomation(int id) async {
+    final response = await http.delete(Uri.parse('$_url/api/automations/$id'));
   }
 }

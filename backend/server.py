@@ -37,7 +37,6 @@ def getComparators():
 def getActions():
     return jsonify({action.name: action.value for action in Action})
 
-
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
 @app.route('/api/automations/<id>', methods=['PUT'])
@@ -49,6 +48,12 @@ def updateAutomation(id):
 
     print(id, data, flush=True)
     return jsonify({"message": "PUT request received"})
+
+
+@app.route('/api/automations/<id>', methods=['DELETE'])
+def deleteAutomation(id):
+    print(id, flush=True)
+    return jsonify({"message": "DELETE request received"})
 
 # --------------------------- START -------------------------- #
 

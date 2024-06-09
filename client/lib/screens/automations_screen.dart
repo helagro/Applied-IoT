@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:tradfri_extension/logic/Automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
+import 'package:tradfri_extension/screens/automation_edit_screen.dart';
 import 'package:tradfri_extension/widgets/automation_row.dart';
 import 'package:tradfri_extension/widgets/automations_row.dart';
 
@@ -28,8 +31,29 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: Center(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Automation newAutomation = Automation(
+              id: -1,
+              name: "",
+              sensor: _backend.sensorMap.keys.first,
+              operatorID: _backend.comparators.keys.first,
+              threshold: 0,
+              sensorDeviceID: 0,
+              actionID: _backend.actions.keys.first,
+              tradfriDeviceID: _backend.devices.first.id,
+              actionPayload: null);
+
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => AutomationEditScreen(
+                      automation: newAutomation, backend: _backend)));
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: Center(
           child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 900),
               child: Column(children: [

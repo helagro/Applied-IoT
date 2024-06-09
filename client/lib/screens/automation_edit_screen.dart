@@ -100,13 +100,21 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                             deviceWrapper.value,
                                             actionWrapper.value,
                                             payloadWrapper.value);
+
+                                        widget.backend.loadAutomations();
+
                                         Navigator.pop(context);
                                       },
                                       child: const Text("Save")),
                                   const SizedBox(width: 20),
                                   ElevatedButton(
                                       onPressed: () {
-                                        print("Delete");
+                                        widget.backend.deleteAutomation(
+                                            widget.automation.id);
+
+                                        widget.backend.loadAutomations();
+
+                                        Navigator.pop(context);
                                       },
                                       child: const Text("Delete")),
                                 ]),
