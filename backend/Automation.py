@@ -16,11 +16,11 @@ class Automation:
         return {
             "id": self.id,
             "name": self.name,
-            "sensor": self.sensor.value,
-            "operatorID": self.operatorID.value,
+            "sensor": self.sensor.name,
+            "operatorID": self.operatorID.name,
             "threshold": self.threshold,
             "tradfriDeviceID": self.tradfriDeviceID,
-            "actionID": self.actionID.value,
+            "actionID": self.actionID.name,
             "actionPayload": self.actionPayload,
             "sensorDeviceID": self.sensorDeviceID
         }

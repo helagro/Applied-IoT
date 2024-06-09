@@ -10,10 +10,11 @@ class AutomationsScreen extends StatefulWidget {
 }
 
 class _AutomationsScreenState extends State<AutomationsScreen> {
-  AutomationsBackend _backend = AutomationsBackend();
+  final AutomationsBackend _backend = AutomationsBackend();
 
   @override
   void initState() {
+    super.initState();
     setupBackend();
   }
 
