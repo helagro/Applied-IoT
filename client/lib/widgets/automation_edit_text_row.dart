@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tradfri_extension/widgets/audomation_edit_row.dart';
+import 'package:tradfri_extension/widgets/automation_edit_row.dart';
 
 class AutomationEditTextRow extends StatelessWidget {
   final String name;

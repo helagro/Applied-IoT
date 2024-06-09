@@ -32,7 +32,7 @@ class AutomationRow extends StatelessWidget {
                   child: AutomationsRow([
                     automation.name,
                     automation.sensor,
-                    automation.operatorID,
+                    automation.operatorID.toString(),
                     automation.threshold.toString(),
                     automation.tradfriDeviceID.toString(),
                     automation.actionID,
