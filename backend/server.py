@@ -64,6 +64,9 @@ def updateAutomation():
 @app.route('/api/automations/<id>', methods=['DELETE'])
 def deleteAutomation(id):
     print(id, flush=True)
+
+    automations.pop(automations.where(lambda a: a.id == id))
+
     return jsonify({"message": "DELETE request received"})
 
 # --------------------------- START -------------------------- #
