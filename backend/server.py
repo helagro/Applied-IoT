@@ -65,7 +65,10 @@ def updateAutomation():
 def deleteAutomation(id):
     print(id, flush=True)
 
-    automations.pop(automations.where(lambda a: a.id == id))
+    for automation in automations:
+        if automation.id == id:
+            automations.remove(automation)
+            print("Deleted automation:", automation, flush=True)
 
     return jsonify({"message": "DELETE request received"})
 
