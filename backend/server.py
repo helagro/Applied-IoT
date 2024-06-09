@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from tradfri import getDevices, Action
 from automations import automations
 from values import Sensor
@@ -37,6 +37,17 @@ def getComparators():
 def getActions():
     return jsonify({action.name: action.value for action in Action})
 
+
+# ---------------------- UNSAFE-ENDPOINTS ---------------------- #
+
+@app.route('/api/automations/<id>', methods=['PUT'])
+def updateAutomation(id):
+    if request.is_json:
+        data = request.get_json()
+    else:
+        return jsonify({"error": "Request body must be JSON"}), 400
+
+    print(id, data, flush=True)
 
 # --------------------------- START -------------------------- #
 

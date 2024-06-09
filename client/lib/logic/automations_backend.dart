@@ -89,6 +89,22 @@ class AutomationsBackend {
       int tradfriDevice,
       int actionID,
       dynamic actionPayload) async {
+    final response = await http.put(
+      Uri.parse('$_url/api/automations/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'name': name,
+        'sensor': sensor,
+        'threshold': threshold,
+        'operatorID': operatorID,
+        'tradfriDevice': tradfriDevice,
+        'actionID': actionID,
+        'actionPayload': actionPayload
+      }),
+    );
+
     print(
         "id: $id, name: $name, sensor: $sensor, threshold: $threshold, operatorID: $operatorID, tradfriDevice: $tradfriDevice, actionID: $actionID, actionPayload: $actionPayload");
   }
