@@ -42,13 +42,13 @@ class AutomationRow extends StatelessWidget {
 
   /* ---------------------- OTHER METHODS --------------------- */
 
-  void goToEditScreen(BuildContext context) async {
+  Future<void> goToEditScreen(BuildContext context) async {
     dynamic value = await Navigator.push(
         context,
         CupertinoPageRoute(
             builder: (context) => AutomationEditScreen(
                 automation: automation, backend: backend)));
 
-    if (value == true && reload != null) reload!();
+    if (value == true) reload?.call();
   }
 }

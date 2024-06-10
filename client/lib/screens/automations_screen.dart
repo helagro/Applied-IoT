@@ -27,7 +27,10 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
   void setupBackend() async {
     await _backend.setup();
     await _backend.getData();
-    setState(() {});
+
+    if (context.mounted) {
+      setState(() {});
+    }
   }
 
   /* ------------------------ LIFECYCLE ----------------------- */
@@ -64,7 +67,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
                         return AutomationRow(
                             automation: _backend.automations[i],
                             backend: _backend,
-                            reload: (context) => onReload(context));
+                            reload: onReload);
                       },
                       itemCount: _backend.automations.length),
                 ),
@@ -95,7 +98,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
     if (value == true && context.mounted) setState(() {});
   }
 
-  void onReload(BuildContext context) async {
-    if (context.mounted) setState(() {});
+  void onReload() async {
+    if (mounted) setState(() {});
   }
 }
