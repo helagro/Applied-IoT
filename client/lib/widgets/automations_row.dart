@@ -1,16 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:tradfri_extension/logic/Automation.dart';
-import 'package:tradfri_extension/logic/automations_backend.dart';
 
 class AutomationsRow extends StatelessWidget {
   static const double columnGap = 6;
   final List<String> items;
 
-  const AutomationsRow(this.items);
+  const AutomationsRow(this.items, {super.key});
 
   @override
   Widget build(BuildContext context) {

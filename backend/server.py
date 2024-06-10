@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from Automation import Automation
 from tradfri import getDevices, Action
-from automations import automations, save
+from automations import automations, save, useNextID
 from values import Sensor
 from compare import Comparator
 
@@ -49,12 +49,12 @@ def updateAutomation(id):
     
     for i, automation in enumerate(automations):
         if automation.id == int(id):
-            print("Updated automation:", automations[i], flush=True)
             automations[i] = automationFromData(data)
-            break
+            save()
+            return jsonify({"message": f"Updated automation with ID {id}"})
+    
+    return jsonify({"error": f"Automation with ID {id} not found"}), 404
 
-    save()
-    return jsonify({"message": "PUT request received"})
 
 
 @app.route('/api/automations', methods=['PUT'])
@@ -77,16 +77,16 @@ def deleteAutomation(id):
     for automation in automations:
         if automation.id == int(id):
             automations.remove(automation)
-            print("Deleted automation:", automation, flush=True)
-
-    save()
-    return jsonify({"message": "DELETE request received"})
+            save()
+            return jsonify({"message": f"Deleted automation with id {id}"})
+        
+    return jsonify({"error": f"Automation with ID {id} not found"}), 404
 
 # -------------------------- METHODS ------------------------- #
 
 def automationFromData(data) -> Automation:
     if id not in data:
-        data['id'] = 10 # TODO: change
+        data['id'] = useNextID()
 
     return Automation(
         id=data['id'],

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toastification/toastification.dart';
-import 'package:tradfri_extension/logic/Automation.dart';
-import 'package:tradfri_extension/logic/Tradfri_device.dart';
+import 'package:tradfri_extension/logic/automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
 import 'package:tradfri_extension/logic/wrapper.dart';
 import 'package:tradfri_extension/toasts.dart';
@@ -13,16 +11,20 @@ class AutomationEditScreen extends StatefulWidget {
   final Automation automation;
   final AutomationsBackend backend;
 
-  AutomationEditScreen({required this.automation, required this.backend});
+  const AutomationEditScreen(
+      {required this.automation, required this.backend, super.key});
 
   @override
-  _AutomationEditScreenState createState() => _AutomationEditScreenState();
+  State<AutomationEditScreen> createState() => _AutomationEditScreenState();
 }
 
 class _AutomationEditScreenState extends State<AutomationEditScreen> {
+  // Text controllers
   late TextEditingController nameController;
   late TextEditingController valueController;
   late TextEditingController sensorDeviceController;
+
+  // Data wrappers for accessing input values
   late Wrapper sensorWrapper;
   late Wrapper comparatorWrapper;
   late Wrapper actionWrapper;
@@ -112,12 +114,14 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
   /* ------------------------- METHODS ------------------------ */
 
   void setupControllers() {
+    // Setup controllers
     nameController = TextEditingController(text: widget.automation.name);
     valueController =
         TextEditingController(text: widget.automation.threshold.toString());
     sensorDeviceController = TextEditingController(
         text: widget.automation.sensorDeviceID.toString());
 
+    // Setup wrappers
     sensorWrapper = Wrapper(widget.automation.sensor);
     comparatorWrapper = Wrapper(widget.automation.operatorID);
     actionWrapper = Wrapper(widget.automation.actionID);

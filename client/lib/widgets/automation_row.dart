@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:tradfri_extension/logic/Automation.dart';
+import 'package:tradfri_extension/logic/automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
 import 'package:tradfri_extension/screens/automation_edit_screen.dart';
 import 'package:tradfri_extension/widgets/automations_row.dart';
@@ -14,7 +13,12 @@ class AutomationRow extends StatelessWidget {
   final Function? reload;
 
   const AutomationRow(
-      {required this.automation, required this.backend, this.reload});
+      {required this.automation,
+      required this.backend,
+      this.reload,
+      super.key});
+
+  /* ------------------------ LIFECYCLE ----------------------- */
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +27,7 @@ class AutomationRow extends StatelessWidget {
           child: Container(
               padding: const EdgeInsets.all(10),
               child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => AutomationEditScreen(
-                                automation: automation,
-                                backend: backend))).then((value) {
-                      if (value == true && reload != null) reload!();
-                    });
-                  },
+                  onTap: () => goToEditScreen(context),
                   child: AutomationsRow([
                     automation.name,
                     backend.sensorMapReverse[automation.sensor]!,
@@ -43,5 +38,17 @@ class AutomationRow extends StatelessWidget {
                     jsonEncode(automation.actionPayload),
                   ]))))
     ]);
+  }
+
+  /* ---------------------- OTHER METHODS --------------------- */
+
+  void goToEditScreen(BuildContext context) async {
+    dynamic value = await Navigator.push(
+        context,
+        CupertinoPageRoute(
+            builder: (context) => AutomationEditScreen(
+                automation: automation, backend: backend)));
+
+    if (value == true && reload != null) reload!();
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SettingsRow extends StatelessWidget {
@@ -9,6 +8,7 @@ class SettingsRow extends StatelessWidget {
   const SettingsRow({
     required this.text,
     this.controller,
+    super.key,
   });
 
   @override
@@ -16,7 +16,7 @@ class SettingsRow extends StatelessWidget {
     return Expanded(
         child: Row(children: [
       Text(text),
-      SizedBox(width: 20),
+      const SizedBox(width: 20),
       Expanded(
           child: CupertinoTextField(
         controller: controller,

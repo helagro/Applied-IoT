@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tradfri_extension/logic/Automation.dart';
+import 'package:tradfri_extension/logic/automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
 import 'package:tradfri_extension/screens/automation_edit_screen.dart';
 import 'package:tradfri_extension/widgets/automation_row.dart';
 import 'package:tradfri_extension/widgets/automations_row.dart';
 
 class AutomationsScreen extends StatefulWidget {
-  const AutomationsScreen({Key? key}) : super(key: key);
+  const AutomationsScreen({super.key});
 
   @override
-  _AutomationsScreenState createState() => _AutomationsScreenState();
+  State<AutomationsScreen> createState() => _AutomationsScreenState();
 }
 
 class _AutomationsScreenState extends State<AutomationsScreen> {
   final AutomationsBackend _backend = AutomationsBackend();
+
+  /* -------------------------- SETUP ------------------------- */
 
   @override
   void initState() {
@@ -28,31 +30,13 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
     setState(() {});
   }
 
+  /* ------------------------ LIFECYCLE ----------------------- */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Automation newAutomation = Automation(
-              id: null,
-              name: "",
-              sensor: _backend.sensorMap.values.first,
-              operatorID: _backend.comparators.values.first,
-              threshold: 0,
-              sensorDeviceID: 0,
-              actionID: _backend.actions.values.first,
-              tradfriDeviceID: _backend.devices.first.id,
-              actionPayload: null);
-
-          Navigator.push(
-              context,
-              CupertinoPageRoute(
-                  builder: (context) => AutomationEditScreen(
-                      automation: newAutomation,
-                      backend: _backend))).then((value) {
-            if (value == true && mounted) setState(() {});
-          });
-        },
+        onPressed: () => onCreateAutomation(context),
         child: const Icon(Icons.add),
       ),
       body: Center(
@@ -80,15 +64,38 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
                         return AutomationRow(
                             automation: _backend.automations[i],
                             backend: _backend,
-                            reload: () {
-                              if (mounted) {
-                                setState(() {});
-                              }
-                            });
+                            reload: (context) => onReload(context));
                       },
                       itemCount: _backend.automations.length),
                 ),
               ]))),
     );
+  }
+
+  /* ---------------------- OTHER METHODS --------------------- */
+
+  void onCreateAutomation(BuildContext context) async {
+    Automation newAutomation = Automation(
+        id: null,
+        name: "",
+        sensor: _backend.sensorMap.values.first,
+        operatorID: _backend.comparators.values.first,
+        threshold: 0,
+        sensorDeviceID: 0,
+        actionID: _backend.actions.values.first,
+        tradfriDeviceID: _backend.devices.first.id,
+        actionPayload: null);
+
+    dynamic value = await Navigator.push(
+        context,
+        CupertinoPageRoute(
+            builder: (context) => AutomationEditScreen(
+                automation: newAutomation, backend: _backend)));
+
+    if (value == true && context.mounted) setState(() {});
+  }
+
+  void onReload(BuildContext context) async {
+    if (context.mounted) setState(() {});
   }
 }

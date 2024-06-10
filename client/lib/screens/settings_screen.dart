@@ -4,8 +4,10 @@ import 'package:tradfri_extension/toasts.dart';
 import 'package:tradfri_extension/widgets/settings_row.dart';
 
 class Settings extends StatefulWidget {
+  const Settings({super.key});
+
   @override
-  _SettingsState createState() => _SettingsState();
+  State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
@@ -35,6 +37,8 @@ class _SettingsState extends State<Settings> {
                   )))),
     );
   }
+
+  /* ---------------------- OTHER METHODS --------------------- */
 
   void fillFields() {
     SharedPreferences.getInstance().then((prefs) {

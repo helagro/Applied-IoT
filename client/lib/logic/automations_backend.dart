@@ -1,11 +1,10 @@
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tradfri_extension/logic/Tradfri_device.dart';
 import 'package:tradfri_extension/toasts.dart';
 import 'dart:convert';
 
-import 'Automation.dart';
+import 'automation.dart';
 
 class AutomationsBackend {
   String _url = 'NOT_INITIALIZED!';
@@ -41,23 +40,25 @@ class AutomationsBackend {
 
   Future<void> getData() async {
     try {
-      // Maps
+      // Download hashmaps
       _sensorMap = json.decode(await http.read(Uri.parse('$_url/api/sensors')));
       _comparators =
           json.decode(await http.read(Uri.parse('$_url/api/comparators')));
       _actions = json.decode(await http.read(Uri.parse('$_url/api/actions')));
 
-      // Reversed maps
+      // Initialise reversed maps
       _sensorMapReverse = reverseMap(_sensorMap);
       _comparatorsReverse = reverseMap(_comparators);
       _actionsReverse = reverseMap(_actions);
 
+      // Download device list
       _devices = json
           .decode(await http.read(Uri.parse('$_url/api/ikea-devices')))
           .cast<Map<String, dynamic>>()
           .map<TradfriDevice>((json) => TradfriDevice.fromJson(json))
           .toList();
 
+      // Download automations
       await loadAutomations();
     } on Exception catch (e) {
       errorToast('E-9: $e');
@@ -68,8 +69,10 @@ class AutomationsBackend {
     try {
       final String automationsStr =
           await http.read(Uri.parse('$_url/api/automations'));
+
       final automationsMap =
           json.decode(automationsStr).cast<Map<String, dynamic>>();
+
       _automations = automationsMap
           .map<Automation>((json) => Automation.fromJson(json))
           .toList();
@@ -84,7 +87,6 @@ class AutomationsBackend {
     map.forEach((key, value) {
       reversed[value] = key;
     });
-
     return reversed;
   }
 
@@ -102,6 +104,7 @@ class AutomationsBackend {
   Map<dynamic, String> get comparatorsReverse => _comparatorsReverse;
   Map<dynamic, String> get actionsReverse => _actionsReverse;
 
+  // Other
   Map<String, dynamic> getDeviceMap() {
     Map<String, dynamic> map = {};
 
