@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from Automation import Automation
 from tradfri import getDevices, Action
 from automations import automations, save, useNextID
@@ -37,6 +37,12 @@ def getComparators():
 @app.route('/api/actions', methods=['GET'])
 def getActions():
     return jsonify({action.name: action.value for action in Action})
+
+
+@app.route('/static/<path:path>')
+def sendStatic(path):
+    return send_from_directory('static', path)
+
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
