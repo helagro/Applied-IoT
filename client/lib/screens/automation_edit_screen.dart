@@ -131,7 +131,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
 
   /* --------------------- EVENT LISTENERS -------------------- */
 
-  void onSave(BuildContext context) async {
+  Future<void> onSave(BuildContext context) async {
     int sensorDeviceID;
 
     try {
@@ -159,7 +159,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     }
   }
 
-  void onDelete(BuildContext context) async {
+  Future<void> onDelete(BuildContext context) async {
     await widget.backend.deleteAutomation(widget.automation.id);
     await widget.backend.loadAutomations();
 

@@ -24,7 +24,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
     setupBackend();
   }
 
-  void setupBackend() async {
+  Future<void> setupBackend() async {
     await _backend.setup();
     await _backend.getData();
 
@@ -77,7 +77,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
 
   /* ---------------------- OTHER METHODS --------------------- */
 
-  void onCreateAutomation(BuildContext context) async {
+  Future<void> onCreateAutomation(BuildContext context) async {
     Automation newAutomation = Automation(
         id: null,
         name: "",
@@ -98,7 +98,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
     if (value == true && context.mounted) setState(() {});
   }
 
-  void onReload() async {
+  Future<void> onReload() async {
     if (mounted) setState(() {});
   }
 }
