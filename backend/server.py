@@ -38,12 +38,6 @@ def getComparators():
 def getActions():
     return jsonify({action.name: action.value for action in Action})
 
-
-@app.route('/static/<path:path>')
-def sendStatic(path):
-    return send_from_directory('static', path)
-
-
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
 @app.route('/api/automations/<id>', methods=['PUT'])
