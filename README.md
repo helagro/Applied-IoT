@@ -1,4 +1,4 @@
-## Tutorial on how to build a temperature and humidity sensor
+## Tutorial on how to build a automation system for IKEA Tradfri
 - [x] Title
 - [x] Your name and student credentials (xx666x)
 - [ ] Short project overview
@@ -7,6 +7,10 @@
 **Author:** Henrik Lagrosen, (hl223qb)
 
 **Overview:**
+
+This tutorial will show you how to set up a Raspberry Pico W to provide more automation abilities to the Ikea Tradfri system. 
+
+<TODO: Add basic diagram>
 
 **Time Investment:**
 
@@ -18,9 +22,26 @@ What needs to be included:
 
 Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
 
-- [ ] Why you chose the project
-- [ ] What purpose does it serve
-- [ ] What insights you think it will give
+**Project Selection Decision:**
+- [x] Why you chose the project
+
+I have some previous experience with developing software integrating with the IKEA Tradfri product line. Those projects were aimed to 
+extend the existing functionallity of the smart home system and were highly tailored to suit my own needs. I learned that it was both
+fun and easy to work with the Tradfri system and as it fitted well with the requirements of the course, I decided to build a project
+that works as an extension to the Tradfri system.
+
+**Purpose:**
+- [x] What purpose does it serve
+
+This project aims to be a IoT project that other people can use or build upon. Being a popular product line, I can see others finding 
+benefit in this project, both in learning and also for the practical use of the end product.
+
+**Possible Insights:**
+- [x] What insights you think it will give
+
+There are some aspects of the project that are newer to me. I have not made tutorials of this kind and I think that some of the data-visualisation tools will be new to me as well. I expect to learn more about both areas and how to operate with them more efficiently.
+I think I will learn more about how to convey the instructions in a clear and concise way, and also how to make the project more appealing and
+understandable to the reader.
 
 
 
@@ -46,13 +67,28 @@ Explain all material that is needed. All sensors, where you bought them and thei
 
 ### Computer setup
 
-How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
+> How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
 
 - [x] Chosen IDE
-- [ ] How the code is uploaded
-- [ ] Steps that you needed to do for your computer. Installation of Node.js, extra drivers, etc.
+- [x] How the code is uploaded
+- [x] Steps that you needed to do for your computer. Installation of Node.js, extra drivers, etc.
 
-The IDE I chose for working with this project is Visual Studio Code. The most major factors behind the decision were the extendability of the code editor which allows for fine tuning the editor to my liking, and because I have a lot of previous experience with the editor.
+**My IDE choice:**
+
+The IDE I chose for working with this project is Visual Studio Code. The most major factors behind the decision were the extendability of the code editor which allows for fine tuning the editor to my liking, and because I have a lot of previous experience with the editor. You can use whichever editor you prefer, but the instructions will be tailored to Visual Studio Code with the PyMakr plugin.
+
+**Setting up Visual Studio Code:**
+
+First, you need to install Node.js, using instructions available on [this page](https://nodejs.org/en/). This is needed for the PyMakr plugin to function. Then, you need to install Visual Studio Code from [this page](https://code.visualstudio.com/Download). After installing the editor, you can install the PyMakr plugin by searching for it in the extensions tab. 
+
+**Setting up the Pico W:**
+
+To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable.
+
+**Setting up the local server:**
+
+The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. The server needs to be Linux based, but it can be a laptop for instance. In my case, I used a Raspberry Pi 4 running Raspbian. To setup the server, you need to install Python 3, for instance from [here](https://www.python.org/downloads/). <TODO: pytradfri, other libs, flask>
+
 
 ### Putting everything together
 
