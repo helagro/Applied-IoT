@@ -1,7 +1,7 @@
 ## Tutorial on how to build a automation system for IKEA Tradfri
 - [x] Title
 - [x] Your name and student credentials (xx666x)
-- [ ] Short project overview
+- [x] Short project overview
 - [ ] How much time it might take to do (approximation)
 
 **Author:** Henrik Lagrosen, (hl223qb)
@@ -49,8 +49,6 @@ understandable to the reader.
 
 ### Material
 
-Explain all material that is needed. All sensors, where you bought them and their specifications. Please also provide pictures of what you have bought and what you are using.
-
 - [ ] List of material
 - [ ] What the different things (sensors, wires, controllers) do - short specifications
 - [ ] Where you bought them and how much they cost
@@ -58,13 +56,10 @@ Explain all material that is needed. All sensors, where you bought them and thei
 
 |Image | Name | Info | Price |
 | ---- | ---- | ---- | ----- |
-| <Image> | LED 5mm Red | A red led light used for indicating status | 0.5$ at <link> |
+| ![Pico W](img/pico-w.jpg) | Raspberry Pi Pico W | The microcontroller used for connecting the sensors to the application. Comes with a pre-soildered header and a built-in WiFi antenna. | 109 SEK at [Electrokit](https://www.electrokit.com/raspberry-pi-pico-wh) |
+| ![Jumper Cables](img/cables.jpg) | Jumper Cables | 20 cm long, male to female cables used to connect the sensors to the Pico W. | 65 SEK at [Amazon](https://www.amazon.se/AZDelivery-kompatibel-Raspberry-Breadboard-inklusive/dp/B07K8PVKBP) |
 
-
->In this project I have chosen to work with the Pycom LoPy4 device as seen in Fig. 1, it's a neat little device programmed by MicroPython and has several bands of connectivity. The device has many digital and analog input and outputs and is well suited for an IoT project.
->
->![LoPy!](https://pycom.io/wp-content/uploads/2018/08/lopySide-1.png =360x)
->Fig. 1. LoPy4 with headers. Pycom.io
+    NOTE: Not all of the components I used were bought at the specified stores at the specified prices as some of the components were already in my possession.
 
 
 ### Computer setup
