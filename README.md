@@ -8,19 +8,21 @@
 
 **Overview:**
 
-This tutorial will show you how to set up a Raspberry Pico W to provide more automation abilities to the Ikea Tradfri system. 
+This tutorial will show you how to set up a Raspberry Pico W to provide more automation abilities to the Ikea Tradfri system. The resulting system will be able to automate Tradfri commands based on data from the sensors connected to one or more Pico W's. The available sensors to use are a temperature sensor, a humidity sensor, a light sensor and a motion sensor.
 
-<TODO: Add basic diagram>
+<TODO: Import diagram>
+
+As shown above, it consists of a Raspberry Pico W, a server running Python and a Tradfri gateway. The Pico W is used to control the Tradfri devices and to send data to the server. The server is used to manage the data and to communicate with the Tradfri gateway.
 
 **Time Investment:**
 
-Give a short and brief overview of what your project is about.
-What needs to be included:
+> Give a short and brief overview of what your project is about.
+> What needs to be included:
 
 
 ### Objective
 
-Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
+> Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
 
 **Project Selection Decision:**
 - [x] Why you chose the project
@@ -129,11 +131,22 @@ s.send(package)
 How is the data transmitted to the internet or local server? Describe the package format. All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
 
 
-- [ ] How often is the data sent? 
-- [ ] Which wireless protocols did you use (WiFi, LoRa, etc ...)?
-- [ ] Which transport protocols were used (MQTT, webhook, etc ...)
-- [ ] *Elaborate on the design choices regarding data transmission and wireless protocols. That is how your choices affect the device range and battery consumption.
+- [x] How often is the data sent? 
+- [x] Which wireless protocols did you use (WiFi, LoRa, etc ...)?
+- [x] Which transport protocols were used (MQTT, webhook, etc ...)
+- [x] *Elaborate on the design choices regarding data transmission and wireless protocols. That is how your choices affect the device range and battery consumption.
 
+**Wireless protocols and traffic:**
+
+WiFi is used as the main wireless protocol for the system. The Pico W uses it to send new sensor data to the server, during the specific polling intervals used for each sensor, if a different value is registered. The shortest possible frequency data is sent is <TODO> and it could be an unlimited amount of time between messages if no new sensor data is recorded. 
+
+**Transport protocols:**
+
+MQTT is used as the transport protocol between the Pico W and the server. Given that the MQTT broker is running on the same device as the server, that end of the traffic never leaves the device. The server then uses the pytradfri library to communicate with the Tradfri gateway, which uses the CoAP protocol. The server also uses a REST API to communicate with the frontend over HTTP. The web API is built using the Python Flask library, communicating with the Flutter client application. The server also hosts a web version of the client application, also served over HTTP.
+
+**Design choices:**
+
+There was not a lot of constraints guiding which wireless protocol was to be used. All devices for the project are meant to be inside the users home, meaning that range was not an issue. The user would likely power the Pico W from the outlet directly, so power consumption was not a great concirn either. Despite network speed or latency not being a high priority, WiFi still seemed like a great choice. The Pico W has built in WiFi capabilities, meaning that no extra antenna or similar equipment would be neccessary, reducing cost. Bluetooth could still have been an alternative but the range could have been an issue. Bluetooth would have required the server and Pico W to be close to eachother, but with WiFi, they could be far apart, as long as the WiFi has good enough range. This could be achieved with a Mesh network, for instance. Both Bluetooth Low Energy and LoRa can be configured to be very power efficient, but within a home setting, the power consumption of WiFi is not a big issue.
 
 ### Presenting the data
 
