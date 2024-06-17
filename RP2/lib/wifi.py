@@ -1,5 +1,6 @@
 from get_env import getSSID, getWIFI_PASS
 import network 
+import time
 
 
 def connect():
@@ -15,7 +16,7 @@ def connect():
 
         while not wlan.isconnected() and wlan.status() >= 0:
             print('.', end='')
-            sleep(1)
+            time.sleep(1)
 
     # Print the IP assigned by router
     ip = wlan.ifconfig()[0]

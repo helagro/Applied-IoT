@@ -49,15 +49,19 @@ understandable to the reader.
 
 ### Material
 
-- [ ] List of material
-- [ ] What the different things (sensors, wires, controllers) do - short specifications
-- [ ] Where you bought them and how much they cost
+- [x] List of material
+- [x] What the different things (sensors, wires, controllers) do - short specifications
+- [x] Where you bought them and how much they cost
 
 
 |Image | Name | Info | Price |
 | ---- | ---- | ---- | ----- |
 | ![Pico W](img/pico-w.jpg) | Raspberry Pi Pico W | The microcontroller used for connecting the sensors to the application. Comes with a pre-soildered header and a built-in WiFi antenna. | 109 SEK at [Electrokit](https://www.electrokit.com/raspberry-pi-pico-wh) |
 | ![Jumper Cables](img/cables.jpg) | Jumper Cables | 20 cm long, male to female cables used to connect the sensors to the Pico W. | 65 SEK at [Amazon](https://www.amazon.se/AZDelivery-kompatibel-Raspberry-Breadboard-inklusive/dp/B07K8PVKBP) |
+| ![DHT11](img/dht11.jpg) | DHT11 | A digital temperature and humidity sensor which can be used with the dht library for easy reading. | 49 SEK at [Electrokit](https://www.electrokit.com/digital-temperatur-och-fuktsensor-dht11) |
+| ![Light Sensor](img/light-sensor.jpg) | Light Sensor | An analog light sensor. Very easy to use because it has a seperate pin for reading and it does not need resistors for our application. | 39 SEK at [Electrokit](https://www.electrokit.com/ljussensor) |
+| ![PIR Sensor](img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsesensor) |
+| ![Push Button](img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
 
     NOTE: Not all of the components I used were bought at the specified stores at the specified prices as some of the components were already in my possession.
 
