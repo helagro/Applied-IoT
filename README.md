@@ -99,7 +99,7 @@ The server is used to coordinate the Pico W devices (in case there are multiple 
 - [x] Circuit diagram (can be hand drawn)
 - [ ] *Electrical calculations
 
-![Wiring](img/wiring.png)
+![Wiring](img/Wiring.png)
 
 ### Platform
 
