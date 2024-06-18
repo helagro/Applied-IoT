@@ -35,7 +35,6 @@ prevLight = 0
 wifi.connect()
 client = MQTTClient()
 client.connect()
-client.publish("log", "RP2 is online :)))")
 
 # -------------------------- METHODS ------------------------- #
 
@@ -43,9 +42,11 @@ def pollMotion() -> None:
     global prevMotion
     detectsMotion = sensors.doesDetectMotion()
 
+    if prevMotion == detectsMotion: return
+
     if detectsMotion:
         client.publish(f"motion/{deviceID}", "True")
-    elif prevMotion == True: # so doesn't spam broker with "False" messages
+    else:
         client.publish(f"motion/{deviceID}", "False")
 
     prevMotion = detectsMotion

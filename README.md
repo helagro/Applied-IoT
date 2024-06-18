@@ -97,21 +97,98 @@ Is your platform based on a local installation or a cloud? Do you plan to use a 
 
 ### The code
 
-> Import core functions of your code here, and don't forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
-
+The code below is the main loop of the Pico W. It is responsible for polling the sensors at the specified intervals, and for sending the data to the server if a new value is registered. It uses the four polling functions `pollMotion`, `pollTemp`, `pollLight` and `pollBtn` to get the sensor data. The `MAIN_POLL_INTERVAL` is delay between each iteration of the loop. The button is polled at every iteration, as responsiveness is prioritised and no noise is expected. The other sensors are polled at a lower frequency, by using counter variables to keep track of how many iterations have passed since the last poll. If the counter reaches the specified maximum value, the sensor is polled and the counter is reset.
 
 ```python
-import this as that
+while True:
+    if(motionCounter >= motionCounterMax):
+        pollMotion()
+        motionCounter = 0
 
-def my_cool_function():
-    print('not much here')
+    if(tempCounter >= tempCounterMax):
+        pollTemp()
+        tempCounter = 0
 
-s.send(package)
+    if(lightCounter >= lightCounterMax):
+        pollLight()
+        lightCounter = 0
 
-# Explain your code!
+    pollBtn()
+
+    time.sleep(MAIN_POLL_INTERVAL)
+
+    # Increment counters
+    motionCounter += 1
+    tempCounter += 1
+    lightCounter += 1
 ```
 
+The following code snippet shows one of the polling functions, `pollMotion`. It is responsible for polling the motion sensor and sending the data to the server if a new value is registered. The `prevMotion` variable is used to keep track of the previous value of the sensor, so that the server is not spammed with messages if the sensor value does not change. The `sensors.doesDetectMotion()` function is the function that actually reads the binary value of the associated pin. The data is published to the MQTT broker, under the topic `motion/{deviceID}`. The `deviceID` is a unique identifier for the Pico W, which is used for triggering automations based on values from specific sensor-devices.
 
+```python
+def pollMotion() -> None:
+    global prevMotion
+    detectsMotion = sensors.doesDetectMotion()
+
+    if prevMotion == detectsMotion: return
+
+    if detectsMotion:
+        client.publish(f"motion/{deviceID}", "True")
+    else:
+        client.publish(f"motion/{deviceID}", "False")
+
+    prevMotion = detectsMotion
+```
+
+This code snippet shows the `getTemperature` function, which is used to poll the temperature sensor. The function first checks if the sensor is disabled, by checking if the sensor is in the list of disabled sensors. This list is specified in an environment file, and makes it easy for any user to only use a subset of the compatible sensors. If the sensor is not disabled, the function will attempt to measure the temperature. If the measurement is successful, the temperature is returned. If the measurement fails, the function will print an error message and return `None`.
+
+```python
+def getTemperature() -> float | None:
+    if "temperature" in getDisabledSensors():
+        return None
+    try:
+        tempSensor.measure()
+        return tempSensor.temperature()
+    except Exception as error:
+        print("E-1", error)
+        return None
+```
+
+This code does not reside on the Pico W, but instead on the server. It is used to execute an action on a tradfri device. This function is called after an automation is triggered, and all arguments will come from that automation object. There are three available actions: `SET_STATE`, `TEMPORARY_ON` and `TOGGLE`. The `SET_STATE` action is used to set the state of a device to a specific value. The `TEMPORARY_ON` action is used to turn a device on for the specified amount of time. This could be useful in combination with the motion sensor, maybe turning a light on for a few minutes when motion is detected. It uses a hashmap of timers to make sure too similar timers are not created, for instance if three different motion detectors triggers the automation, it won't try to turn off the tradfri device three times when the time runs out. The `TOGGLE` action is used to toggle the state of a device. If the device is on, it will be turned off, and vice versa.
+
+```python 
+def execute(deviceID: int, action: int, payload: any) -> None:
+    device = getDevice(deviceID)
+    deviceControl = getDeviceControl(device)
+
+    print("Executing action:", action, "with payload:", payload, "on device:", device)
+
+    if action == Action.SET_STATE:
+        api(deviceControl.set_state(payload))
+
+    elif action == Action.TEMPORARY_ON:
+        if(timers.get(deviceID)):
+            timers[deviceID].cancel()
+
+        api(deviceControl.set_state(True))
+        timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl))
+        timer.start()
+        timers[deviceID] = timer
+
+    elif action == Action.TOGGLE:
+        if device.has_light_control:
+            api(deviceControl.set_state(not deviceControl.lights[0].state))
+        elif device.has_socket_control:
+            api(deviceControl.set_state(not deviceControl.sockets[0].state))
+        elif device.has_blind_control:
+            api(deviceControl.set_state(not deviceControl.blinds[0].state))
+        else:
+            raise PytradfriError(f"E-7: Device {device.id} has no valid control")
+        
+
+    else:
+        raise PytradfriError(f"E-5: Invalid action {action}")
+```
 
 ### Transmitting the data / connectivity
 
