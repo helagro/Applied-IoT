@@ -1,7 +1,4 @@
 ## Tutorial on how to build a automation system for IKEA Tradfri
-- [x] Title
-- [x] Your name and student credentials (xx666x)
-- [x] Short project overview
 - [ ] How much time it might take to do (approximation)
 
 **Author:** Henrik Lagrosen, (hl223qb)
@@ -10,7 +7,7 @@
 
 This tutorial will show you how to set up a Raspberry Pico W to provide more automation abilities to the Ikea Tradfri system. The resulting system will be able to automate Tradfri commands based on data from the sensors connected to one or more Pico W's. The available sensors to use are a temperature sensor, a humidity sensor, a light sensor and a motion sensor.
 
-<TODO: Import diagram>
+![System Overview](res/img/IoT-diagram.jpg)
 
 As shown above, it consists of a Raspberry Pico W, a server running Python and a Tradfri gateway. The Pico W is used to control the Tradfri devices and to send data to the server. The server is used to manage the data and to communicate with the Tradfri gateway.
 
@@ -22,10 +19,9 @@ As shown above, it consists of a Raspberry Pico W, a server running Python and a
 
 ### Objective
 
-> Describe why you have chosen to build this specific device. What purpose does it serve? What do you want to do with the data, and what new insights do you think it will give?
+- [ ] What do you want to do with the data?
 
 **Project Selection Decision:**
-- [x] Why you chose the project
 
 I have some previous experience with developing software integrating with the IKEA Tradfri product line. Those projects were aimed to 
 extend the existing functionallity of the smart home system and were highly tailored to suit my own needs. I learned that it was both
@@ -33,13 +29,11 @@ fun and easy to work with the Tradfri system and as it fitted well with the requ
 that works as an extension to the Tradfri system.
 
 **Purpose:**
-- [x] What purpose does it serve
 
 This project aims to be a IoT project that other people can use or build upon. Being a popular product line, I can see others finding 
 benefit in this project, both in learning and also for the practical use of the end product.
 
 **Possible Insights:**
-- [x] What insights you think it will give
 
 There are some aspects of the project that are newer to me. I have not made tutorials of this kind and I think that some of the data-visualisation tools will be new to me as well. I expect to learn more about both areas and how to operate with them more efficiently.
 I think I will learn more about how to convey the instructions in a clear and concise way, and also how to make the project more appealing and
@@ -49,20 +43,15 @@ understandable to the reader.
 
 ### Material
 
-- [x] List of material
-- [x] What the different things (sensors, wires, controllers) do - short specifications
-- [x] Where you bought them and how much they cost
-
-
 |Image | Name | Info | Price |
 | ---- | ---- | ---- | ----- |
-| ![Tradfri Gateway](img/gateway.jpg) | Tradfri Gateway E1526 | The gateway used to control the Tradfri devices. It is connected to the server over ethernet. **Other gateways are not guarenteed to work!** | Unavailable for new purchase, easy to find used. Around 400 SEK. |
-| ![Pico W](img/pico-w.jpg) | Raspberry Pi Pico W | The microcontroller used for connecting the sensors to the application. Comes with a pre-soildered header and a built-in WiFi antenna. | 109 SEK at [Electrokit](https://www.electrokit.com/raspberry-pi-pico-wh) |
-| ![Jumper Cables](img/cables.jpg) | Jumper Cables | 10 cm long, male to male cables used to connect the sensors to the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack) |
-| ![DHT11](img/dht11.jpg) | DHT11 | A digital temperature and humidity sensor which can be used with the dht library for easy reading. | 49 SEK at [Electrokit](https://www.electrokit.com/digital-temperatur-och-fuktsensor-dht11) |
-| ![Light Sensor](img/light-sensor.jpg) | Light Sensor | An analog light sensor. Very easy to use because it has a seperate pin for reading and it does not need resistors for our application. | 39 SEK at [Electrokit](https://www.electrokit.com/ljussensor) |
-| ![PIR Sensor](img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsesensor) |
-| ![Push Button](img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
+| ![Tradfri Gateway](res/img/gateway.jpg) | Tradfri Gateway E1526 | The gateway used to control the Tradfri devices. It is connected to the server over ethernet. **Other gateways are not guarenteed to work!** | Unavailable for new purchase, easy to find used. Around 400 SEK. |
+| ![Pico W](res/img/pico-w.jpg) | Raspberry Pi Pico W | The microcontroller used for connecting the sensors to the application. Comes with a pre-soildered header and a built-in WiFi antenna. | 109 SEK at [Electrokit](https://www.electrokit.com/raspberry-pi-pico-wh) |
+| ![Jumper Cables](res/img/cables.jpg) | Jumper Cables | 10 cm long, male to male cables used to connect the sensors to the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack) |
+| ![DHT11](res/img/dht11.jpg) | DHT11 | A digital temperature and humidity sensor which can be used with the dht library for easy reading. | 49 SEK at [Electrokit](https://www.electrokit.com/digital-temperatur-och-fuktsensor-dht11) |
+| ![Light Sensor](res/img/light-sensor.jpg) | Light Sensor | An analog light sensor. Very easy to use because it has a seperate pin for reading and it does not need resistors for our application. | 39 SEK at [Electrokit](https://www.electrokit.com/ljussensor) |
+| ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsesensor) |
+| ![Push Button](res/img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
 
     NOTE: Not all of the components I used were bought at the specified stores at the specified prices as some of the components were already in my possession.
 
@@ -70,10 +59,6 @@ understandable to the reader.
 ### Computer setup
 
 > How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
-
-- [x] Chosen IDE
-- [x] How the code is uploaded
-- [x] Steps that you needed to do for your computer. Installation of Node.js, extra drivers, etc.
 
 **My IDE choice:**
 
@@ -99,7 +84,7 @@ The server is used to coordinate the Pico W devices (in case there are multiple 
 - [x] Circuit diagram (can be hand drawn)
 - [ ] *Electrical calculations
 
-![Wiring](img/Wiring.png)
+![Wiring](res/img/Wiring.png)
 
 ### Platform
 
@@ -112,10 +97,10 @@ Is your platform based on a local installation or a cloud? Do you plan to use a 
 
 ### The code
 
-Import core functions of your code here, and don't forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
+> Import core functions of your code here, and don't forget to explain what you have done! Do not put too much code here, focus on the core functionalities. Have you done a specific function that does a calculation, or are you using clever function for sending data on two networks? Or, are you checking if the value is reasonable etc. Explain what you have done, including the setup of the network, wireless, libraries and all that is needed to understand.
 
 
-```python=
+```python
 import this as that
 
 def my_cool_function():
@@ -131,12 +116,6 @@ s.send(package)
 ### Transmitting the data / connectivity
 
 How is the data transmitted to the internet or local server? Describe the package format. All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
-
-
-- [x] How often is the data sent? 
-- [x] Which wireless protocols did you use (WiFi, LoRa, etc ...)?
-- [x] Which transport protocols were used (MQTT, webhook, etc ...)
-- [x] *Elaborate on the design choices regarding data transmission and wireless protocols. That is how your choices affect the device range and battery consumption.
 
 **Wireless protocols and traffic:**
 
