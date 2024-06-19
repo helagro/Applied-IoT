@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from Automation import Automation
 from tradfri import get_devices, Action
 from automations import automations, save, use_next_id, get_by_id
-from backend.sensor import Sensor
+from sensor import Sensor
 from compare import Comparator
 
 app = Flask(__name__)
