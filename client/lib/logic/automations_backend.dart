@@ -121,18 +121,9 @@ class AutomationsBackend {
 
   /* ------------------------- MODIFIERS ------------------------ */
 
-  Future<void> updateAutomation(
-      dynamic id,
-      String name,
-      String sensor,
-      int threshold,
-      int operatorID,
-      int tradfriDevice,
-      int actionID,
-      dynamic actionPayload,
-      int sensorDeviceID) async {
+  Future<void> updateAutomation(Automation automation) async {
     final String uri =
-        id == null ? '$_url/api/automations' : '$_url/api/automations/$id';
+        automation.id == null ? '$_url/api/automations' : '$_url/api/automations/${automation.id}';
 
     try {
       await http.put(
@@ -140,16 +131,7 @@ class AutomationsBackend {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, dynamic>{
-          'name': name,
-          'sensor': sensor,
-          'threshold': threshold,
-          'operatorID': operatorID,
-          'tradfriDeviceID': tradfriDevice,
-          'actionID': actionID,
-          'actionPayload': actionPayload,
-          'sensorDeviceID': sensorDeviceID
-        }),
+        body: jsonEncode(automation),
       );
     } on Exception catch (e) {
       errorToast('E-12: $e');

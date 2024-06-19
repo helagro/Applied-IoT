@@ -133,27 +133,29 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
 
   Future<void> onSave(BuildContext context) async {
     int sensorDeviceID;
-    int threshold;
+    double threshold;
 
     try {
       sensorDeviceID = int.parse(sensorDeviceController.text);
-      threshold = int.parse(valueController.text);
+      threshold = double.parse(valueController.text);
     } catch (e) {
       errorToast("E-14: $e");
       return;
     }
 
-    await widget.backend.updateAutomation(
-        widget.automation.id,
-        nameController.text,
-        sensorWrapper.value,
-        threshold,
-        comparatorWrapper.value,
-        deviceWrapper.value,
-        actionWrapper.value,
-        payloadWrapper.value,
-        sensorDeviceID);
+    Automation updatedAutomation = Automation(
+        id: widget.automation.id,
+        name: nameController.text,
+        sensor: sensorWrapper.value,
+        threshold: threshold,
+        operatorID: comparatorWrapper.value,
+        tradfriDeviceID: deviceWrapper.value,
+        actionID: actionWrapper.value,
+        actionPayload: payloadWrapper.value,
+        sensorDeviceID: sensorDeviceID
+    );
 
+    await widget.backend.updateAutomation(updatedAutomation);
     await widget.backend.loadAutomations();
 
     if (context.mounted) {

@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 class Automation {
   dynamic id;
   String name;
   String sensor;
   int operatorID;
-  int threshold;
+  double threshold;
   int tradfriDeviceID;
   int actionID;
   dynamic actionPayload;
@@ -32,4 +34,5 @@ class Automation {
         actionPayload: json['actionPayload'],
         sensorDeviceID: json['sensorDeviceID']);
   }
+
 }
