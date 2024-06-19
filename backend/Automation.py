@@ -46,8 +46,8 @@ class Automation:
         else:
             self.operatorID = operatorID
         
-        if not isinstance(threshold, float):
-            raise ValueError(f"Threshold must be a float, got {threshold} of type {type(threshold)}")
+        if not isinstance(threshold, (int, float)):
+            raise ValueError(f"Threshold must be a float or integer, got {threshold} of type {type(threshold)}")
         else:
             self.threshold = threshold
         
