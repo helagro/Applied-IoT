@@ -131,7 +131,7 @@ class AutomationsBackend {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(automation),
+        body: automation.toJson(),
       );
     } on Exception catch (e) {
       errorToast('E-12: $e');

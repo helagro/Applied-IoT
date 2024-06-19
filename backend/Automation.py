@@ -49,7 +49,7 @@ class Automation:
         if not isinstance(threshold, (int, float)):
             raise ValueError(f"Threshold must be a float or integer, got {threshold} of type {type(threshold)}")
         else:
-            self.threshold = threshold
+            self.threshold = float(threshold)
         
         if not isinstance(tradfriDeviceID, int):
             raise ValueError(f"TradfriDeviceID must be an integer, got {tradfriDeviceID} of type {type(tradfriDeviceID)}")

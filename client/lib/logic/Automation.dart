@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Automation {
   dynamic id;
   String name;
@@ -31,6 +33,20 @@ class Automation {
         actionID: json['actionID'],
         actionPayload: json['actionPayload'],
         sensorDeviceID: json['sensorDeviceID']);
+  }
+
+  String toJson(){
+    return jsonEncode({
+      id: id,
+      name: name,
+      sensor: sensor,
+      operatorID: operatorID,
+      threshold: threshold,
+      tradfriDeviceID: tradfriDeviceID,
+      actionID: actionID,
+      actionPayload: actionPayload,
+      sensorDeviceID: sensorDeviceID
+    });
   }
 
 }
