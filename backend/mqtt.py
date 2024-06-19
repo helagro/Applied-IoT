@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from backend.sensor import Sensor
+from sensor import Sensor
 from automations import execute
 
 def on_message(client, userData, msg: any) -> None:
