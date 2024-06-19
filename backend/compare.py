@@ -11,17 +11,17 @@ class Comparator(Enum):
 
 
 def shouldExecute(value: any, comparator: int, threshold: any):
-    if comparator == Comparator.EQUAL:
+    if comparator == Comparator.EQUAL.value:
         return value == threshold
-    elif comparator == Comparator.GREATER:
+    elif comparator == Comparator.GREATER.value:
         return value > threshold
-    elif comparator == Comparator.LESS:
+    elif comparator == Comparator.LESS.value:
         return value < threshold
-    elif comparator == Comparator.GREATER_OR_EQUAL:
+    elif comparator == Comparator.GREATER_OR_EQUAL.value:
         return value >= threshold
-    elif comparator == Comparator.LESS_OR_EQUAL:
+    elif comparator == Comparator.LESS_OR_EQUAL.value:
         return value <= threshold
-    elif comparator == Comparator.NOT_EQUAL:
+    elif comparator == Comparator.NOT_EQUAL.value:
         return value != threshold
     else:
         raise ValueError("E-8: Invalid comparator ID")

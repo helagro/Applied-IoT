@@ -11,19 +11,19 @@ def onMessage(client, userData, msg: any) -> None:
 
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
         print("Temperature:", msg.payload.decode())
-        execute(Sensor.TEMPERATURE, float(msg.payload.decode()), device)
+        execute(Sensor.TEMPERATURE.value, float(msg.payload.decode()), device)
 
     elif msg.topic.startswith(Sensor.MOTION.value):
         print("Motion detected:", msg.payload.decode())
-        execute(Sensor.MOTION, msg.payload.decode() == "True", device)
+        execute(Sensor.MOTION.value, msg.payload.decode() == "True", device)
 
     elif msg.topic.startswith(Sensor.BUTTON.value):
         print("Button pressed:", msg.payload.decode())
-        execute(Sensor.BUTTON, msg.payload.decode() == "True", device)
+        execute(Sensor.BUTTON.value, msg.payload.decode() == "True", device)
 
     elif msg.topic.startswith(Sensor.LIGHT.value):
         print("Light intensity:", msg.payload.decode())
-        execute(Sensor.LIGHT, float(msg.payload.decode()), device)
+        execute(Sensor.LIGHT.value, float(msg.payload.decode()), device)
 
     else:
         print("Unknown topic:", msg.topic + ":", msg.payload.decode())

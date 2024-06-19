@@ -32,7 +32,7 @@ def save():
 def execute(sensor: int, value: any, sensorDeviceID: int):
     for automation in automations:
 
-        print(f"automation {json.dumps(automation.dict())} sensor {sensor} value {value} sensorDeviceID {sensorDeviceID}")
+        print(f"automation {json.dumps(automation.dict())} sensor {sensor} value {value} sensorDeviceID {sensorDeviceID} \n")
 
         if sensor == automation.sensor and \
             (sensorDeviceID == automation.sensorDeviceID or automation.sensorDeviceID == -1) and \
