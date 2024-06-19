@@ -1,0 +1,16 @@
+annotated-types==0.7.0
+blinker==1.8.2
+click==8.1.7
+flask==3.0.3
+importlib-metadata==7.1.0
+itsdangerous==2.2.0
+jinja2==3.1.4
+MarkupSafe==2.1.5
+paho-mqtt==2.1.0
+pydantic==2.7.4
+pydantic-core==2.18.4
+python-dotenv==1.0.1
+pytradfri==12.0.1
+typing-extensions==4.12.2
+werkzeug==3.0.3
+zipp==3.19.2
