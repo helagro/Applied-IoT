@@ -125,7 +125,7 @@ class AutomationsBackend {
       dynamic id,
       String name,
       String sensor,
-      String threshold,
+      int threshold,
       int operatorID,
       int tradfriDevice,
       int actionID,

@@ -133,9 +133,11 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
 
   Future<void> onSave(BuildContext context) async {
     int sensorDeviceID;
+    int threshold;
 
     try {
       sensorDeviceID = int.parse(sensorDeviceController.text);
+      threshold = int.parse(valueController.text);
     } catch (e) {
       errorToast("E-14: $e");
       return;
@@ -145,7 +147,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
         widget.automation.id,
         nameController.text,
         sensorWrapper.value,
-        valueController.text,
+        threshold,
         comparatorWrapper.value,
         deviceWrapper.value,
         actionWrapper.value,

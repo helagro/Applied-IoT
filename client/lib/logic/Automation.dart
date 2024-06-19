@@ -3,7 +3,7 @@ class Automation {
   String name;
   String sensor;
   int operatorID;
-  dynamic threshold;
+  int threshold;
   int tradfriDeviceID;
   int actionID;
   dynamic actionPayload;
