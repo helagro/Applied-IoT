@@ -39,7 +39,7 @@ def get_by_id(id: int) -> Automation:
 
 def execute(sensor: int, value: any, sensorDeviceID: int):
     for automation in automations:
-        print(f"automation {json.dumps(automation.dict())} sensor {sensor} value {value} sensorDeviceID {sensorDeviceID} \n")
+        print(f"automation {json.dumps(automation.to_dict())} sensor {sensor} value {value} sensorDeviceID {sensorDeviceID} \n")
 
         right_sensor = sensor == automation.sensor
         right_device = sensorDeviceID == automation.sensorDeviceID or automation.sensorDeviceID == -1
