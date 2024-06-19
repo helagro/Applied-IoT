@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Automation {
   dynamic id;
   String name;

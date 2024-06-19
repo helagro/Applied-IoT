@@ -18,31 +18,31 @@ class Action(Enum):
     TOGGLE = 2
 
 
-CREDENTIALS_PATH = "generated_tradfri_credentials.json"
-GATEWAY_ADDR: str = os.environ.get("TRADFRI_GATEWAY_ADDR")
+credentials_path = "generated_tradfri_credentials.json"
+gateway_addr: str = os.environ.get("TRADFRI_GATEWAY_ADDR")
 
 api = None
 gateway = None
 
 def init() -> None:
-    if not GATEWAY_ADDR:
+    if not gateway_addr:
             raise PytradfriError("E-3: TRADFRI_GATEWAY_ADDR is not set")
 
     print("Connecting to Tradfri Gateway...")
 
-    success = authWithGeneratedCredentials()
+    success = auth_with_generated_credentials()
     if not success:
         key = askForKey()
-        authWithKey(key)
+        auth_with_key(key)
 
 # ----------------------- AUTHENTICATE ----------------------- #
 
-def authWithGeneratedCredentials() -> bool:
-    conf = load_json(CREDENTIALS_PATH)
+def auth_with_generated_credentials() -> bool:
+    conf = load_json(credentials_path)
 
     try:
-        api_factory = APIFactory(host=GATEWAY_ADDR, psk_id=conf["identity"], psk=conf["key"])
-        setupAPI(api_factory)
+        api_factory = APIFactory(host=gateway_addr, psk_id=conf["identity"], psk=conf["key"])
+        setup_api(api_factory)
         return True
 
     except KeyError: 
@@ -63,19 +63,19 @@ def askForKey() -> str:
     return key
 
 
-def authWithKey(key: str) -> None:
+def auth_with_key(key: str) -> None:
     identity = uuid.uuid4().hex
-    apiFactory = APIFactory(host=GATEWAY_ADDR, psk_id=identity)
+    apiFactory = APIFactory(host=gateway_addr, psk_id=identity)
 
     try:
         psk = apiFactory.generate_psk(key)
-        save_json(CREDENTIALS_PATH, {"identity": identity, "key": psk})
-        setupAPI(apiFactory)
+        save_json(credentials_path, {"identity": identity, "key": psk})
+        setup_api(apiFactory)
     except AttributeError:
         raise PytradfriError("E-2: Invalid key")
 
 
-def setupAPI(apiFactory: APIFactory) -> None:
+def setup_api(apiFactory: APIFactory) -> None:
     global api, gateway
 
     api = apiFactory.request
@@ -84,7 +84,7 @@ def setupAPI(apiFactory: APIFactory) -> None:
 
 # --------------------------- METHODS -------------------------- #
 
-def getDevices() -> list[dict]:
+def get_devices() -> list[dict]:
     devices = api(api(gateway.get_devices()))
     applicableDevices = []
 
@@ -101,10 +101,10 @@ def execute(deviceID: int, action: int, payload: any) -> None:
 
     print("Executing action:", action, "with payload:", payload, "on device:", device)
 
-    if action == Action.SET_STATE:
+    if action == Action.SET_STATE.value:
         api(deviceControl.set_state(payload))
 
-    elif action == Action.TEMPORARY_ON:
+    elif action == Action.TEMPORARY_ON.value:
         if(timers.get(deviceID)):
             timers[deviceID].cancel()
 
@@ -113,7 +113,7 @@ def execute(deviceID: int, action: int, payload: any) -> None:
         timer.start()
         timers[deviceID] = timer
 
-    elif action == Action.TOGGLE:
+    elif action == Action.TOGGLE.value:
         if device.has_light_control:
             api(deviceControl.set_state(not deviceControl.lights[0].state))
         elif device.has_socket_control:
@@ -122,7 +122,6 @@ def execute(deviceID: int, action: int, payload: any) -> None:
             api(deviceControl.set_state(not deviceControl.blinds[0].state))
         else:
             raise PytradfriError(f"E-7: Device {device.id} has no valid control")
-        
 
     else:
         raise PytradfriError(f"E-5: Invalid action {action}")

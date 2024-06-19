@@ -1,13 +1,13 @@
 import paho.mqtt.client as mqtt
-from values import Sensor
+from backend.sensor import Sensor
 from automations import execute
 
-def onMessage(client, userData, msg: any) -> None:
+def on_message(client, userData, msg: any) -> None:
     try:
         device: int = int(msg.topic.split("/")[-1])
         print("Device:", device, end="  ")
     except ValueError:
-        pass
+        print("Invalid device ID:", msg.topic)
 
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
         print("Temperature:", msg.payload.decode())
@@ -29,13 +29,13 @@ def onMessage(client, userData, msg: any) -> None:
         print("Unknown topic:", msg.topic + ":", msg.payload.decode())
 
 
-def onConnect(client, userdata, flags, reason_code, properties):
+def on_connect(client, userdata, flags, reason_code, properties):
     client.subscribe("#")
 
 
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-client.on_connect = onConnect
-client.on_message = onMessage
+client.on_connect = on_connect
+client.on_message = on_message
 
 
 def connect() -> None:

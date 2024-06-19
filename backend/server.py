@@ -1,8 +1,8 @@
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request
 from Automation import Automation
-from tradfri import getDevices, Action
-from automations import automations, save, useNextID
-from values import Sensor
+from tradfri import get_devices, Action
+from automations import automations, save, use_next_id, get_by_id
+from backend.sensor import Sensor
 from compare import Comparator
 
 app = Flask(__name__)
@@ -10,38 +10,33 @@ app = Flask(__name__)
 # -------------------------- GET-ENDPOINTS ------------------------- #
 
 @app.route('/api/ikea-devices', methods=['GET'])
-def getIkeaDevices():
-    return jsonify(getDevices())
+def get_ikea_devices():
+    return jsonify(get_devices())
 
 
 @app.route('/api/automations', methods=['GET'])
-def getAutomations():
-    automationDicts = []
-
-    for automation in automations:
-        automationDicts.append(automation.dict())
-
-    return jsonify(automationDicts)
+def get_automations():
+    return jsonify([automation.to_dict() for automation in automations])
 
 
 @app.route('/api/sensors', methods=['GET'])
-def getSensors():
+def get_sensors():
     return jsonify({sensor.name: sensor.value for sensor in Sensor})
 
 
 @app.route('/api/comparators', methods=['GET'])
-def getComparators():
+def get_comparators():
     return jsonify({comparator.name: comparator.value for comparator in Comparator})
 
 
 @app.route('/api/actions', methods=['GET'])
-def getActions():
+def get_actions():
     return jsonify({action.name: action.value for action in Action})
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
 @app.route('/api/automations/<id>', methods=['PUT'])
-def updateAutomation(id):
+def update_automation(id):
     if request.is_json:
         data = request.get_json()
     else:
@@ -49,56 +44,53 @@ def updateAutomation(id):
     
     for i, automation in enumerate(automations):
         if automation.id == int(id):
-            automations[i] = automationFromData(data)
+            try:
+                automation = automation_from_data(data)
+            except ValueError as e:
+                return jsonify({"error": str(e)}), 400
+            
+            automations[i] = automation
             save()
             return jsonify({"message": f"Updated automation with ID {id}"})
     
     return jsonify({"error": f"Automation with ID {id} not found"}), 404
 
 
-
 @app.route('/api/automations', methods=['PUT'])
-def createAutomation():
+def create_automation():
     if request.is_json:
         data = request.get_json()
     else:
         return jsonify({"error": "Request body must be JSON"}), 400
 
-    automations.append(automationFromData(data))
+    try:
+        automation = automation_from_data(data)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
 
+    automations.append(automation)
     save()
     return jsonify({"message": "PUT request received"})
 
 
 @app.route('/api/automations/<id>', methods=['DELETE'])
-def deleteAutomation(id):
-    print(id, flush=True)
+def delete_automation(id):
+    automation = get_by_id(int(id))
 
-    for automation in automations:
-        if automation.id == int(id):
-            automations.remove(automation)
-            save()
-            return jsonify({"message": f"Deleted automation with id {id}"})
-        
-    return jsonify({"error": f"Automation with ID {id} not found"}), 404
+    if automation is None:
+        return jsonify({"error": f"Automation with ID {id} not found"}), 404
+    else:
+        automations.remove(automation)
+        save()
+        return jsonify({"message": f"Deleted automation with ID {id}"})
 
 # -------------------------- METHODS ------------------------- #
 
-def automationFromData(data) -> Automation:
+def automation_from_data(data) -> Automation:
     if id not in data:
-        data['id'] = useNextID()
+        data['id'] = use_next_id()
 
-    return Automation(
-        id=data['id'],
-        name=data['name'],
-        sensor=data['sensor'],
-        operatorID=data['operatorID'],
-        threshold=data['threshold'],
-        tradfriDeviceID=data['tradfriDeviceID'],
-        actionID=data['actionID'],
-        actionPayload=data['actionPayload'],
-        sensorDeviceID=data['sensorDeviceID']
-    )
+    return Automation.from_dict(data)
 
 
 # --------------------------- START -------------------------- #

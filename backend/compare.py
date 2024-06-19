@@ -10,7 +10,10 @@ class Comparator(Enum):
     NOT_EQUAL = 5
 
 
-def shouldExecute(value: any, comparator: int, threshold: any):
+def shouldExecute(value: any, comparator: int, threshold: float):
+    if not isinstance(value, (int, float)):
+        raise ValueError("E-20: Value must be a number")
+
     if comparator == Comparator.EQUAL.value:
         return value == threshold
     elif comparator == Comparator.GREATER.value:
