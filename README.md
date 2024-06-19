@@ -13,9 +13,6 @@ As shown above, it consists of a Raspberry Pico W, a server running Python and a
 
 **Time Investment:**
 
-> Give a short and brief overview of what your project is about.
-> What needs to be included:
-
 
 ### Objective
 
@@ -93,8 +90,9 @@ If you don't know which to use, try both :)
 
 ### Putting everything together
 
-> How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. Is this only for a development setup or could it be used in production?
+> How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. 
 
+- [ ] Is this only for a development setup or could it be used in production?
 - [x] Circuit diagram (can be hand drawn)
 - [ ] *Electrical calculations
 
@@ -206,7 +204,7 @@ def execute(deviceID: int, action: int, payload: any) -> None:
 
 ### Transmitting the data / connectivity
 
-How is the data transmitted to the internet or local server? Describe the package format. All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
+All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
 
 **Wireless protocols and traffic:**
 
@@ -232,8 +230,8 @@ Describe the presentation part. How is the dashboard built? How long is the data
 
 ### Finalizing the design
 
-Show the final results of your project. Give your final thoughts on how you think the project went. What could have been done in an other way, or even better? Pictures are nice!
-
+- [ ] Give your final thoughts on how you think the project went.
+- [ ] What could have been done in an other way, or even better?
 - [ ] Show final results of the project
 - [ ] Pictures
 - [ ] *Video presentation
