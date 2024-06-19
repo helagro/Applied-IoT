@@ -44,7 +44,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
       ),
       body: Center(
           child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 900),
+              constraints: const BoxConstraints(maxWidth: 970),
               child: Column(children: [
                 Flex(direction: Axis.horizontal, children: [
                   Expanded(

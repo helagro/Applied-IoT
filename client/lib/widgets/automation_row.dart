@@ -25,7 +25,7 @@ class AutomationRow extends StatelessWidget {
     return Flex(direction: Axis.horizontal, children: [
       Expanded(
           child: Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(5),
               child: InkWell(
                   onTap: () => goToEditScreen(context),
                   child: AutomationsRow([

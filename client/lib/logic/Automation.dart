@@ -36,16 +36,16 @@ class Automation {
   }
 
   String toJson(){
-    return jsonEncode({
-      id: id,
-      name: name,
-      sensor: sensor,
-      operatorID: operatorID,
-      threshold: threshold,
-      tradfriDeviceID: tradfriDeviceID,
-      actionID: actionID,
-      actionPayload: actionPayload,
-      sensorDeviceID: sensorDeviceID
+    return jsonEncode(<String, dynamic>{
+      'id': id,
+      'name': name,
+      'sensor': sensor,
+      'operatorID': operatorID,
+      'threshold': threshold,
+      'tradfriDeviceID': tradfriDeviceID,
+      'actionID': actionID,
+      'actionPayload': actionPayload,
+      'sensorDeviceID': sensorDeviceID
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tradfri_extension/logic/automation.dart';
 import 'package:tradfri_extension/logic/automations_backend.dart';
@@ -19,6 +20,8 @@ class AutomationEditScreen extends StatefulWidget {
 }
 
 class _AutomationEditScreenState extends State<AutomationEditScreen> {
+  bool? allDevicesSelected;
+
   // Text controllers
   late TextEditingController nameController;
   late TextEditingController valueController;
@@ -44,71 +47,89 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
         body: SafeArea(
             child: Center(
                 child: ConstrainedBox(
-                    constraints:
-                        const BoxConstraints(maxWidth: 900, maxHeight: 700),
-                    child: Container(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            AutomationEditTextRow(
-                              name: "Name",
-                              controller: nameController,
-                            ),
-                            AutomationEditRow(
-                                name: "Sensor",
-                                child: AutomationDropdown(
-                                  entries: widget.backend.sensorMap,
-                                  wrapper: sensorWrapper,
-                                )),
-                            AutomationEditRow(
-                                name: "Comparison",
-                                child: AutomationDropdown(
-                                    wrapper: comparatorWrapper,
-                                    entries: widget.backend.comparators)),
-                            AutomationEditTextRow(
-                              name: "Value",
-                              controller: valueController,
-                            ),
-                            AutomationEditRow(
-                                name: "Device",
-                                child: AutomationDropdown(
-                                    wrapper: deviceWrapper,
-                                    entries: widget.backend.getDeviceMap())),
-                            AutomationEditRow(
-                                name: "Action",
-                                child: AutomationDropdown(
-                                    wrapper: actionWrapper,
-                                    entries: widget.backend.actions)),
-                            AutomationEditRow(
-                                name: "Payload",
-                                child: AutomationDropdown(
-                                    wrapper: payloadWrapper,
-                                    entries: const {
-                                      "True": true,
-                                      "False": false,
-                                      "None": null
-                                    })),
-                            AutomationEditTextRow(
-                                name: "Sensor Device",
-                                controller: sensorDeviceController),
-                            Center(
-                              child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 200),
-                                child: Row(children: [
-                                  ElevatedButton(
-                                      onPressed: () => onSave(context),
-                                      child: const Text("Save")),
-                                  const SizedBox(width: 20),
-                                  ElevatedButton(
-                                      onPressed: () => onDelete(context),
-                                      child: const Text("Delete")),
-                                ]),
-                              ),
-                            )
-                          ],
-                        ))))));
+                    constraints: const BoxConstraints(maxWidth: 900),
+                    child: SingleChildScrollView(
+                        child: Container(
+                            height: 600,
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AutomationEditTextRow(
+                                  name: "Name",
+                                  controller: nameController,
+                                ),
+                                AutomationEditRow(
+                                    name: "Sensor",
+                                    child: AutomationDropdown(
+                                      entries: widget.backend.sensorMap,
+                                      wrapper: sensorWrapper,
+                                    )),
+                                AutomationEditRow(
+                                    name: "Comparison",
+                                    child: AutomationDropdown(
+                                        wrapper: comparatorWrapper,
+                                        entries: widget.backend.comparators)),
+                                AutomationEditTextRow(
+                                  name: "Value",
+                                  controller: valueController,
+                                ),
+                                AutomationEditRow(
+                                    name: "Device",
+                                    child: AutomationDropdown(
+                                        wrapper: deviceWrapper,
+                                        entries:
+                                            widget.backend.getDeviceMap())),
+                                AutomationEditRow(
+                                    name: "Action",
+                                    child: AutomationDropdown(
+                                        wrapper: actionWrapper,
+                                        entries: widget.backend.actions)),
+                                AutomationEditRow(
+                                    name: "Payload",
+                                    child: AutomationDropdown(
+                                        wrapper: payloadWrapper,
+                                        entries: const {
+                                          "True": true,
+                                          "False": false,
+                                          "None": null
+                                        })),
+                                AutomationEditRow(
+                                    name: "Sensor Device",
+                                    child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: CupertinoTextField(
+                                                controller:
+                                                    sensorDeviceController),
+                                          ),
+                                          Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8),
+                                              child: const Text(
+                                                  "Select all devices: ")),
+                                          Checkbox(
+                                              value: doSelectAllDevices(),
+                                              onChanged: onAllDevicesSelect)
+                                        ])),
+                                Center(
+                                  child: ConstrainedBox(
+                                    constraints:
+                                        const BoxConstraints(maxWidth: 200),
+                                    child: Row(children: [
+                                      ElevatedButton(
+                                          onPressed: () => onSave(context),
+                                          child: const Text("Save")),
+                                      const SizedBox(width: 20),
+                                      ElevatedButton(
+                                          onPressed: () => onDelete(context),
+                                          child: const Text("Delete")),
+                                    ]),
+                                  ),
+                                )
+                              ],
+                            )))))));
   }
 
   /* ------------------------- METHODS ------------------------ */
@@ -119,7 +140,9 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     valueController =
         TextEditingController(text: widget.automation.threshold.toString());
     sensorDeviceController = TextEditingController(
-        text: widget.automation.sensorDeviceID.toString());
+        text: doSelectAllDevices()
+            ? "-1"
+            : widget.automation.sensorDeviceID.toString());
 
     // Setup wrappers
     sensorWrapper = Wrapper(widget.automation.sensor);
@@ -152,8 +175,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
         tradfriDeviceID: deviceWrapper.value,
         actionID: actionWrapper.value,
         actionPayload: payloadWrapper.value,
-        sensorDeviceID: sensorDeviceID
-    );
+        sensorDeviceID: sensorDeviceID);
 
     await widget.backend.updateAutomation(updatedAutomation);
     await widget.backend.loadAutomations();
@@ -170,5 +192,17 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     if (context.mounted) {
       Navigator.pop(context, true);
     }
+  }
+
+  bool doSelectAllDevices() {
+    if (allDevicesSelected != null) return allDevicesSelected!;
+
+    return widget.automation.sensorDeviceID == -1;
+  }
+
+  void onAllDevicesSelect(bool? selected) {
+    setState(() {
+      allDevicesSelected = selected;
+    });
   }
 }
