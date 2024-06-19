@@ -58,8 +58,6 @@ understandable to the reader.
 
 ### Computer setup
 
-> How is the device programmed. Which IDE are you using. Describe all steps from flashing the firmware, installing plugins in your favorite editor. How flashing is done on MicroPython. The aim is that a beginner should be able to understand.
-
 **My IDE choice:**
 
 The IDE I chose for working with this project is Visual Studio Code. The most major factors behind the decision were the extendability of the code editor which allows for fine tuning the editor to my liking, and because I have a lot of previous experience with the editor. You can use whichever editor you prefer, but the instructions will be tailored to Visual Studio Code with the PyMakr plugin.
@@ -74,7 +72,23 @@ To be able to deploy MicroPython code on the the Pico W, you need to first flash
 
 **Setting up the local server:**
 
-The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. The server needs to be Linux based, but it can be a laptop for instance. In my case, I used a Raspberry Pi 4 running Raspbian. To setup the server, you need to install Python 3, for instance from [here](https://www.python.org/downloads/). <TODO: pytradfri, other libs, flask>
+The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. The server needs to be Linux based, but it can be a laptop for instance. In my case, I used a Raspberry Pi 4 running Raspbian. To setup the server, you need to install Python 3, for instance from [here](https://www.python.org/downloads/). The server uses the [pytradfri](https://github.com/home-assistant-libs/pytradfri) library. The library the [libcoap](https://github.com/obgm/libcoap) utility to communicate with the Tradfri gateway. This utility can be installed with [this script](https://github.com/home-assistant-libs/pytradfri/blob/master/script/install-coap-client.sh). To use it, you need to open a terminal at the directory where the file has been downloaded to. This can be done using the [cd](https://man7.org/linux/man-pages/man1/cd.1p.html) command. After that, run the following commands:
+
+```bash
+chmod 777 install-coap-client.sh
+sudo ./install-coap-client.sh
+```
+
+The server also uses some python libraries. To install these, enter into the backend directory of the project and run either of the following commands, depending on your python installation:
+
+```bash
+pip install -r requirements.txt
+```
+or
+```bash
+pip3 install -r requirements.txt
+```
+If you don't know which to use, try both :)
 
 
 ### Putting everything together
