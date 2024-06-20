@@ -10,15 +10,16 @@ This tutorial will show you how to set up a Raspberry Pico W to provide more aut
 
 As shown above, it consists of a Raspberry Pico W, a server running Python and a Tradfri gateway. The Pico W is used to control the Tradfri devices and to send data to the server. The server is used to manage the data and to communicate with the Tradfri gateway. This is designed to be a fun hobby project, which could also result in an actually useful end-product. I think it is suitable for beginners in the field, but be careful with the hardware. **I claim no responsibility for any damages made to anything, regardless of cause.**
 
-**Time Investment:**
+**Time investment:**
 
-All the software is already written, so the time investment is mostly in setting up the hardware and the software. The hardware should not take long, as all it takes is to follow the wiring diagram. The time required to setup the software is depends a lot on experience and luck. With a solid amount of programing and installing experience and no issues, it wouldn't take more than 45 minutes with nothing pre-installed. If you are new to programing and installing, it could take up to 2 hours. If you run into issues, it could take even longer. In total I would estimate 1.5 - 3.5 hours to setup the entire project, depending on experience and luck.
+G
+
 
 ## Objective
 
 - [ ] What do you want to do with the data?
 
-**Project Selection Decision:**
+**Project selection decision:**
 
 I have some previous experience with developing software integrating with the IKEA Tradfri product line. Those projects were aimed to 
 extend the existing functionallity of the smart home system and were highly tailored to suit my own needs. I learned that it was both
@@ -30,7 +31,7 @@ that works as an extension to the Tradfri system.
 This project aims to be a IoT project that other people can use or build upon. Being a popular product line, I can see others finding 
 benefit in this project, both in learning and also for the practical use of the end product.
 
-**Possible Insights:**
+**Possible insights:**
 
 There are some aspects of the project that are newer to me. I have not made tutorials of this kind and I think that some of the data-visualisation tools will be new to me as well. I expect to learn more about both areas and how to operate with them more efficiently.
 I think I will learn more about how to convey the instructions in a clear and concise way, and also how to make the project more appealing and
@@ -119,15 +120,12 @@ If you don't know which to use, try both 😁. The server should now be running 
 
 
 **Electrics:**
-
 Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer 😳).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. 
 
 **Production:**
-
 For a production setup, an external power module supply should be used, together more optimised wiring, pin usage and preferably a case of sorts. A case could quite easily be 3D printed, improving both looks, dust protection, ease of directing sensors and durability. 
 
 **Color coding:**
-
 The diagram's wires are color coded, and I would recommend you do that too if possible. Red means power, black means ground and yellow means signal, i.e. where the data is read from.
 
 **Breadboard layout:**
