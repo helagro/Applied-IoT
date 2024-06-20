@@ -1,4 +1,4 @@
-# Tutorial on how to build a automation system for IKEA Tradfri
+# How to build a automation system for IKEA Tradfri
 
 **Author:** Henrik Lagrosen, (hl223qb)
 
