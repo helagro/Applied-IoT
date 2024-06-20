@@ -8,7 +8,7 @@ class Automation {
   double threshold;
   int tradfriDeviceID;
   int actionID;
-  dynamic actionPayload;
+  int actionPayload;
   int sensorDeviceID;
 
   Automation(
@@ -35,7 +35,7 @@ class Automation {
         sensorDeviceID: json['sensorDeviceID']);
   }
 
-  String toJson(){
+  String toJson() {
     return jsonEncode(<String, dynamic>{
       'id': id,
       'name': name,
@@ -48,5 +48,4 @@ class Automation {
       'sensorDeviceID': sensorDeviceID
     });
   }
-
 }

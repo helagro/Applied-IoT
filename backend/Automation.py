@@ -25,7 +25,7 @@ class Automation:
         )
 
 
-    def __init__(self, id: int, name: str, sensor: str, operatorID: int, threshold: int, tradfriDeviceID: int, actionID: int, actionPayload: any, sensorDeviceID: int = -1):
+    def __init__(self, id: int, name: str, sensor: str, operatorID: int, threshold: int, tradfriDeviceID: int, actionID: int, actionPayload: int, sensorDeviceID: int = -1):
         if not isinstance(id, int):
             raise ValueError("ID must be an integer")
         else:
@@ -61,7 +61,10 @@ class Automation:
         else:
             self.actionID = actionID
         
-        self.actionPayload = actionPayload
+        if not isinstance(actionPayload, int):
+            raise ValueError(f"ActionPayload must be an any, got {actionPayload} of type {type(actionPayload)}")
+        else:
+            self.actionPayload = actionPayload
         
         if not isinstance(sensorDeviceID, int):
             raise ValueError(f"SensorDeviceID must be an integer, got {sensorDeviceID} of type {type(sensorDeviceID)}")

@@ -26,12 +26,12 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
   late TextEditingController nameController;
   late TextEditingController valueController;
   late TextEditingController sensorDeviceController;
+  late TextEditingController payloadController;
 
   // Data wrappers for accessing input values
   late Wrapper sensorWrapper;
   late Wrapper comparatorWrapper;
   late Wrapper actionWrapper;
-  late Wrapper payloadWrapper;
   late Wrapper deviceWrapper;
 
   /* ------------------------ LIVECYCLE ----------------------- */
@@ -46,6 +46,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
         ),
         body: SafeArea(
             child: Center(
+                heightFactor: 1,
                 child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 900),
                     child: SingleChildScrollView(
@@ -85,15 +86,9 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                     child: AutomationDropdown(
                                         wrapper: actionWrapper,
                                         entries: widget.backend.actions)),
-                                AutomationEditRow(
+                                AutomationEditTextRow(
                                     name: "Payload",
-                                    child: AutomationDropdown(
-                                        wrapper: payloadWrapper,
-                                        entries: const {
-                                          "True": true,
-                                          "False": false,
-                                          "None": null
-                                        })),
+                                    controller: payloadController),
                                 AutomationEditRow(
                                     name: "Sensor Device",
                                     child: Row(
@@ -147,12 +142,13 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     valueController =
         TextEditingController(text: widget.automation.threshold.toString());
     sensorDeviceController = TextEditingController(text: sensorDeviceText);
+    payloadController =
+        TextEditingController(text: widget.automation.actionPayload.toString());
 
     // Setup wrappers
     sensorWrapper = Wrapper(widget.automation.sensor);
     comparatorWrapper = Wrapper(widget.automation.operatorID);
     actionWrapper = Wrapper(widget.automation.actionID);
-    payloadWrapper = Wrapper(widget.automation.actionPayload);
     deviceWrapper = Wrapper(widget.automation.tradfriDeviceID);
   }
 
@@ -161,10 +157,12 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
   Future<void> onSave(BuildContext context) async {
     int sensorDeviceID;
     double threshold;
+    int payload;
 
     try {
       sensorDeviceID = int.parse(sensorDeviceController.text);
       threshold = double.parse(valueController.text);
+      payload = int.parse(payloadController.text);
     } catch (e) {
       errorToast("E-14: $e");
       return;
@@ -178,7 +176,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
         operatorID: comparatorWrapper.value,
         tradfriDeviceID: deviceWrapper.value,
         actionID: actionWrapper.value,
-        actionPayload: payloadWrapper.value,
+        actionPayload: payload,
         sensorDeviceID: sensorDeviceID);
 
     await widget.backend.updateAutomation(updatedAutomation);

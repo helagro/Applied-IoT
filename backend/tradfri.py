@@ -102,7 +102,12 @@ def execute(deviceID: int, action: int, payload: any) -> None:
     print("Executing action:", action, "with payload:", payload, "on device:", device)
 
     if action == Action.SET_STATE.value:
-        api(deviceControl.set_state(payload))
+        if payload == True:
+            api(deviceControl.set_state(True))
+        elif payload == False:
+            api(deviceControl.set_state(False))
+        else:
+            print(f"E-22: Invalid payload {payload}")
 
     elif action == Action.TEMPORARY_ON.value:
         if(timers.get(deviceID)):

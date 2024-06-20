@@ -1,4 +1,4 @@
-## Tutorial on how to build a automation system for IKEA Tradfri
+# Tutorial on how to build a automation system for IKEA Tradfri
 - [ ] How much time it might take to do (approximation)
 
 **Author:** Henrik Lagrosen, (hl223qb)
@@ -14,7 +14,7 @@ As shown above, it consists of a Raspberry Pico W, a server running Python and a
 **Time Investment:**
 
 
-### Objective
+## Objective
 
 - [ ] What do you want to do with the data?
 
@@ -38,7 +38,7 @@ understandable to the reader.
 
 
 
-### Material
+## Material
 
 |Image | Name | Info | Price |
 | ---- | ---- | ---- | ----- |
@@ -53,7 +53,7 @@ understandable to the reader.
     NOTE: Not all of the components I used were bought at the specified stores at the specified prices as some of the components were already in my possession.
 
 
-### Computer setup
+## Computer setup
 
 **My IDE choice:**
 
@@ -67,7 +67,7 @@ First, you need to install Node.js, using instructions available on [this page](
 
 To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable. The pico W is now ready to run MicroPython code, which can be done by connecting it to the computer again, opening the PyMakr menu in Visual Studio Code, selecting ADD DEVICES and then selecting the Pico W from the list of available devices. Then press the connect button on the device entry, and also the `Start Development Mode` button on the project. Everytime you save a file in the RP2 directory now, the code will be uploaded to the Pico W. Some of the variables could not be uploaded to the repository, so you need to add them yourself. You need to create a file in `Applied-IoT/RP2/lib` called `env.py`. In this file, you need to add the following variables:
 `
-```pytho`
+```python
 WIFI_SSID="" # The name of your WiFi network
 WIFI_PASS="" # The password to your WiFi network
 BROKER_ADDRESS="" # The IP address of the machine on which you want to run the server
@@ -94,7 +94,7 @@ or
 ```bash
 pip3 install -r requirements.txt
 ```
-If you don't know which to use, try both :)
+If you don't know which to use, try both 😁.
 
 The server also needs a file called .env in the `backend` directory. This file should contain the following variables:
 
@@ -111,13 +111,15 @@ or
 ```bash
 python app.py
 ```
-If you don't know which to use, try both :)
+If you don't know which to use, try both 😁. The server should now be running on port 5000 of your device. You can access the frontend by going to `http://localhost:5000/static/index.html` in your browser. You can also access it from other devices on the same network by replacing `localhost` with the IP address of the server.
 
-### Putting everything together
+## Putting everything together
 
 ![Wiring](res/img/Wiring.png)
 
-Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer 😳).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. 
+
+**Electrics:**
+Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer 😳).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. 
 
 **Production:**
 For a production setup, an external power module supply should be used, together more optimised wiring, pin usage and preferably a case of sorts. A case could quite easily be 3D printed, improving both looks, dust protection, ease of directing sensors and durability. 
@@ -131,7 +133,7 @@ This breadboard works by having the two outer rows (blue and red), be connected 
 - [ ] *Electrical calculations
   - [ ] current and voltage
 
-### Platform
+## Platform
 
 Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
 
@@ -140,7 +142,7 @@ Is your platform based on a local installation or a cloud? Do you plan to use a 
 - [ ] Describe platform in terms of functionality
 - [ ] *Explain and elaborate what made you choose this platform 
 
-### The code
+## The code
 
 The code below is the main loop of the Pico W. It is responsible for polling the sensors at the specified intervals, and for sending the data to the server if a new value is registered. It uses the four polling functions `pollMotion`, `pollTemp`, `pollLight` and `pollBtn` to get the sensor data. The `MAIN_POLL_INTERVAL` is delay between each iteration of the loop. The button is polled at every iteration, as responsiveness is prioritised and no noise is expected. The other sensors are polled at a lower frequency, by using counter variables to keep track of how many iterations have passed since the last poll. If the counter reaches the specified maximum value, the sensor is polled and the counter is reset.
 
@@ -235,9 +237,7 @@ def execute(deviceID: int, action: int, payload: any) -> None:
         raise PytradfriError(f"E-5: Invalid action {action}")
 ```
 
-### Transmitting the data / connectivity
-
-All the different steps that are needed in getting the data to your end-point. Explain both the code and choice of wireless protocols.
+## Transmitting the data / connectivity
 
 **Wireless protocols and traffic:**
 
@@ -251,9 +251,21 @@ MQTT is used as the transport protocol between the Pico W and the server. Given 
 
 There was not a lot of constraints guiding which wireless protocol was to be used. All devices for the project are meant to be inside the users home, meaning that range was not an issue. The user would likely power the Pico W from the outlet directly, so power consumption was not a great concirn either. Despite network speed or latency not being a high priority, WiFi still seemed like a great choice. The Pico W has built in WiFi capabilities, meaning that no extra antenna or similar equipment would be neccessary, reducing cost. Bluetooth could still have been an alternative but the range could have been an issue. Bluetooth would have required the server and Pico W to be close to eachother, but with WiFi, they could be far apart, as long as the WiFi has good enough range. This could be achieved with a Mesh network, for instance. Both Bluetooth Low Energy and LoRa can be configured to be very power efficient, but within a home setting, the power consumption of WiFi is not a big issue.
 
-### Presenting the data
+## Presenting the data
 
-Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?
+> Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?
+
+**UI walkthrough**
+
+> img
+
+The automations screen displays all created automations. On a large screen, it displays most of the details of it, otherwise just a list of their names. Each item is clickable, and will take you to a page for editing them. There is also a plus button in the bottom right corner, allowing the user to create a new automation, taking them to the the same editing page but for a new item instead.
+
+> img
+
+The automations editing screen is used to create or edit an automation. It has a number of fields for specifing the details of the automation. Most of them should be self-explanatory. The `Value` field is used to specify the value that the sensor should have for the automation to trigger. The input type is a decimal number. The `Button` and `Motion` sensors will produce a value of 1 when they are triggered and 0 when they are not. These are the number to use when using these sensors. 
+
+There are three available actions to invoke on the chosen Tradfri device. The `SET_STATE` action is used to turn the device on or off. The device will turn on if the `Payload` `True` is selected and off if the `Payload` `False`is selected. The `TEMPORARY_ON` action is used to turn the device on for a specified amount of time. The `Payload` is the amount of time in seconds that the device should be on. The `TOGGLE` action is used to toggle the state of the device. If the device is on, it will be turned off, and vice versa.
 
 - [ ] Provide visual examples on how the dashboard looks. Pictures needed.
 - [ ] How often is data saved in the database.
@@ -261,7 +273,7 @@ Describe the presentation part. How is the dashboard built? How long is the data
 - [ ] *Automation/triggers of the data.
 
 
-### Finalizing the design
+## Finalizing the design
 
 - [ ] Give your final thoughts on how you think the project went.
 - [ ] What could have been done in an other way, or even better?
