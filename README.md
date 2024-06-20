@@ -1,5 +1,4 @@
 # Tutorial on how to build a automation system for IKEA Tradfri
-- [ ] How much time it might take to do (approximation)
 
 **Author:** Henrik Lagrosen, (hl223qb)
 
@@ -13,6 +12,7 @@ As shown above, it consists of a Raspberry Pico W, a server running Python and a
 
 **Time Investment:**
 
+All the software is already written, so the time investment is mostly in setting up the hardware and the software. The hardware should not take long, as all it takes is to follow the wiring diagram. The time required to setup the software is depends a lot on experience and luck. With a solid amount of programing and installing experience and no issues, it wouldn't take more than 45 minutes with nothing pre-installed. If you are new to programing and installing, it could take up to 2 hours. If you run into issues, it could take even longer. In total I would estimate 1.5 - 3.5 hours to setup the entire project, depending on experience and luck.
 
 ## Objective
 
@@ -119,15 +119,19 @@ If you don't know which to use, try both 😁. The server should now be running 
 
 
 **Electrics:**
+
 Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer 😳).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. 
 
 **Production:**
+
 For a production setup, an external power module supply should be used, together more optimised wiring, pin usage and preferably a case of sorts. A case could quite easily be 3D printed, improving both looks, dust protection, ease of directing sensors and durability. 
 
 **Color coding:**
+
 The diagram's wires are color coded, and I would recommend you do that too if possible. Red means power, black means ground and yellow means signal, i.e. where the data is read from.
 
 **Breadboard layout:**
+
 This breadboard works by having the two outer rows (blue and red), be connected like a row, meaning that all the pins in the blue rows use the same ground, and all the pins in the red row use the same power. The other pin-holes are connected by columns, meaning that all the pins in the same column are connected. 
 
 - [ ] *Electrical calculations
@@ -281,10 +285,11 @@ The `Sensor Device` field is used to specify which sensor device the automation 
 
 ## Finalizing the design
 
-- [ ] Give your final thoughts on how you think the project went.
-- [ ] What could have been done in an other way, or even better?
-- [ ] Show final results of the project
-- [ ] Pictures
+**Reflections:**
+
+I think the project went well overall. I completed the MVP very early due to anticlipated future time constraints, which helped me in chosing a suitable scope for the project. The main downside of this was low initial code quality, causing time expensive bugs and refactoring. I do maintain that in my particular circumstance, it was the right strategy, even though it caused some issues. The main improvement potential I noticed was to be more careful about data types in weakly typed languages. Python won't complain during runtime if a variable stores a value different to the one I described in the type hint. This caused some bugs and issues which took longer than it should have to solve. I ended up checking for data type in if-statements, scattered across the code. Ideally, I should have done this earlier and more deliberately.
+
+- [ ] Show final results of the project - Pictures
 - [ ] *Video presentation
 
 ---

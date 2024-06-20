@@ -46,7 +46,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
           padding: const EdgeInsets.all(10),
           child: Center(
               child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 970),
+                  constraints: const BoxConstraints(maxWidth: 1050),
                   child: Column(children: [
                     Flex(direction: Axis.horizontal, children: [
                       Expanded(
