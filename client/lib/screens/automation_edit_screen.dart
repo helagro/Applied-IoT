@@ -101,6 +101,7 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
                                         children: [
                                           Expanded(
                                             child: CupertinoTextField(
+                                                enabled: !doSelectAllDevices(),
                                                 controller:
                                                     sensorDeviceController),
                                           ),
@@ -135,14 +136,17 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
   /* ------------------------- METHODS ------------------------ */
 
   void setupControllers() {
+    String sensorDeviceText = doSelectAllDevices()
+        ? "-1"
+        : widget.automation.sensorDeviceID == -1
+            ? '0'
+            : widget.automation.sensorDeviceID.toString();
+
     // Setup controllers
     nameController = TextEditingController(text: widget.automation.name);
     valueController =
         TextEditingController(text: widget.automation.threshold.toString());
-    sensorDeviceController = TextEditingController(
-        text: doSelectAllDevices()
-            ? "-1"
-            : widget.automation.sensorDeviceID.toString());
+    sensorDeviceController = TextEditingController(text: sensorDeviceText);
 
     // Setup wrappers
     sensorWrapper = Wrapper(widget.automation.sensor);
@@ -201,6 +205,11 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
   }
 
   void onAllDevicesSelect(bool? selected) {
+    String inputSensorDeviceID = sensorDeviceController.text;
+    if (selected == true && int.tryParse(inputSensorDeviceID) != null) {
+      widget.automation.sensorDeviceID = int.parse(inputSensorDeviceID);
+    }
+
     setState(() {
       allDevicesSelected = selected;
     });

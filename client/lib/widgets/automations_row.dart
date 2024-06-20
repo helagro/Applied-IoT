@@ -10,9 +10,9 @@ class AutomationsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: LayoutBuilder(builder: (context, constraints) {
-          if (constraints.maxWidth > 840) {
+          if (constraints.maxWidth > 860) {
             return Row(
               mainAxisSize: MainAxisSize.max,
               children: [

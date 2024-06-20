@@ -9,7 +9,7 @@ This tutorial will show you how to set up a Raspberry Pico W to provide more aut
 
 ![System Overview](res/img/IoT-diagram.jpg)
 
-As shown above, it consists of a Raspberry Pico W, a server running Python and a Tradfri gateway. The Pico W is used to control the Tradfri devices and to send data to the server. The server is used to manage the data and to communicate with the Tradfri gateway.
+As shown above, it consists of a Raspberry Pico W, a server running Python and a Tradfri gateway. The Pico W is used to control the Tradfri devices and to send data to the server. The server is used to manage the data and to communicate with the Tradfri gateway. This is designed to be a fun hobby project, which could also result in an actually useful end-product. I think it is suitable for beginners in the field, but be careful with the hardware. **I claim no responsibility for any damages made to anything, regardless of cause.**
 
 **Time Investment:**
 
@@ -65,7 +65,16 @@ First, you need to install Node.js, using instructions available on [this page](
 
 **Setting up the Pico W:**
 
-To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable.
+To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable. The pico W is now ready to run MicroPython code, which can be done by connecting it to the computer again, opening the PyMakr menu in Visual Studio Code, selecting ADD DEVICES and then selecting the Pico W from the list of available devices. Then press the connect button on the device entry, and also the `Start Development Mode` button on the project. Everytime you save a file in the RP2 directory now, the code will be uploaded to the Pico W. Some of the variables could not be uploaded to the repository, so you need to add them yourself. You need to create a file in `Applied-IoT/RP2/lib` called `env.py`. In this file, you need to add the following variables:
+`
+```pytho`
+WIFI_SSID="" # The name of your WiFi network
+WIFI_PASS="" # The password to your WiFi network
+BROKER_ADDRESS="" # The IP address of the machine on which you want to run the server
+BROKER_PORT=1883 # The port on which the MQTT broker is running, default is 1883
+DEVICE_ID=1 # A unique identifier for the Pico W, used for triggering automations based on values from specific sensor-devices. Must be unique for each Pico W in the system, and must be a positive integer.
+DISABLED_SENSORS="" # A comma separated list of sensors to disable. The available sensors are "motion", "temperature", "light" and "button". For instance, "motion,light" would disable the motion and light sensors.
+```
 
 **Setting up the local server:**
 
@@ -87,16 +96,40 @@ pip3 install -r requirements.txt
 ```
 If you don't know which to use, try both :)
 
+The server also needs a file called .env in the `backend` directory. This file should contain the following variables:
+
+```bash
+TRADFRI_IP="" # The IP address of the Tradfri gateway
+```
+
+To run the server, you can use one of the following commands, depending on your python installation:
+
+```bash
+python3 app.py
+```
+or
+```bash
+python app.py
+```
+If you don't know which to use, try both :)
 
 ### Putting everything together
 
-> How is all the electronics connected? Describe all the wiring, good if you can show a circuit diagram. Be specific on how to connect everything, and what to think of in terms of resistors, current and voltage. 
-
-- [ ] Is this only for a development setup or could it be used in production?
-- [x] Circuit diagram (can be hand drawn)
-- [ ] *Electrical calculations
-
 ![Wiring](res/img/Wiring.png)
+
+Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer 😳).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. 
+
+**Production:**
+For a production setup, an external power module supply should be used, together more optimised wiring, pin usage and preferably a case of sorts. A case could quite easily be 3D printed, improving both looks, dust protection, ease of directing sensors and durability. 
+
+**Color coding:**
+The diagram's wires are color coded, and I would recommend you do that too if possible. Red means power, black means ground and yellow means signal, i.e. where the data is read from.
+
+**Breadboard layout:**
+This breadboard works by having the two outer rows (blue and red), be connected like a row, meaning that all the pins in the blue rows use the same ground, and all the pins in the red row use the same power. The other pin-holes are connected by columns, meaning that all the pins in the same column are connected. 
+
+- [ ] *Electrical calculations
+  - [ ] current and voltage
 
 ### Platform
 
@@ -231,7 +264,7 @@ Describe the presentation part. How is the dashboard built? How long is the data
 ### Finalizing the design
 
 - [ ] Give your final thoughts on how you think the project went.
-- [ ] What could have been done in an other way, or even better?
+- [ ] What could have been done in an other way, or even better?
 - [ ] Show final results of the project
 - [ ] Pictures
 - [ ] *Video presentation

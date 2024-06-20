@@ -42,36 +42,38 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
         onPressed: () => onCreateAutomation(context),
         child: const Icon(Icons.add),
       ),
-      body: Center(
-          child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 970),
-              child: Column(children: [
-                Flex(direction: Axis.horizontal, children: [
-                  Expanded(
-                      child: Container(
-                          padding: const EdgeInsets.all(10),
-                          child: const AutomationsRow([
-                            "NAME",
-                            "SENSOR",
-                            "COMPARISON",
-                            "VALUE",
-                            "DEVICE",
-                            "ACTION",
-                            "PAYLOAD"
-                          ])))
-                ]),
-                const SizedBox(height: 7),
-                Expanded(
-                  child: ListView.builder(
-                      itemBuilder: (context, i) {
-                        return AutomationRow(
-                            automation: _backend.automations[i],
-                            backend: _backend,
-                            reload: onReload);
-                      },
-                      itemCount: _backend.automations.length),
-                ),
-              ]))),
+      body: Container(
+          padding: const EdgeInsets.all(10),
+          child: Center(
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 970),
+                  child: Column(children: [
+                    Flex(direction: Axis.horizontal, children: [
+                      Expanded(
+                          child: Container(
+                              padding: const EdgeInsets.all(5),
+                              child: const AutomationsRow([
+                                "NAME",
+                                "SENSOR",
+                                "COMPARISON",
+                                "VALUE",
+                                "DEVICE",
+                                "ACTION",
+                                "PAYLOAD"
+                              ])))
+                    ]),
+                    const SizedBox(height: 7),
+                    Expanded(
+                      child: ListView.builder(
+                          itemBuilder: (context, i) {
+                            return AutomationRow(
+                                automation: _backend.automations[i],
+                                backend: _backend,
+                                reload: onReload);
+                          },
+                          itemCount: _backend.automations.length),
+                    ),
+                  ])))),
     );
   }
 
