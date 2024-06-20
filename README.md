@@ -255,7 +255,7 @@ There was not a lot of constraints guiding which wireless protocol was to be use
 
 > Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?
 
-**UI walkthrough**
+**UI walk-through**
 
 > img
 
@@ -263,9 +263,15 @@ The automations screen displays all created automations. On a large screen, it d
 
 > img
 
-The automations editing screen is used to create or edit an automation. It has a number of fields for specifing the details of the automation. Most of them should be self-explanatory. The `Value` field is used to specify the value that the sensor should have for the automation to trigger. The input type is a decimal number. The `Button` and `Motion` sensors will produce a value of 1 when they are triggered and 0 when they are not. These are the number to use when using these sensors. 
+The settings screen is used for specifying the url of the server. It should be in the format http://YOUR_SERVER_IP:5000
 
-There are three available actions to invoke on the chosen Tradfri device. The `SET_STATE` action is used to turn the device on or off. The device will turn on if the `Payload` `True` is selected and off if the `Payload` `False`is selected. The `TEMPORARY_ON` action is used to turn the device on for a specified amount of time. The `Payload` is the amount of time in seconds that the device should be on. The `TOGGLE` action is used to toggle the state of the device. If the device is on, it will be turned off, and vice versa.
+> img
+
+The automations editing screen is used to create or edit an automation. It has a number of fields for specifing the details of the automation. Most of them should be self-explanatory. The `Value` field is used to specify the value that the sensor value will be compared against. The input type is a decimal number. The `Button` and `Motion` sensors will produce a value of `1` when they are triggered and `0` when they are not. For instance, if you want to trigger an automation when the motion sensor detects motion, you would set the `Sensor` to `MOTION`, the `Comparison` field to `EQUAL` and the `Value` field to `1`.
+
+There are three available actions to invoke on the chosen Tradfri device. The `SET_STATE` action is used to turn the device on or off. The device will turn on if the `Payload` is `1` and off if the `Payload` is `0`. The `TEMPORARY_ON` action is used to turn the device on for the amount of seconds entered in the `Payload` field. After that, it will turn off. Could be useful if you want a light to be on when motion has been detected the last five minutes, etc. The `TOGGLE` action is used to toggle the state of the device. If the device is on, it will be turned off, and vice versa. The `Payload` value is ignored for this action.
+
+The `Sensor Device` field is used to specify which sensor device the automation should apply to. The value should match the value entered into the `env.py` for the desired Pico W. 
 
 - [ ] Provide visual examples on how the dashboard looks. Pictures needed.
 - [ ] How often is data saved in the database.

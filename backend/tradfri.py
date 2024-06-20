@@ -95,16 +95,16 @@ def get_devices() -> list[dict]:
     return applicableDevices
         
 
-def execute(deviceID: int, action: int, payload: any) -> None:
+def execute(deviceID: int, action: int, payload: int) -> None:
     device = getDevice(deviceID)
     deviceControl = getDeviceControl(device)
 
     print("Executing action:", action, "with payload:", payload, "on device:", device)
 
     if action == Action.SET_STATE.value:
-        if payload == True:
+        if payload == 1:
             api(deviceControl.set_state(True))
-        elif payload == False:
+        elif payload == 0:
             api(deviceControl.set_state(False))
         else:
             print(f"E-22: Invalid payload {payload}")

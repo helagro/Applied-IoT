@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tradfri_extension/logic/automation.dart';
@@ -35,7 +33,7 @@ class AutomationRow extends StatelessWidget {
                     automation.threshold.toString(),
                     backend.getDeviceById(automation.tradfriDeviceID).name,
                     backend.actionsReverse[automation.actionID]!,
-                    jsonEncode(automation.actionPayload),
+                    automation.actionPayload.toString(),
                   ]))))
     ]);
   }

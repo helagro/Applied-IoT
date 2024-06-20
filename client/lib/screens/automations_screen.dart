@@ -89,7 +89,7 @@ class _AutomationsScreenState extends State<AutomationsScreen> {
         sensorDeviceID: 0,
         actionID: _backend.actions.values.first,
         tradfriDeviceID: _backend.devices.first.id,
-        actionPayload: null);
+        actionPayload: 0);
 
     dynamic value = await Navigator.push(
         context,

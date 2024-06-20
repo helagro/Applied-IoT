@@ -12,7 +12,7 @@ class AutomationsRow extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: LayoutBuilder(builder: (context, constraints) {
-          if (constraints.maxWidth > 860) {
+          if (constraints.maxWidth > 900) {
             return Row(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -42,7 +42,7 @@ class AutomationsRow extends StatelessWidget {
                 ),
                 const SizedBox(width: columnGap),
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Text(items[5]),
                 ),
                 const SizedBox(width: columnGap),
