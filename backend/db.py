@@ -16,8 +16,8 @@ client = InfluxDBClient(
 write_api = client.write_api(write_options=SYNCHRONOUS)
 query_api = client.query_api()
 
-def write(device, field_name, field_value) -> None:
-    p = Point("").tag("device", device).field(field_name, field_value)
+def write(device_id: int, field_name: str, field_value) -> None:
+    p = Point("").tag("device", device_id).field(field_name, field_value)
     write_api.write(bucket=bucket, record=p)
 
 
@@ -32,4 +32,5 @@ def get_all_data():
             print(f"{record.get_field()} {record.get_value()}")
 
 
+write("RP2", "temperature", 20)
 get_all_data()
