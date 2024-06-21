@@ -2,7 +2,7 @@ from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from sensor import Sensor
 import json
-from datetime import datetime
+import datetime
 
 measurment = "sensor_data"
 bucket = "main"
