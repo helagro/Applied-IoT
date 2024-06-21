@@ -43,7 +43,7 @@ def get_data():
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):
-    directory = path.join(getcwd(), '..', 'static')
+    directory = path.join(getcwd(), '..', 'public')
     return send_from_directory(directory, filename)
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
