@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 import 'package:tradfri_extension/screens/automations_screen.dart';
+import 'package:tradfri_extension/screens/data_screen.dart';
 import 'package:tradfri_extension/screens/settings_screen.dart';
 
 void main() {
@@ -38,7 +39,7 @@ class MainPage extends StatelessWidget {
               title: const TabBar(
                 tabs: [
                   Tab(text: "Automations"),
-                  Tab(icon: Icon(Icons.directions_transit)),
+                  Tab(text: "Data"),
                   Tab(
                     text: "Settings",
                   ),
@@ -48,7 +49,7 @@ class MainPage extends StatelessWidget {
             body: const TabBarView(
               children: [
                 AutomationsScreen(),
-                Icon(Icons.directions_transit),
+                DataScreen(),
                 Settings(),
               ],
             ),

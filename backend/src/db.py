@@ -34,7 +34,7 @@ def get_all_data() -> dict:
 
     for table in result:
         for record in table.records:
-            timestamp_seconds = record.get_time().timestamp()
+            timestamp_seconds = float(record.get_time().timestamp())
             results[record.get_field()][timestamp_seconds] = record.get_value()
 
     return results
