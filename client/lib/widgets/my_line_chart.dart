@@ -2,28 +2,22 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class MyLineChart extends StatelessWidget {
-  final List<String> weekdays = [
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sun'
-  ];
   final Map<String, dynamic>? data;
   final List<FlSpot> spots = [];
 
   MyLineChart({this.data, super.key}) {
     data?.forEach((key, value) {
+      print("$key : $value , ${DateTime.now().millisecondsSinceEpoch / 1000}");
       spots.add(FlSpot(double.parse(key), value));
     });
   }
 
   LineChartData get sampleData1 => LineChartData(
-        lineBarsData: [lineChartBarData1],
-        titlesData: titlesData2,
-      );
+      lineBarsData: [lineChartBarData1],
+      titlesData: titlesData2,
+      gridData: const FlGridData(show: false),
+      minX: (DateTime.now().millisecondsSinceEpoch / 1000) - 3600 * 24,
+      maxX: DateTime.now().millisecondsSinceEpoch / 1000);
 
   LineChartBarData get lineChartBarData1 => LineChartBarData(
         isCurved: false,
@@ -58,7 +52,7 @@ class MyLineChart extends StatelessWidget {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontSize: 12,
     );
     Widget widget;
 
