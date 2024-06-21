@@ -1,13 +1,12 @@
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request
 from Automation import Automation
 from tradfri import get_devices, Action
 from automations import automations, save, use_next_id, get_by_id
 from sensor import Sensor
 from compare import Comparator
 from db import get_all_data
-from os import path, getcwd
 
-app = Flask(__name__, static_folder='../public', static_url_path='static')
+app = Flask(__name__, static_folder='../public', static_url_path='/static')
 
 # -------------------------- GET-ENDPOINTS ------------------------- #
 
