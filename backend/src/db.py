@@ -22,7 +22,7 @@ query_api = client.query_api()
 
 def write(device_id: int, field_name: str, field_value) -> None:
     p = Point(measurment).tag("device", device_id).field(field_name, field_value)
-    write_api.write(bucket=bucket, org=org,record=p)
+    write_api.write(bucket=bucket, org=org, record=p)
 
 
 def get_all_data() -> dict:

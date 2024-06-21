@@ -45,9 +45,9 @@ def pollMotion() -> None:
     if prevMotion == detectsMotion: return
 
     if detectsMotion:
-        client.publish(f"motion/{deviceID}", "True")
+        client.publish(f"motion/{deviceID}", "1")
     else:
-        client.publish(f"motion/{deviceID}", "False")
+        client.publish(f"motion/{deviceID}", "0")
 
     prevMotion = detectsMotion
 
@@ -68,9 +68,9 @@ def pollBtn() -> None:
     if prevBtn == btnPressed: return
 
     if btnPressed:
-        client.publish(f"button/{deviceID}", "True")
+        client.publish(f"button/{deviceID}", "1")
     else:
-        client.publish(f"button/{deviceID}", "False")
+        client.publish(f"button/{deviceID}", "0")
 
     prevBtn = btnPressed
 

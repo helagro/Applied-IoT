@@ -11,25 +11,27 @@ def on_message(client, userData, msg: any) -> None:
     except ValueError:
         print("Invalid device ID:", msg.topic)
 
+    value = float(msg.payload.decode())
+
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
-        print("Temperature:", msg.payload.decode())
-        execute(Sensor.TEMPERATURE.value, float(msg.payload.decode()), device)
-        write(device, Sensor.TEMPERATURE.value, float(msg.payload.decode()))
+        print("Temperature:", value)
+        execute(Sensor.TEMPERATURE.value, value, device)
+        write(device, Sensor.TEMPERATURE.value, value)
 
     elif msg.topic.startswith(Sensor.MOTION.value):
-        print("Motion detected:", msg.payload.decode())
-        execute(Sensor.MOTION.value, msg.payload.decode() == "True", device)
-        write(device, Sensor.MOTION.value, float(msg.payload.decode()))
+        print("Motion detected:", value)
+        execute(Sensor.MOTION.value, value, device)
+        write(device, Sensor.MOTION.value, value)
 
     elif msg.topic.startswith(Sensor.BUTTON.value):
-        print("Button pressed:", msg.payload.decode())
-        execute(Sensor.BUTTON.value, msg.payload.decode() == "True", device)
-        write(device, Sensor.BUTTON.value, float(msg.payload.decode()))
+        print("Button pressed:", value)
+        execute(Sensor.BUTTON.value, value, device)
+        write(device, Sensor.BUTTON.value, value)
 
     elif msg.topic.startswith(Sensor.LIGHT.value):
-        print("Light intensity:", msg.payload.decode())
-        execute(Sensor.LIGHT.value, float(msg.payload.decode()), device)
-        write(device, Sensor.LIGHT.value, float(msg.payload.decode()))
+        print("Light intensity:", value)
+        execute(Sensor.LIGHT.value, value, device)
+        write(device, Sensor.LIGHT.value, value)
 
     else:
         print("Unknown topic:", msg.topic + ":", msg.payload.decode())
