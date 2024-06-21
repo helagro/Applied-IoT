@@ -13,6 +13,7 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=se.helagro
       - DOCKER_INFLUXDB_INIT_RETENTION=1h
       - DOCKER_INFLUXDB_INIT_BUCKET=main
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=doesNotMatter
     volumes:
       - ./db/data:/var/lib/influxdb2
       - ./db/config:/etc/influxdb2

@@ -9,8 +9,7 @@ org = "se.helagro"
 client = InfluxDBClient(
    url=url,
    org=org,
-   username="helagro",
-   password="doesNotMatter"
+   token="doesNotMatter"
 )
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
@@ -32,5 +31,5 @@ def get_all_data():
             print(f"{record.get_field()} {record.get_value()}")
 
 
-write(0, "temperature", 20)
+write(0, "temperature", 21)
 get_all_data()
