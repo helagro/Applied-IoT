@@ -11,7 +11,11 @@ def on_message(client, userData, msg: any) -> None:
     except ValueError:
         print("Invalid device ID:", msg.topic)
 
-    value = float(msg.payload.decode())
+    try:
+        value = float(msg.payload.decode())
+    except ValueError:
+        print("Invalid value:", msg.payload.decode())
+        return
 
     if msg.topic.startswith(Sensor.TEMPERATURE.value):
         print("Temperature:", value)
@@ -35,6 +39,7 @@ def on_message(client, userData, msg: any) -> None:
 
     else:
         print("Unknown topic:", msg.topic + ":", msg.payload.decode())
+
 
 
 def on_connect(client, userdata, flags, reason_code, properties):

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:tradfri_extension/logic/data_backend.dart';
 import 'package:tradfri_extension/logic/data_series.dart';
@@ -17,12 +15,15 @@ class _DataScreenState extends State<DataScreen> {
   List<DataSeries> data = [];
 
   @override
+  void initState() {
+    setupBackend();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    setupBackend(context);
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (context, i) {
-          print("copyright " + jsonEncode(data[i].items));
           return MyLineChart(
             data: data[i].items,
           );
@@ -32,11 +33,11 @@ class _DataScreenState extends State<DataScreen> {
     );
   }
 
-  Future<void> setupBackend(BuildContext context) async {
+  Future<void> setupBackend() async {
     await _backend.setup();
     List<DataSeries> data = await _backend.getData();
 
-    if (context.mounted) {
+    if (mounted) {
       setState(() {
         this.data = data;
       });

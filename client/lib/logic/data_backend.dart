@@ -22,14 +22,19 @@ class DataBackend {
   }
 
   Future<List<DataSeries>> getData() async {
-    Map<String, dynamic> data =
-        jsonDecode(await http.read(Uri.parse('$_url/api/data')));
+    Map<String, dynamic> data;
     List<DataSeries> dataSeriesList = [];
+
+    try {
+      data = jsonDecode(await http.read(Uri.parse('$_url/api/data')));
+    } on Exception catch (e) {
+      errorToast("E-35: Failed to read data, $e");
+      return dataSeriesList;
+    }
 
     print(jsonEncode(data));
 
     data.forEach((key, value) {
-      print("whop whop " + jsonEncode(value));
       dataSeriesList.add(DataSeries(name: key, items: value));
     });
 

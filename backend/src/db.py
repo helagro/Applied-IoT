@@ -27,7 +27,7 @@ def write(device_id: int, field_name: str, field_value) -> None:
 
 def get_all_data() -> dict:
     query = f'from(bucket:"{bucket}")\
-        |> range(start: -1w)\
+        |> range(start: -24h)\
         |> filter(fn:(r) => r._measurement == "{measurment}")'
     result = query_api.query(org=org, query=query)
     results = {sensor.value: {} for sensor in Sensor}
