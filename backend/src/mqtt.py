@@ -2,6 +2,7 @@ import paho.mqtt.client as mqtt
 from sensor import Sensor
 from automations import execute
 
+
 def on_message(client, userData, msg: any) -> None:
     try:
         device: int = int(msg.topic.split("/")[-1])

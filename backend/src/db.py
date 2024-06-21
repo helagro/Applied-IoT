@@ -3,6 +3,7 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 from sensor import Sensor
 import json
 import datetime
+import atexit
 
 measurment = "sensor_data"
 bucket = "main"
@@ -40,11 +41,7 @@ def get_all_data() -> dict:
     print(json.dumps(results, indent=4))
 
 
-read = input("Enter field value: ")
+def closeDB() -> None:
+    client.close()
 
-while read != "exit":
-    write(0, "light", float(read))
-    get_all_data()
-    read = input("Enter field value: ")
-
-client.close()
+atexit.register(closeDB)
