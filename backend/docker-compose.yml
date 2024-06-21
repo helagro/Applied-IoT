@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  influxdb:
+    image: influxdb:2.0
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=helagro
+      - DOCKER_INFLUXDB_INIT_PASSWORD=doesNotMatter
+      - DOCKER_INFLUXDB_INIT_ORG=se.helagro
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w
+      - DOCKER_INFLUXDB_INIT_BUCKET=main
+      - INFLUXDB_HTTP_AUTH_ENABLED=false  # Disable authentication
+    volumes:
+      - ./db/data:/var/lib/influxdb2
+      - ./db/config:/etc/influxdb2
+
