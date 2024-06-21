@@ -11,7 +11,7 @@ services:
       - DOCKER_INFLUXDB_INIT_USERNAME=helagro
       - DOCKER_INFLUXDB_INIT_PASSWORD=doesNotMatter
       - DOCKER_INFLUXDB_INIT_ORG=se.helagro
-      - DOCKER_INFLUXDB_INIT_RETENTION=1h
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w
       - DOCKER_INFLUXDB_INIT_BUCKET=main
     volumes:
       - ./db/data:/var/lib/influxdb2

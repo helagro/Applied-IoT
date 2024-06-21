@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tradfri_extension/logic/data_series.dart';
 
 import '../toasts.dart';
 
@@ -20,12 +21,18 @@ class DataBackend {
     }
   }
 
-  Future<void> getData() async {
+  Future<List<DataSeries>> getData() async {
     Map<String, dynamic> data =
         jsonDecode(await http.read(Uri.parse('$_url/api/data')));
+    List<DataSeries> dataSeriesList = [];
+
+    print(jsonEncode(data));
 
     data.forEach((key, value) {
-      print(jsonEncode(value));
+      print("whop whop " + jsonEncode(value));
+      dataSeriesList.add(DataSeries(name: key, items: value));
     });
+
+    return dataSeriesList;
   }
 }
