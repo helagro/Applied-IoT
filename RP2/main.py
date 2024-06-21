@@ -11,7 +11,7 @@ deviceID = getDEVICE_ID()
 # Polling intervals in seconds
 MAIN_POLL_INTERVAL = 1
 MOTION_POLL_INTERVAL = 10
-TEMP_POLL_INTERVAL = 10
+TEMP_POLL_INTERVAL = 60
 LIGHT_POLL_INTERVAL = 60
 
 # Max values for counters to determine when to poll

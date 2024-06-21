@@ -1,5 +1,7 @@
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
+from sensor import Sensor
+import json
 
 measurment = "sensor_data"
 bucket = "main"
@@ -26,16 +28,19 @@ def get_all_data():
         |> range(start: -1w)\
         |> filter(fn:(r) => r._measurement == "{measurment}")'
     result = query_api.query(org=org, query=query)
+    results = {sensor.value: {} for sensor in Sensor}
 
     for table in result:
         for record in table.records:
-            print(f"{record.get_field()} {record.get_value()}")
+            results[record.get_field()][record.get_time()] = record.get_value()
+
+    print(json.dumps(results, indent=4))
 
 
 read = input("Enter field value: ")
 
 while read != "exit":
-    write(0, "temperature", int(read))
+    write(0, "light", float(read))
     get_all_data()
     read = input("Enter field value: ")
 
