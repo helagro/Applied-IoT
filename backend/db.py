@@ -32,5 +32,7 @@ def get_all_data():
             print(f"{record.get_field()} {record.get_value()}")
 
 
-write(0, "temperature", 21)
-get_all_data()
+while True:
+    read = input("Enter field value: ")
+    write(0, "temperature", int(read))
+    get_all_data()
