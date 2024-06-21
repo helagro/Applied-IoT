@@ -2,9 +2,11 @@ from Automation import Automation
 from compare import shouldExecute
 from tradfri import execute as executeTradfri 
 import json
+from os import path, getcwd
 
 automations = []
 biggest_id = 0
+file = path.join(getcwd(), '..', 'automations.json')
 
 # -------------------- PERSISTANCE ------------------- #
 
@@ -12,7 +14,7 @@ def load():
     global biggest_id
 
     try:
-        with open('automations.json', 'r') as f:
+        with open(file, 'r') as f:
             automationDicts = json.load(f)
             for automationDict in automationDicts:
                 if automationDict["id"] > biggest_id:
@@ -25,7 +27,7 @@ def load():
 
 
 def save():
-    with open('automations.json', 'w') as f:
+    with open(file, 'w') as f:
         f.write(json.dumps([automation.to_dict() for automation in automations]))
 
 # ----------------------- OTHER METHODS ---------------------- #

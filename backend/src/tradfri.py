@@ -7,6 +7,7 @@ import os
 from dotenv import load_dotenv
 from enum import Enum
 import threading
+from os import path
 
 load_dotenv()
 timers = {}
@@ -18,7 +19,7 @@ class Action(Enum):
     TOGGLE = 2
 
 
-credentials_path = "generated_tradfri_credentials.json"
+credentials_path = path.join('..', 'generated_tradfri_credentials.json')
 gateway_addr: str = os.environ.get("TRADFRI_GATEWAY_ADDR")
 
 api = None
