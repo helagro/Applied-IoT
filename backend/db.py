@@ -32,7 +32,11 @@ def get_all_data():
             print(f"{record.get_field()} {record.get_value()}")
 
 
-while True:
-    read = input("Enter field value: ")
+read = input("Enter field value: ")
+
+while read != "exit":
     write(0, "temperature", int(read))
     get_all_data()
+    read = input("Enter field value: ")
+
+client.close()
