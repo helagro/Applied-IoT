@@ -1,9 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from Automation import Automation
 from tradfri import get_devices, Action
 from automations import automations, save, use_next_id, get_by_id
 from sensor import Sensor
 from compare import Comparator
+from db import get_all_data
+from os import path, getcwd
 
 app = Flask(__name__)
 
@@ -32,6 +34,17 @@ def get_comparators():
 @app.route('/api/actions', methods=['GET'])
 def get_actions():
     return jsonify({action.name: action.value for action in Action})
+
+
+@app.route('/api/data', methods=['GET'])
+def get_data():
+    return jsonify(get_all_data())
+
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    directory = path.join(getcwd(), '..', 'static')
+    return send_from_directory(directory, filename)
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 

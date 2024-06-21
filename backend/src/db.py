@@ -24,7 +24,7 @@ def write(device_id: int, field_name: str, field_value) -> None:
     write_api.write(bucket=bucket, org=org,record=p)
 
 
-def get_all_data():
+def get_all_data() -> dict:
     query = f'from(bucket:"{bucket}")\
         |> range(start: -1w)\
         |> filter(fn:(r) => r._measurement == "{measurment}")'
@@ -36,6 +36,7 @@ def get_all_data():
             timestamp_seconds = record.get_time().timestamp()
             results[record.get_field()][timestamp_seconds] = record.get_value()
 
+    return results
     print(json.dumps(results, indent=4))
 
 
