@@ -2,6 +2,7 @@ from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from sensor import Sensor
 import json
+from datetime import datetime
 
 measurment = "sensor_data"
 bucket = "main"
@@ -32,7 +33,7 @@ def get_all_data():
 
     for table in result:
         for record in table.records:
-            results[record.get_field()][record.get_time()] = record.get_value()
+            results[record.get_field()][record.get_time().total_seconds()] = record.get_value()
 
     print(json.dumps(results, indent=4))
 
