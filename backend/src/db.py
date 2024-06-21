@@ -34,11 +34,10 @@ def get_all_data() -> dict:
 
     for table in result:
         for record in table.records:
-            timestamp_seconds = float(record.get_time().timestamp())
+            timestamp_seconds = round(record.get_time().timestamp())
             results[record.get_field()][timestamp_seconds] = record.get_value()
 
     return results
-    print(json.dumps(results, indent=4))
 
 
 def closeDB() -> None:

@@ -20,10 +20,12 @@ class DataBackend {
     }
   }
 
-  void getData() async {
-    Map<String, Map<double, double>> data =
-        jsonDecode(await http.read(Uri.parse('$_url/data')));
+  Future<void> getData() async {
+    Map<String, dynamic> data =
+        jsonDecode(await http.read(Uri.parse('$_url/api/data')));
 
-    print(jsonEncode(data));
+    data.forEach((key, value) {
+      print(jsonEncode(value));
+    });
   }
 }
