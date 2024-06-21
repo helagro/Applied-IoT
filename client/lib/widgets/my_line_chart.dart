@@ -51,7 +51,7 @@ class MyLineChart extends StatelessWidget {
   SideTitles get bottomTitles => SideTitles(
         showTitles: true,
         reservedSize: 32,
-        interval: 3600 * 24,
+        interval: 3600,
         getTitlesWidget: bottomTitleWidgets,
       );
 
@@ -65,7 +65,7 @@ class MyLineChart extends StatelessWidget {
     DateTime dateTime =
         DateTime.fromMillisecondsSinceEpoch((value * 1000).round());
     widget = Text(
-      weekdays[dateTime.weekday - 1],
+      "${dateTime.hour}H",
       style: style,
     );
 
