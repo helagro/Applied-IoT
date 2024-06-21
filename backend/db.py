@@ -33,7 +33,8 @@ def get_all_data():
 
     for table in result:
         for record in table.records:
-            results[record.get_field()][record.get_time().total_seconds()] = record.get_value()
+            timestamp_seconds = record.get_time().timestamp()
+            results[record.get_field()][timestamp_seconds] = record.get_value()
 
     print(json.dumps(results, indent=4))
 
