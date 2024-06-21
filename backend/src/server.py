@@ -7,7 +7,7 @@ from compare import Comparator
 from db import get_all_data
 from os import path, getcwd
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../public', static_url_path='static')
 
 # -------------------------- GET-ENDPOINTS ------------------------- #
 
@@ -41,10 +41,10 @@ def get_data():
     return jsonify(get_all_data())
 
 
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    directory = path.join(getcwd(), '..', 'public')
-    return send_from_directory(directory, filename)
+# @app.route('/static/<path:filename>')
+# def serve_static(filename):
+#     directory = path.join(getcwd(), '..', 'public')
+#     return send_from_directory(directory, filename)
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
