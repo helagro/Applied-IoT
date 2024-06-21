@@ -1,29 +1,35 @@
-from influxdb_client import BucketRetentionRules, InfluxDBClient, Point
+from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
+measurment = "sensor_data"
 bucket = "main"
 url = "http://localhost:8086"
 org = "se.helagro"
-retention_rules = BucketRetentionRules(type="expire", every_seconds=3600)
 
 client = InfluxDBClient(
    url=url,
    org=org,
-   password="doesNotMatter",
-   username="helagro"
+   username="helagro",
+   password="doesNotMatter"
 )
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
-
-p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-write_api.write(bucket=bucket, record=p)
-
 query_api = client.query_api()
-query = 'from(bucket:"main")\
-|> range(start: -10m)\
-|> filter(fn:(r) => r._measurement == "my_measurement")\
-|> filter(fn:(r) => r.location == "Prague")\
-|> filter(fn:(r) => r._field == "temperature")'
 
-result = query_api.query(org=org, query=query)
-print(result)
+def write(device, field_name, field_value) -> None:
+    p = Point("").tag("device", device).field(field_name, field_value)
+    write_api.write(bucket=bucket, record=p)
+
+
+def get_all_data():
+    query = f'from(bucket:"{bucket}")\
+        |> range(start: -1w)\
+        |> filter(fn:(r) => r._measurement == "{measurment}")'
+    result = query_api.query(org=org, query=query)
+
+    for table in result:
+        for record in table.records:
+            print(f"{record.get_field()} {record.get_value()}")
+
+
+get_all_data()
