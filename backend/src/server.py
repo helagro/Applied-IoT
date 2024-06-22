@@ -36,15 +36,16 @@ def get_actions():
     return jsonify({action.name: action.value for action in Action})
 
 
+@app.route('/api/data/<device>', methods=['GET'])
+def get_data_by_device(device):
+    print("eric", get_by_id(int(device)))
+    return jsonify(get_by_id(int(device)))
+
+
 @app.route('/api/data', methods=['GET'])
 def get_data():
     return jsonify(get_all_data())
     
-
-@app.route('/api/data/<device>', methods=['GET'])
-def get_data_by_device(device):
-    return jsonify(get_by_id(int(device)))
-
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
 @app.route('/api/automations/<id>', methods=['PUT'])

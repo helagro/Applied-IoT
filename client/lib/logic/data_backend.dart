@@ -40,6 +40,8 @@ class DataBackend {
       return dataSeriesList;
     }
 
+    print(jsonEncode(data));
+
     data.forEach((key, value) {
       dataSeriesList.add(DataSeries(name: key, items: value));
     });
