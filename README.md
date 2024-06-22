@@ -108,7 +108,7 @@ export TRADFRI_ADDR="YOUR_GATEWAY_IP"
 docker-compose up
 ```
 
-The server should now be running on port 5000 of your device. You can access the frontend by going to `http://localhost:5000/static/index.html` in your browser. You can also access it from other devices on the same network by replacing `localhost` with the IP address of the server.
+The server should now be running on port 3000 of your device. You can access the frontend by going to `http://localhost:3000/static/index.html` in your browser. You can also access it from other devices on the same network by replacing `localhost` with the IP address of the server.
 
 ## Putting everything together
 
@@ -261,7 +261,7 @@ The automations screen displays all created automations. On a large screen, it d
 
 > img
 
-The settings screen is used for specifying the url of the server. It should be in the format http://YOUR_SERVER_IP:5000
+The settings screen is used for specifying the url of the server. It should be in the format http://YOUR_SERVER_IP:3000
 
 > img
 

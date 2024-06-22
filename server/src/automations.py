@@ -6,7 +6,7 @@ from os import path, getcwd
 
 automations = []
 biggest_id = 0
-file = path.join(getcwd(), '..', 'automations.json')
+file = path.join(getcwd(), '..', 'config', 'automations.json')
 
 # -------------------- PERSISTANCE ------------------- #
 
