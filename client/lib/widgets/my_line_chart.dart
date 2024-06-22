@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class MyLineChart extends StatelessWidget {
   final Map<String, dynamic>? data;
+  final String? title;
   final List<FlSpot> spots = [];
 
-  MyLineChart({this.data, super.key}) {
+  MyLineChart({this.data, this.title, super.key}) {
     data?.forEach((key, value) {
-      print("$key : $value , ${DateTime.now().millisecondsSinceEpoch / 1000}");
+      // print("$key : $value , ${DateTime.now().millisecondsSinceEpoch / 1000}");
       spots.add(FlSpot(double.parse(key), value));
     });
   }
@@ -31,15 +32,21 @@ class MyLineChart extends StatelessWidget {
 
   FlTitlesData get titlesData2 => FlTitlesData(
         bottomTitles: AxisTitles(
-          sideTitles: bottomTitles,
-        ),
+            sideTitles: bottomTitles,
+            axisNameWidget: const Text(
+              "Hour",
+              style: TextStyle(color: Color.fromARGB(255, 113, 209, 107)),
+            )),
         rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
         topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        leftTitles: AxisTitles(
+            sideTitles: leftTitles,
+            axisNameWidget: const Text("Value",
+                style: TextStyle(color: Color.fromARGB(255, 113, 209, 107)))),
       );
 
   SideTitles get bottomTitles => SideTitles(
@@ -49,23 +56,44 @@ class MyLineChart extends StatelessWidget {
         getTitlesWidget: bottomTitleWidgets,
       );
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+  SideTitles get leftTitles => SideTitles(
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        reservedSize: 40,
+      );
+
+  Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 12,
     );
+    final String valueStr = value.toStringAsFixed(1);
+
+    return Text(valueStr, style: style, textAlign: TextAlign.center);
+  }
+
+  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    const style = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 11,
+    );
     Widget widget;
 
-    DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch((value * 1000).round());
-    widget = Text(
-      "${dateTime.hour}H",
-      style: style,
-    );
+    if (value % 3600 == 0) {
+      DateTime dateTime =
+          DateTime.fromMillisecondsSinceEpoch((value * 1000).round());
+
+      widget = Text(
+        dateTime.hour.toString().padLeft(2, '0'),
+        style: style,
+      );
+    } else {
+      widget = Container();
+    }
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 10,
+      space: 3,
       child: widget,
     );
   }
@@ -74,6 +102,14 @@ class MyLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(30),
-        child: SizedBox(height: 500, child: LineChart(sampleData1)));
+        child: SizedBox(
+            height: 500,
+            child: Column(children: [
+              Text(
+                title?.toUpperCase() ?? "",
+                style: const TextStyle(fontSize: 20, height: 2),
+              ),
+              Expanded(child: LineChart(sampleData1))
+            ])));
   }
 }

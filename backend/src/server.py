@@ -6,6 +6,7 @@ from sensor import Sensor
 from compare import Comparator
 from db import get_all_data
 
+
 app = Flask(__name__, static_folder='../public', static_url_path='/static')
 
 # -------------------------- GET-ENDPOINTS ------------------------- #

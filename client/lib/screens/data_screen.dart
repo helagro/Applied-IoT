@@ -11,6 +11,8 @@ class DataScreen extends StatefulWidget {
 }
 
 class _DataScreenState extends State<DataScreen> {
+  final double switchLayoutWidth = 600;
+
   final DataBackend _backend = DataBackend();
   List<DataSeries> data = [];
 
@@ -21,16 +23,36 @@ class _DataScreenState extends State<DataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemBuilder: (context, i) {
-          return MyLineChart(
-            data: data[i].items,
-          );
-        },
-        itemCount: data.length,
-      ),
+    final Widget charts = ListView.builder(
+      itemBuilder: (context, i) {
+        return MyLineChart(
+          title: data[i].name,
+          data: data[i].items,
+        );
+      },
+      itemCount: data.length,
     );
+
+    return Scaffold(body: LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth > switchLayoutWidth) {
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1800),
+              child: charts,
+            ),
+          );
+        } else {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: switchLayoutWidth),
+              child: charts,
+            ),
+          );
+        }
+      },
+    ));
   }
 
   Future<void> setupBackend() async {
