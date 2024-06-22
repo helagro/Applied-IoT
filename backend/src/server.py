@@ -43,8 +43,7 @@ def get_data():
 
 @app.route('/api/data/<device>', methods=['GET'])
 def get_data_by_device(device):
-    data = get_all_data()
-    return jsonify(data[int(device)] if int(device) in data else {})
+    return jsonify(get_by_id(int(device)))
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 
