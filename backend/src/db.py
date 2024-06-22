@@ -35,7 +35,7 @@ def get_all_data() -> dict:
 def get_data_by_device(device_id: int) -> dict:
     query = f'from(bucket:"{bucket}")\
         |> range(start: -24h)\
-        |> filter(fn:(r) => r._measurement == "{measurment}" and r.device == {device_id})'
+        |> filter(fn:(r) => r._measurement == "{measurment}" and r.device == "{device_id}")'
     return get_data(query)
 
 
