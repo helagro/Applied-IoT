@@ -17,10 +17,10 @@ services:
       - ./db/data:/var/lib/influxdb2
       - ./db/config:/etc/influxdb2
 
-    iot:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      container_name: iot
-      network_mode: "host"
-      ipc: "host"
+  iot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: iot
+    network_mode: "host"
+    ipc: "host"
