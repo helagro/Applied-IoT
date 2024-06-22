@@ -39,12 +39,12 @@ def get_actions():
 @app.route('/api/data', methods=['GET'])
 def get_data():
     return jsonify(get_all_data())
+    
 
-
-# @app.route('/static/<path:filename>')
-# def serve_static(filename):
-#     directory = path.join(getcwd(), '..', 'public')
-#     return send_from_directory(directory, filename)
+@app.route('/api/data/<device>', methods=['GET'])
+def get_data_by_device(device):
+    data = get_all_data()
+    return jsonify(data[int(device)] if int(device) in data else {})
 
 # ---------------------- UNSAFE-ENDPOINTS ---------------------- #
 

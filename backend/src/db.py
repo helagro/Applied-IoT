@@ -29,6 +29,17 @@ def get_all_data() -> dict:
     query = f'from(bucket:"{bucket}")\
         |> range(start: -24h)\
         |> filter(fn:(r) => r._measurement == "{measurment}")'
+    return get_data(query)
+
+
+def get_data_by_device(device_id: int) -> dict:
+    query = f'from(bucket:"{bucket}")\
+        |> range(start: -24h)\
+        |> filter(fn:(r) => r._measurement == "{measurment}" and r.device == "{device_id}")'
+    return get_data(query)
+
+
+def get_data(query: str) -> dict:
     result = query_api.query(org=org, query=query)
     results = {sensor.value: {} for sensor in Sensor}
 
