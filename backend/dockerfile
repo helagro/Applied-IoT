@@ -4,8 +4,6 @@ RUN curl -O https://raw.githubusercontent.com/home-assistant-libs/pytradfri/mast
 
 RUN chmod +x install-coap-client.sh && ./install-coap-client.sh
 
-COPY .env .
-
 WORKDIR /app
 
 COPY requirements.txt /app/

@@ -45,11 +45,11 @@ class _DataScreenState extends State<DataScreen> {
               padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
-                  const Text("Filter by sensor device ID: "),
+                  const Text("Filter by sensor device ID : "),
                   Expanded(
                     child: CupertinoTextField(
                       controller: deviceIdController,
-                      placeholder: "Sensor device ID",
+                      placeholder: "Sensor device ID (or blank for no filter)",
                     ),
                   ),
                   TextButton(onPressed: onFilter, child: const Text("Filter"))

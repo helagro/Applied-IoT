@@ -24,3 +24,17 @@ services:
     container_name: iot
     network_mode: "host"
     ipc: "host"
+    environment:
+      - TRADFRI_ADDR=${TRADFRI_ADDR}
+      - TRADFRI_CODE=${TRADFRI_CODE}
+    volumes:
+      - ./config:/config
+    
+  broker:
+    image: eclipse-mosquitto
+    container_name: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf

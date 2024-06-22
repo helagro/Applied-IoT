@@ -4,12 +4,10 @@ from pytradfri.error import PytradfriError
 from pytradfri.util import load_json, save_json
 import uuid
 import os
-from dotenv import load_dotenv
 from enum import Enum
 import threading
 from os import path
 
-load_dotenv()
 timers = {}
 
 
@@ -19,21 +17,24 @@ class Action(Enum):
     TOGGLE = 2
 
 
-credentials_path = path.join('..', 'generated_tradfri_credentials.json')
-gateway_addr: str = os.environ.get("TRADFRI_GATEWAY_ADDR")
+credentials_path = path.join('..', 'config', 'generated_tradfri_credentials.json')
+gateway_addr: str = os.environ.get("TRADFRI_ADDR")
+print(gateway_addr, os.environ.get("TRADFRI_CODE"))
 
 api = None
 gateway = None
 
 def init() -> None:
     if not gateway_addr:
-            raise PytradfriError("E-3: TRADFRI_GATEWAY_ADDR is not set")
+            raise PytradfriError("E-3: TRADFRI_ADDR is not set")
 
     print("Connecting to Tradfri Gateway...")
 
     success = auth_with_generated_credentials()
     if not success:
-        key = askForKey()
+        key = os.environ.get("TRADFRI_CODE")
+        if not key:
+            raise PytradfriError("E-39: TRADFRI_CODE is not set")
         auth_with_key(key)
 
 # ----------------------- AUTHENTICATE ----------------------- #
@@ -48,20 +49,6 @@ def auth_with_generated_credentials() -> bool:
 
     except KeyError: 
         return False    
-
-
-def askForKey() -> str:
-    print(
-        "Please provide the Security Code on the back of your gateway:",
-        end=" ",
-    )
-    key = input().strip()
-
-    while len(key) != 16:
-        print("Invalid 'Security Code' provided, try again: ", end=" ")
-        key = input().strip()
-    
-    return key
 
 
 def auth_with_key(key: str) -> None:
