@@ -38,8 +38,8 @@ def get_actions():
 
 @app.route('/api/data/<device>', methods=['GET'])
 def get_data_by_device(device):
-    print("eric", get_by_id(int(device)))
-    return jsonify(get_by_id(int(device)))
+    print("eric", get_data_by_device(int(device)))
+    return jsonify(get_data_by_device(int(device)))
 
 
 @app.route('/api/data', methods=['GET'])
