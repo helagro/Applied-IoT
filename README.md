@@ -66,7 +66,7 @@ First, you need to install Node.js, using instructions available on [this page](
 
 **Setting up the Pico W:**
 
-To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable. The pico W is now ready to run MicroPython code, which can be done by connecting it to the computer again, opening the PyMakr menu in Visual Studio Code, selecting ADD DEVICES and then selecting the Pico W from the list of available devices. Then press the connect button on the device entry, and also the `Start Development Mode` button on the project. Everytime you save a file in the RP2 directory now, the code will be uploaded to the Pico W. Some of the variables could not be uploaded to the repository, so you need to add them yourself. You need to create a file in `Applied-IoT/RP2/lib` called `env.py`. In this file, you need to add the following variables:
+To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable. The pico W is now ready to run MicroPython code, which can be done by connecting it to the computer again, opening the PyMakr menu in Visual Studio Code, selecting ADD DEVICES and then selecting the Pico W from the list of available devices. Then press the connect button on the device entry, and also the `Start Development Mode` button on the project. Everytime you save a file in the pico directory now, the code will be uploaded to the Pico W. Some of the variables could not be uploaded to the repository, so you need to add them yourself. You need to create a file in `Applied-IoT/pico/lib` called `env.py`. In this file, you need to add the following variables:
 `
 ```python
 WIFI_SSID="" # The name of your WiFi network
@@ -79,40 +79,36 @@ DISABLED_SENSORS="" # A comma separated list of sensors to disable. The availabl
 
 **Setting up the local server:**
 
-The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. The server needs to be Linux based, but it can be a laptop for instance. In my case, I used a Raspberry Pi 4 running Raspbian. To setup the server, you need to install Python 3, for instance from [here](https://www.python.org/downloads/). The server uses the [pytradfri](https://github.com/home-assistant-libs/pytradfri) library. The library the [libcoap](https://github.com/obgm/libcoap) utility to communicate with the Tradfri gateway. This utility can be installed with [this script](https://github.com/home-assistant-libs/pytradfri/blob/master/script/install-coap-client.sh). To use it, you need to open a terminal at the directory where the file has been downloaded to. This can be done using the [cd](https://man7.org/linux/man-pages/man1/cd.1p.html) command. After that, run the following commands:
+The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. In my case, I used a Raspberry Pi 4 running Raspbian, but any Linux/Mac OS should be fine. Windows could work to, but has not been tested. To setup the server, you need to install Docker Engine, Docker CLI and Docker Compose. Luckily, you can install all of these at once by installing Docker Desktop. Instructions for installing Docker Desktop on any platform can be found [here](https://docs.docker.com/desktop/). 
+
+> The following commands will work for Linux and Mac OS. For Windows users, one alternative is using the [Git Bash](https://gitforwindows.org/) terminal.
+
+To run the server, you need to download this repository to the server: 
 
 ```bash
-chmod 777 install-coap-client.sh
-sudo ./install-coap-client.sh
+git clone https://github.com/helagro/Applied-IoT.git
 ```
 
-The server also uses some python libraries. To install these, enter into the backend directory of the project and run either of the following commands, depending on your python installation:
-
-```bash
-pip install -r requirements.txt
-```
-or
-```bash
-pip3 install -r requirements.txt
-```
-If you don't know which to use, try both 😁.
-
-The server also needs a file called .env in the `backend` directory. This file should contain the following variables:
+Then, you need to navigate to the `server` directory:
 
 ```bash
-TRADFRI_IP="" # The IP address of the Tradfri gateway
+cd Applied-IoT/server
 ```
 
-To run the server, you can use one of the following commands, depending on your python installation:
+Set the tradfri gateway code which can be found on the bottom of your device (this step only needs to be included to setup and when your network configuration changes):
 
 ```bash
-python3 app.py
+export TRADFRI_CODE="YOUR_CODE"
 ```
-or
+
+Then, you can start the server using the following commands:
+
 ```bash
-python app.py
+export TRADFRI_ADDR="YOUR_GATEWAY_IP"
+docker-compose up
 ```
-If you don't know which to use, try both 😁. The server should now be running on port 5000 of your device. You can access the frontend by going to `http://localhost:5000/static/index.html` in your browser. You can also access it from other devices on the same network by replacing `localhost` with the IP address of the server.
+
+The server should now be running on port 5000 of your device. You can access the frontend by going to `http://localhost:5000/static/index.html` in your browser. You can also access it from other devices on the same network by replacing `localhost` with the IP address of the server.
 
 ## Putting everything together
 

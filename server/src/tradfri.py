@@ -19,7 +19,6 @@ class Action(Enum):
 
 credentials_path = path.join('..', 'config', 'generated_tradfri_credentials.json')
 gateway_addr: str = os.environ.get("TRADFRI_ADDR")
-print(gateway_addr, os.environ.get("TRADFRI_CODE"))
 
 api = None
 gateway = None
