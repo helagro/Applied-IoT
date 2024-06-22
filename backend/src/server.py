@@ -4,7 +4,7 @@ from tradfri import get_devices, Action
 from automations import automations, save, use_next_id, get_by_id
 from sensor import Sensor
 from compare import Comparator
-from db import get_all_data
+from db import get_all_data, get_data_by_device as get_db_data_by_device
 
 
 app = Flask(__name__, static_folder='../public', static_url_path='/static')
@@ -38,8 +38,7 @@ def get_actions():
 
 @app.route('/api/data/<device>', methods=['GET'])
 def get_data_by_device(device):
-    print("eric", get_data_by_device(int(device)))
-    return jsonify(get_data_by_device(int(device)))
+    return jsonify(get_db_data_by_device(int(device)))
 
 
 @app.route('/api/data', methods=['GET'])
