@@ -12,12 +12,10 @@ As shown above, it consists of a Raspberry Pico W, a server running Python and a
 
 **Time investment:**
 
-G
+All the software is already written, so the time investment is mostly in setting up the hardware and the software. The hardware should not take long, as all it takes is to follow the wiring diagram. The time required to setup the software is depends a lot on experience and luck. With a solid amount of programing and installing experience and no issues, it wouldn't take more than 45 minutes with nothing pre-installed. If you are new to programing and installing, it could take up to 2 hours. If you run into issues, it could take even longer. In total I would estimate 1.5 - 3.5 hours to setup the entire project, depending on experience and luck.
 
 
 ## Objective
-
-- [ ] What do you want to do with the data?
 
 **Project selection decision:**
 
@@ -30,6 +28,10 @@ that works as an extension to the Tradfri system.
 
 This project aims to be a IoT project that other people can use or build upon. Being a popular product line, I can see others finding 
 benefit in this project, both in learning and also for the practical use of the end product.
+
+**Data Usage:**
+
+The Pico W will send the sensor data to the server. The server will then use this data to trigger automations based on the data. For instance, if the motion sensor detects motion, the server could turn on a Tradfri light. The server will also store the data in a time series database, enabling the creation of graphs and other visualisations of the data. The main function of the system is still to create automations based on the sensor data, but the visualisations could be a supporting feature. It would help the user to create automations, knowing what values the sensors produces in one day-cycle. The user might know that they want the light to turn on when it is as dark as it was at 6 PM yesterday, for instance. The data could also be useful for monitoring, increasing understanding and for debugging.
 
 **Possible insights:**
 
@@ -133,7 +135,7 @@ This breadboard works by having the two outer rows (blue and red), be connected 
 
 ## Platform
 
-Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
+> Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
 
 Is your platform based on a local installation or a cloud? Do you plan to use a paid subscription or a free? Describe the different alternatives on going forward if you want to scale your idea.
 
@@ -257,11 +259,15 @@ There was not a lot of constraints guiding which wireless protocol was to be use
 
 > img
 
-The automations screen displays all created automations. On a large screen, it displays most of the details of it, otherwise just a list of their names. Each item is clickable, and will take you to a page for editing them. There is also a plus button in the bottom right corner, allowing the user to create a new automation, taking them to the the same editing page but for a new item instead.
+The data screen
 
 > img
 
 The settings screen is used for specifying the url of the server. It should be in the format http://YOUR_SERVER_IP:3000
+
+> img
+
+The automations screen displays all created automations. On a large screen, it displays most of the details of it, otherwise just a list of their names. Each item is clickable, and will take you to a page for editing them. There is also a plus button in the bottom right corner, allowing the user to create a new automation, taking them to the the same editing page but for a new item instead.
 
 > img
 
