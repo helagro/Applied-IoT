@@ -52,5 +52,5 @@ client.on_message = on_message
 
 
 def connect() -> None:
-    client.connect("localhost", 1883, 60)
+    client.connect("broker", 1883, 60)
     client.loop_forever()

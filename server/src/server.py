@@ -109,4 +109,4 @@ def automation_from_data(data) -> Automation:
 
 def start():
     print("Starting server", flush=True)
-    app.run(debug=True, use_reloader=False, host='0.0.0.0', port=5000)
+    app.run(debug=True, use_reloader=False, host='0.0.0.0', port=3000)

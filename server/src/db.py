@@ -1,13 +1,11 @@
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from sensor import Sensor
-import json
-import datetime
 import atexit
 
 measurment = "sensor_data"
 bucket = "main"
-url = "http://localhost:8086"
+url = "http://influxdb:8086"
 org = "se.helagro"
 
 client = InfluxDBClient(

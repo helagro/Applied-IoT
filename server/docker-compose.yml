@@ -22,11 +22,12 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: iot
-    network_mode: "host"
     ipc: "host"
     environment:
       - TRADFRI_ADDR=${TRADFRI_ADDR}
       - TRADFRI_CODE=${TRADFRI_CODE}
+    ports:
+      - "3000:3000"
     volumes:
       - ./config:/config
     
