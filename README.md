@@ -53,7 +53,7 @@ understandable to the reader.
 | ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsesensor) |
 | ![Push Button](res/img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
 
-    NOTE: Not all of the components I used were bought at the specified stores at the specified prices as some of the components were already in my possession.
+>    NOTE: Not all of the components I used were bought at the specified stores at the specified prices as some of the components were already in my possession.
 
 
 ## Computer setup
@@ -135,17 +135,6 @@ This breadboard works by having the two outer rows (blue and red), be connected 
 
 ## Platform
 
-> 
-
-- [x] Is your platform based on a local installation or a cloud? 
-- [x] Do you plan to use a paid subscription or a free? 
-- [x] Describe platform in terms of functionality
-- [x] Describe your choice of platform. 
-- [x] If you have tried different platforms it can be good to provide a comparison.
-- [x] *Explain and elaborate what made you choose this platform 
-
-- [ ] Describe the different alternatives on going forward if you want to scale your idea. 
-
 This project does not use a cloud platform, instead it uses a local InfluxDB database. InfluxDB is a free time series database, although they have payed cloud options too. InfluxDB is specifically optimised for storing datapoints with a timestamp. It allows for tagging datapoints, and efficient filtering using those tags. Filtering by time is also highly optimised, given that it is a very common use-case for time-series databases. 
 
 For visualisation, it uses a Flutter client application. In the repository, there is a uploaded web-build of it, which can be accessed from any device on the same network as the server. The Flutter code is in the repository meaning it should be able to be built for most platforms. It has been tested on Web, Android and MacOS, iOS would probably require some additional configuration. To make the graphs, the Flutter library [FL Chart](https://github.com/imaNNeo/fl_chart/tree/main?tab=readme-ov-file) is used.
@@ -165,6 +154,8 @@ These factors all leaned towards installing a local database and using the Flutt
 As touched upon earlier, scaling this project should be very easy and the current configuration should be able to handle most realistic usage and traffic. If the system were to be scaled, I still maintain that the current visualisation techniques (the Flutter library and the InfluxDB database) are the best choice. Having a local database is ideal, allowing for very high reponsiveness, and the lack of some of the overhead present with some of the above mentioned platforms is also good for performance. The Flutter library is also more than capable of graphing a large amount of data. The only changes that would be needed would be some slight alterations to the system architecture.
 
 To allow for distributing the load to multiple servers, the broker, python server and database should be further separated. The client applications should connect to the InfluxDB directly, instead of having all data relayed through the Python server. The database should also be more directly connected to the MQTT broker, as it has to be separated from the Python server. This new architecture should be able to suit even intense industrial usage, given that the servers are powerful enough. For that usage however, security should be of way more concirn, which is not at all considered at them moment. Given that the system is not connected to the internet, no cloud scaling will ever be needed.
+
+One alternate scaling solution could be to implement a full local TIG-stack. This means adding the programs Telegraf and Grafana to the system. Telegraf would be used to collect the data from the MQTT broker and send it to the InfluxDB database. Grafana would be used to visualise the data. This would allow for more advanced visualisations and more advanced data collection. This could be a more optimised setup as more under the hood optimisations have been made for these specialised programs. This could allow the system to process and visualise larger and more complex sets of data.
 
 ## The code
 
