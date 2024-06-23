@@ -118,7 +118,7 @@ The server should now be running on port 3000 of your device. You can access the
 
 
 **Electrics:**
-Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer 😳).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. 
+Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer 😳).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
 
 **Production:**
 For a production setup, an external power module supply should be used, together more optimised wiring, pin usage and preferably a case of sorts. A case could quite easily be 3D printed, improving both looks, dust protection, ease of directing sensors and durability. 
@@ -135,12 +135,36 @@ This breadboard works by having the two outer rows (blue and red), be connected 
 
 ## Platform
 
-> Describe your choice of platform. If you have tried different platforms it can be good to provide a comparison.
+> 
 
-Is your platform based on a local installation or a cloud? Do you plan to use a paid subscription or a free? Describe the different alternatives on going forward if you want to scale your idea.
+- [x] Is your platform based on a local installation or a cloud? 
+- [x] Do you plan to use a paid subscription or a free? 
+- [x] Describe platform in terms of functionality
+- [x] Describe your choice of platform. 
+- [x] If you have tried different platforms it can be good to provide a comparison.
+- [x] *Explain and elaborate what made you choose this platform 
 
-- [ ] Describe platform in terms of functionality
-- [ ] *Explain and elaborate what made you choose this platform 
+- [ ] Describe the different alternatives on going forward if you want to scale your idea. 
+
+This project does not use a cloud platform, instead it uses a local InfluxDB database. InfluxDB is a free time series database, although they have payed cloud options too. InfluxDB is specifically optimised for storing datapoints with a timestamp. It allows for tagging datapoints, and efficient filtering using those tags. Filtering by time is also highly optimised, given that it is a very common use-case for time-series databases. 
+
+For visualisation, it uses a Flutter client application. In the repository, there is a uploaded web-build of it, which can be accessed from any device on the same network as the server. The Flutter code is in the repository meaning it should be able to be built for most platforms. It has been tested on Web, Android and MacOS, iOS would probably require some additional configuration. To make the graphs, the Flutter library [FL Chart](https://github.com/imaNNeo/fl_chart/tree/main?tab=readme-ov-file) is used.
+
+**Platform choices:**
+
+There were a few major factors influencing the choice of storage and visualisation solution. The choice was made rather late in the application's development, by then there already was on functioning client application. It made sense to use that for visualisation. The project already required a server for running the backend code, meaning installing a database on it aswell would not add much extra complexity. The backend code already had code for recieving and interpreting sensor data sent from the Pico W, so it made sense to insert the data storage at the backend, rather than having a seperate module listening for mqtt messages. 
+
+There were very few constraints on the project, performance would most likely not be an issue given that one server should easily be able to handle the load generated by quite a few Pico W's. Reliability was not a major concirn either. The system is not crutial and it is very simple to restart. Therefore, ease of development and setup for the user could take more of a priority.
+
+Using a platform like Adafruit, Ubidots or Node-Red would likely require more user setup, meaning making this README even longer and making more opportunities for errors. 
+
+These factors all leaned towards installing a local database and using the Flutter client application for visualisation. The development would be easy, it would have a minimal impact on project complexity, it would not bottleneck the system in any significant manner, and the setup could be fully automated.
+
+**Scaling:**
+
+As touched upon earlier, scaling this project should be very easy and the current configuration should be able to handle most realistic usage and traffic. If the system were to be scaled, I still maintain that the current visualisation techniques (the Flutter library and the InfluxDB database) are the best choice. Having a local database is ideal, allowing for very high reponsiveness, and the lack of some of the overhead present with some of the above mentioned platforms is also good for performance. The Flutter library is also more than capable of graphing a large amount of data. The only changes that would be needed would be some slight alterations to the system architecture.
+
+To allow for distributing the load to multiple servers, the broker, python server and database should be further separated. The client applications should connect to the InfluxDB directly, instead of having all data relayed through the Python server. The database should also be more directly connected to the MQTT broker, as it has to be separated from the Python server. This new architecture should be able to suit even intense industrial usage, given that the servers are powerful enough. For that usage however, security should be of way more concirn, which is not at all considered at them moment. Given that the system is not connected to the internet, no cloud scaling will ever be needed.
 
 ## The code
 
@@ -253,7 +277,11 @@ There was not a lot of constraints guiding which wireless protocol was to be use
 
 ## Presenting the data
 
-> Describe the presentation part. How is the dashboard built? How long is the data preserved in the database?
+**Dashboard:**
+
+> img
+
+The dashboard is built in to the Flutter client application. It is built entirely in flutter, using the [FL Chart](https://github.com/imaNNeo/fl_chart/tree/main?tab=readme-ov-file) library. When loading data, a HTTP request is sent to the server, which loads it from the local InfluxDB database, and returns it. The data is then used to create the graphs. The data is stored in the database for one day. This is because the data is not very valuable after that, storing it further would cost more resources and it would require extra work to display that data effectively. The data is tagged with the sensor device (which Pico W) that recorded it. This means that the user can decide which device to display data from.
 
 **UI walk-through**
 
@@ -273,7 +301,7 @@ The automations screen displays all created automations. On a large screen, it d
 
 The automations editing screen is used to create or edit an automation. It has a number of fields for specifing the details of the automation. Most of them should be self-explanatory. The `Value` field is used to specify the value that the sensor value will be compared against. The input type is a decimal number. The `Button` and `Motion` sensors will produce a value of `1` when they are triggered and `0` when they are not. For instance, if you want to trigger an automation when the motion sensor detects motion, you would set the `Sensor` to `MOTION`, the `Comparison` field to `EQUAL` and the `Value` field to `1`.
 
-There are three available actions to invoke on the chosen Tradfri device. The `SET_STATE` action is used to turn the device on or off. The device will turn on if the `Payload` is `1` and off if the `Payload` is `0`. The `TEMPORARY_ON` action is used to turn the device on for the amount of seconds entered in the `Payload` field. After that, it will turn off. Could be useful if you want a light to be on when motion has been detected the last five minutes, etc. The `TOGGLE` action is used to toggle the state of the device. If the device is on, it will be turned off, and vice versa. The `Payload` value is ignored for this action.
+There are three available actions to invoke on the chosen Tradfri device. The `SET_STATE` action is used to turn the device on or off. The device will turn on if the `Payload` is `1` and off if the `Payload` is `0`. The `TEMPORARY_ON` action is used to turn the device on for the amount of seconds entered in the `Payload` field. After that, it will turn off. Could be useful if you want a light to be on when motion has been detected the last five minutes, etc. Keep in mind that only changes of values will be recorded, meaning that to accomplish this function, two automations are needed. One that turns on the light when motion is detected, and one that turns it temporarily on when no motion is detected. The `TOGGLE` action is used to toggle the state of the device. If the device is on, it will be turned off, and vice versa. The `Payload` value is ignored for this action.
 
 The `Sensor Device` field is used to specify which sensor device the automation should apply to. The value should match the value entered into the `env.py` for the desired Pico W. 
 
