@@ -31,14 +31,11 @@ benefit in this project, both in learning and also for the practical use of the 
 
 **Data Usage:**
 
-The Pico W will send the sensor data to the server. The server will then use this data to trigger automations based on the data. For instance, if the motion sensor detects motion, the server could turn on a Tradfri light. The server will also store the data in a time series database, enabling the creation of graphs and other visualisations of the data. The main function of the system is still to create automations based on the sensor data, but the visualisations could be a supporting feature. It would help the user to create automations, knowing what values the sensors produces in one day-cycle. The user might know that they want the light to turn on when it is as dark as it was at 6 PM yesterday, for instance. The data could also be useful for monitoring, increasing understanding and for debugging.
+The Pico W will send the sensor data to the server. The server will then use this data to trigger automations based on the data. For instance, if the motion sensor detects motion, the server could turn on a Tradfri light. The server will also store the data in a time series database, enabling visualisation of the data. Knowing what values the sensors produces in one day-cycle, could help the user create automations. The user might know that they want the light to turn on when it is as dark as it was at 6 PM yesterday, for instance. The data could also be useful for monitoring, increasing understanding and for debugging.
 
 **Possible insights:**
 
 There are some aspects of the project that are newer to me. I have not made tutorials of this kind and I think that some of the data-visualisation tools will be new to me as well. I expect to learn more about both areas and how to operate with them more efficiently.
-I think I will learn more about how to convey the instructions in a clear and concise way, and also how to make the project more appealing and
-understandable to the reader.
-
 
 
 ## Material
@@ -53,7 +50,7 @@ understandable to the reader.
 | ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsesensor) |
 | ![Push Button](res/img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
 
->    NOTE: Not all of the components I used were bought at the specified stores at the specified prices as some of the components were already in my possession.
+>    NOTE: Not all of the components I used were bought at the specified stores at the specified prices as already owned some of them.
 
 
 ## Computer setup
@@ -68,22 +65,22 @@ First, you need to install Node.js, using instructions available on [this page](
 
 **Setting up the Pico W:**
 
-To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable. The pico W is now ready to run MicroPython code, which can be done by connecting it to the computer again, opening the PyMakr menu in Visual Studio Code, selecting ADD DEVICES and then selecting the Pico W from the list of available devices. Then press the connect button on the device entry, and also the `Start Development Mode` button on the project. Everytime you save a file in the pico directory now, the code will be uploaded to the Pico W. Some of the variables could not be uploaded to the repository, so you need to add them yourself. You need to create a file in `Applied-IoT/pico/lib` called `env.py`. In this file, you need to add the following variables:
+To be able to deploy MicroPython code on the the Pico W, you need to first flash the MicroPython firmware to the device. Start by connecting the Pico W to a micro USB cable. While holding the BOOTSEL button, connect the other end of the cable to your computer. After connected, you can release the BOOTSEL button and the Pico W should appear as a USB drive on your computer. You can then download the MicroPython firmware from [this](https://micropython.org/download/RPI_PICO_W/) page, and copy the .uf2 file onto the Pico W drive. After this, the Pico W should automatically install and disconnect from you computer, after which you can unplug the cable. The pico W is now ready to run MicroPython code, which can be done by connecting it to the computer again, opening the PyMakr menu in Visual Studio Code, selecting ADD DEVICES and then selecting the Pico W from the list of available devices. Then press the connect button on the device entry, and also the `Start Development Mode` button on the project. Everytime you save a file in the pico directory now, the code will be uploaded to the Pico W. You need to create a file in `Applied-IoT/pico/lib` called `env.py`. In this file, you need to add the following variables:
 `
 ```python
-WIFI_SSID="" # The name of your WiFi network
-WIFI_PASS="" # The password to your WiFi network
-BROKER_ADDRESS="" # The IP address of the machine on which you want to run the server
+WIFI_SSID="" # WiFi name
+WIFI_PASS="" # WiFi password
+BROKER_ADDRESS="" # IP of machine running the server
 BROKER_PORT=1883 # The port on which the MQTT broker is running, default is 1883
-DEVICE_ID=1 # A unique identifier for the Pico W, used for triggering automations based on values from specific sensor-devices. Must be unique for each Pico W in the system, and must be a positive integer.
+DEVICE_ID=1 # The unique identifier for the Pico W, must be a positive integer.
 DISABLED_SENSORS="" # A comma separated list of sensors to disable. The available sensors are "motion", "temperature", "light" and "button". For instance, "motion,light" would disable the motion and light sensors.
 ```
 
 **Setting up the local server:**
 
-The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. In my case, I used a Raspberry Pi 4 running Raspbian, but any Linux/Mac OS should be fine. Windows could work to, but has not been tested. To setup the server, you need to install Docker Engine, Docker CLI and Docker Compose. Luckily, you can install all of these at once by installing Docker Desktop. Instructions for installing Docker Desktop on any platform can be found [here](https://docs.docker.com/desktop/). 
+The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. In my case, I used a Raspberry Pi 4 running Raspbian, but any Linux/Mac OS should be fine. Windows could work to, but has not been tested. You need to install Docker Engine, Docker CLI and Docker Compose. Luckily, you can install all of these at once by installing Docker Desktop. Instructions for installing Docker Desktop on any platform can be found [here](https://docs.docker.com/desktop/). 
 
-> The following commands will work for Linux and Mac OS. For Windows users, one alternative is using the [Git Bash](https://gitforwindows.org/) terminal.
+> The following commands will work for Linux and Mac OS
 
 To run the server, you need to download this repository to the server: 
 
@@ -110,7 +107,7 @@ export TRADFRI_ADDR="YOUR_GATEWAY_IP"
 docker-compose up
 ```
 
-The server should now be running on port 3000 of your device. You can access the frontend by going to `http://localhost:3000/static/index.html` in your browser. You can also access it from other devices on the same network by replacing `localhost` with the IP address of the server.
+The server should now be running on port 3000 of your device. You can access the frontend by going to `http://localhost:3000/static/index.html` in your browser. To access it from other devices on the same network, replace `localhost` with the IP address of the server.
 
 ## Putting everything together
 
@@ -126,9 +123,6 @@ For a production setup, an external power module supply should be used, together
 **Color coding:**
 The diagram's wires are color coded, and I would recommend you do that too if possible. Red means power, black means ground and yellow means signal, i.e. where the data is read from.
 
-**Breadboard layout:**
-
-This breadboard works by having the two outer rows (blue and red), be connected like a row, meaning that all the pins in the blue rows use the same ground, and all the pins in the red row use the same power. The other pin-holes are connected by columns, meaning that all the pins in the same column are connected. 
 
 - [ ] *Electrical calculations
   - [ ] current and voltage
@@ -137,13 +131,13 @@ This breadboard works by having the two outer rows (blue and red), be connected 
 
 This project does not use a cloud platform, instead it uses a local InfluxDB database. InfluxDB is a free time series database, although they have payed cloud options too. InfluxDB is specifically optimised for storing datapoints with a timestamp. It allows for tagging datapoints, and efficient filtering using those tags. Filtering by time is also highly optimised, given that it is a very common use-case for time-series databases. 
 
-For visualisation, it uses a Flutter client application. In the repository, there is a uploaded web-build of it, which can be accessed from any device on the same network as the server. The Flutter code is in the repository meaning it should be able to be built for most platforms. It has been tested on Web, Android and MacOS, iOS would probably require some additional configuration. To make the graphs, the Flutter library [FL Chart](https://github.com/imaNNeo/fl_chart/tree/main?tab=readme-ov-file) is used.
+For visualisation, it uses a Flutter client application. In the repository, there is a uploaded web-build of it. The Flutter code in the repository has been built and tested on Web, Android and MacOS, iOS would require additional configuration. To make the graphs, the Flutter library [FL Chart](https://github.com/imaNNeo/fl_chart) is used.
 
 **Platform choices:**
 
 There were a few major factors influencing the choice of storage and visualisation solution. The choice was made rather late in the application's development, by then there already was on functioning client application. It made sense to use that for visualisation. The project already required a server for running the backend code, meaning installing a database on it aswell would not add much extra complexity. The backend code already had code for recieving and interpreting sensor data sent from the Pico W, so it made sense to insert the data storage at the backend, rather than having a seperate module listening for mqtt messages. 
 
-There were very few constraints on the project, performance would most likely not be an issue given that one server should easily be able to handle the load generated by quite a few Pico W's. Reliability was not a major concirn either. The system is not crutial and it is very simple to restart. Therefore, ease of development and setup for the user could take more of a priority.
+There were very few constraints on the project, performance would most likely not be an issue given that one server should easily be able to handle the load generated by quite a few Pico W's. Reliability was not a major concern either. The system is not crutial and it is very simple to restart. Therefore, ease of development and setup for the user could take more of a priority.
 
 Using a platform like Adafruit, Ubidots or Node-Red would likely require more user setup, meaning making this README even longer and making more opportunities for errors. 
 
@@ -153,7 +147,7 @@ These factors all leaned towards installing a local database and using the Flutt
 
 As touched upon earlier, scaling this project should be very easy and the current configuration should be able to handle most realistic usage and traffic. If the system were to be scaled, I still maintain that the current visualisation techniques (the Flutter library and the InfluxDB database) are the best choice. Having a local database is ideal, allowing for very high reponsiveness, and the lack of some of the overhead present with some of the above mentioned platforms is also good for performance. The Flutter library is also more than capable of graphing a large amount of data. The only changes that would be needed would be some slight alterations to the system architecture.
 
-To allow for distributing the load to multiple servers, the broker, python server and database should be further separated. The client applications should connect to the InfluxDB directly, instead of having all data relayed through the Python server. The database should also be more directly connected to the MQTT broker, as it has to be separated from the Python server. This new architecture should be able to suit even intense industrial usage, given that the servers are powerful enough. For that usage however, security should be of way more concirn, which is not at all considered at them moment. Given that the system is not connected to the internet, no cloud scaling will ever be needed.
+To allow for distributing the load to multiple servers, the broker, python server and database should be further separated. The client applications should connect to the InfluxDB directly, instead of having all data relayed through the Python server. The database should also be more directly connected to the MQTT broker, as it has to be separated from the Python server. This new architecture should be able to suit even intense industrial usage, given that the servers are powerful enough. For that usage however, security should be of way more concern, which is not at all considered at them moment. Given that the system is not connected to the internet, no cloud scaling will ever be needed.
 
 One alternate scaling solution could be to implement a full local TIG-stack. This means adding the programs Telegraf and Grafana to the system. Telegraf would be used to collect the data from the MQTT broker and send it to the InfluxDB database. Grafana would be used to visualise the data. This would allow for more advanced visualisations and more advanced data collection. This could be a more optimised setup as more under the hood optimisations have been made for these specialised programs. This could allow the system to process and visualise larger and more complex sets of data.
 
@@ -216,55 +210,19 @@ def getTemperature() -> float | None:
         return None
 ```
 
-This code does not reside on the Pico W, but instead on the server. It is used to execute an action on a tradfri device. This function is called after an automation is triggered, and all arguments will come from that automation object. There are three available actions: `SET_STATE`, `TEMPORARY_ON` and `TOGGLE`. The `SET_STATE` action is used to set the state of a device to a specific value. The `TEMPORARY_ON` action is used to turn a device on for the specified amount of time. This could be useful in combination with the motion sensor, maybe turning a light on for a few minutes when motion is detected. It uses a hashmap of timers to make sure too similar timers are not created, for instance if three different motion detectors triggers the automation, it won't try to turn off the tradfri device three times when the time runs out. The `TOGGLE` action is used to toggle the state of a device. If the device is on, it will be turned off, and vice versa.
-
-```python 
-def execute(deviceID: int, action: int, payload: any) -> None:
-    device = getDevice(deviceID)
-    deviceControl = getDeviceControl(device)
-
-    print("Executing action:", action, "with payload:", payload, "on device:", device)
-
-    if action == Action.SET_STATE:
-        api(deviceControl.set_state(payload))
-
-    elif action == Action.TEMPORARY_ON:
-        if(timers.get(deviceID)):
-            timers[deviceID].cancel()
-
-        api(deviceControl.set_state(True))
-        timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl))
-        timer.start()
-        timers[deviceID] = timer
-
-    elif action == Action.TOGGLE:
-        if device.has_light_control:
-            api(deviceControl.set_state(not deviceControl.lights[0].state))
-        elif device.has_socket_control:
-            api(deviceControl.set_state(not deviceControl.sockets[0].state))
-        elif device.has_blind_control:
-            api(deviceControl.set_state(not deviceControl.blinds[0].state))
-        else:
-            raise PytradfriError(f"E-7: Device {device.id} has no valid control")
-        
-
-    else:
-        raise PytradfriError(f"E-5: Invalid action {action}")
-```
-
 ## Transmitting the data / connectivity
 
 **Wireless protocols and traffic:**
 
-WiFi is used as the main wireless protocol for the system. The Pico W uses it to send new sensor data to the server, during the specific polling intervals used for each sensor, if a different value is registered. The shortest possible frequency data is sent is <TODO> and it could be an unlimited amount of time between messages if no new sensor data is recorded. 
+WiFi is used as the main wireless protocol for the system. The Pico W uses it to send new sensor data to the server, during the specific polling intervals used for each sensor, if a different value is registered. The shortest possible frequency data is sent is N timer per second, where N is the amount of Pico devices, and it could be an unlimited amount of time between messages if no new sensor data is recorded. 
 
 **Transport protocols:**
 
-MQTT is used as the transport protocol between the Pico W and the server. Given that the MQTT broker is running on the same device as the server, that end of the traffic never leaves the device. The server then uses the pytradfri library to communicate with the Tradfri gateway, which uses the CoAP protocol. The server also uses a REST API to communicate with the frontend over HTTP. The web API is built using the Python Flask library, communicating with the Flutter client application. The server also hosts a web version of the client application, also served over HTTP.
+MQTT is used as the transport protocol between the Pico W and the server. The server then uses the [pytradfri](https://github.com/home-assistant-libs/pytradfri) library to communicate with the Tradfri gateway, which uses the CoAP protocol. The server also features a REST API to communicate with the frontend over HTTP. The server also hosts a web version of the client application, also served over HTTP.
 
 **Design choices:**
 
-There was not a lot of constraints guiding which wireless protocol was to be used. All devices for the project are meant to be inside the users home, meaning that range was not an issue. The user would likely power the Pico W from the outlet directly, so power consumption was not a great concirn either. Despite network speed or latency not being a high priority, WiFi still seemed like a great choice. The Pico W has built in WiFi capabilities, meaning that no extra antenna or similar equipment would be neccessary, reducing cost. Bluetooth could still have been an alternative but the range could have been an issue. Bluetooth would have required the server and Pico W to be close to eachother, but with WiFi, they could be far apart, as long as the WiFi has good enough range. This could be achieved with a Mesh network, for instance. Both Bluetooth Low Energy and LoRa can be configured to be very power efficient, but within a home setting, the power consumption of WiFi is not a big issue.
+There was not a lot of constraints guiding which wireless protocol was to be used. All devices for the project are meant to be inside the users home, meaning that range was not an issue. The user would likely power the Pico W from the outlet directly, so power consumption was not a great concern either. Despite network speed or latency not being a high priority, WiFi still seemed like a great choice. The Pico W has built in WiFi capabilities, meaning that no extra antenna or similar equipment would be neccessary, reducing cost. Bluetooth could still have been an alternative but the range could have been an issue. Bluetooth would have required the server and Pico W to be close to eachother, but with WiFi, they could be far apart, as long as the WiFi has good enough range. This could be achieved with a Mesh network, for instance. Both Bluetooth Low Energy and LoRa can be configured to be very power efficient, but within a home setting, the power consumption of WiFi is not a big issue.
 
 ## Presenting the data
 
@@ -272,7 +230,13 @@ There was not a lot of constraints guiding which wireless protocol was to be use
 
 > img
 
-The dashboard is built in to the Flutter client application. It is built entirely in flutter, using the [FL Chart](https://github.com/imaNNeo/fl_chart/tree/main?tab=readme-ov-file) library. When loading data, a HTTP request is sent to the server, which loads it from the local InfluxDB database, and returns it. The data is then used to create the graphs. The data is stored in the database for one day. This is because the data is not very valuable after that, storing it further would cost more resources and it would require extra work to display that data effectively. The data is tagged with the sensor device (which Pico W) that recorded it. This means that the user can decide which device to display data from.
+The dashboard is built in to the Flutter client application. It is built entirely in flutter, using the [FL Chart](https://github.com/imaNNeo/fl_chart) library. When loading data, a HTTP request is sent to the server, which loads it from the local InfluxDB database, and returns it. The data is then used to create the graphs. The data is stored in the database for one day. This is because the data is not very valuable after that, storing it further would cost more resources and it would require extra work to display that data effectively. The user can also filter which sensor device to display data from.
+
+**Database details:**
+
+How often the data is stored depends largely on how many Pico W's are connecting, and how often their sensor values change. The data is stored in the database when a new value is registered, meaning that if the sensor values do not change, no new data is stored. This means that the rate of incoming data can be anywhere from N times per second to never, where N is the number of Pico W's in the system.
+
+Not too much thought was put into choosing which database to use, as the requirements on it are quite relaxed. I have previous experience with both SQL and NoSQL database like MongoDB, but I still decided to dive into time-series databases as it is clearly the best fit for the project. The course provided some information and tutorials on InfluxDB, and it is also very common in industry. This means that it is a good skill to have and that there will be a lot of resources available if I run into issues. The database is also free and open source, which is also good. 
 
 **UI walk-through**
 
@@ -286,19 +250,16 @@ The settings screen is used for specifying the url of the server. It should be i
 
 > img
 
-The automations screen displays all created automations. On a large screen, it displays most of the details of it, otherwise just a list of their names. Each item is clickable, and will take you to a page for editing them. There is also a plus button in the bottom right corner, allowing the user to create a new automation, taking them to the the same editing page but for a new item instead.
+The automations screen displays all created automations. Each item is clickable, and will take you to a page for editing them. There is also a plus button in the bottom right corner for creating a new automation.
 
 > img
 
-The automations editing screen is used to create or edit an automation. It has a number of fields for specifing the details of the automation. Most of them should be self-explanatory. The `Value` field is used to specify the value that the sensor value will be compared against. The input type is a decimal number. The `Button` and `Motion` sensors will produce a value of `1` when they are triggered and `0` when they are not. For instance, if you want to trigger an automation when the motion sensor detects motion, you would set the `Sensor` to `MOTION`, the `Comparison` field to `EQUAL` and the `Value` field to `1`.
+The automations editing screen is used to create or edit an automation. It has a number of fields for specifing the details of the automation. Most of them should be self-explanatory. The `Value` field is used to specify the value that the sensor value will be compared against. The input type is a decimal number. The `Button` and `Motion` sensors will produce a value of `1` when they are triggered and `0` when they are not.
 
 There are three available actions to invoke on the chosen Tradfri device. The `SET_STATE` action is used to turn the device on or off. The device will turn on if the `Payload` is `1` and off if the `Payload` is `0`. The `TEMPORARY_ON` action is used to turn the device on for the amount of seconds entered in the `Payload` field. After that, it will turn off. Could be useful if you want a light to be on when motion has been detected the last five minutes, etc. Keep in mind that only changes of values will be recorded, meaning that to accomplish this function, two automations are needed. One that turns on the light when motion is detected, and one that turns it temporarily on when no motion is detected. The `TOGGLE` action is used to toggle the state of the device. If the device is on, it will be turned off, and vice versa. The `Payload` value is ignored for this action.
 
 The `Sensor Device` field is used to specify which sensor device the automation should apply to. The value should match the value entered into the `env.py` for the desired Pico W. 
 
-- [ ] Provide visual examples on how the dashboard looks. Pictures needed.
-- [ ] How often is data saved in the database.
-- [ ] *Explain your choice of database.
 - [ ] *Automation/triggers of the data.
 
 
@@ -306,7 +267,7 @@ The `Sensor Device` field is used to specify which sensor device the automation 
 
 **Reflections:**
 
-I think the project went well overall. I completed the MVP very early due to anticlipated future time constraints, which helped me in chosing a suitable scope for the project. The main downside of this was low initial code quality, causing time expensive bugs and refactoring. I do maintain that in my particular circumstance, it was the right strategy, even though it caused some issues. The main improvement potential I noticed was to be more careful about data types in weakly typed languages. Python won't complain during runtime if a variable stores a value different to the one I described in the type hint. This caused some bugs and issues which took longer than it should have to solve. I ended up checking for data type in if-statements, scattered across the code. Ideally, I should have done this earlier and more deliberately.
+I think the project went well overall. I completed the MVP very early due to anticlipated future time constraints, which helped me in chosing a suitable scope for the project. The main downside of this was low initial code quality, causing time expensive bugs and refactoring. I do maintain that in my particular circumstance, it was the right strategy, even though it caused some issues. The main improvement potential I noticed was to be more careful about data types in weakly typed languages. Python won't complain during runtime if a variable stores a value different to the one I described in the type hint. This caused some bugs and issues which took longer than it should have to solve. I ended up checking for data type in if-statements, scattered across the code. Ideally, I should have done this earlier and more delieratebly.
 
 - [ ] Show final results of the project - Pictures
 - [ ] *Video presentation
