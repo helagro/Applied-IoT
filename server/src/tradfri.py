@@ -87,6 +87,9 @@ def execute(deviceID: int, action: int, payload: int) -> None:
     deviceControl = getDeviceControl(device)
 
     print("Executing action:", action, "with payload:", payload, "on device:", device)
+    
+    if(timers.get(deviceID)):
+        timers[deviceID].cancel()
 
     if action == Action.SET_STATE.value:
         if payload == 1:
@@ -97,9 +100,6 @@ def execute(deviceID: int, action: int, payload: int) -> None:
             print(f"E-22: Invalid payload {payload}")
 
     elif action == Action.TEMPORARY_ON.value:
-        if(timers.get(deviceID)):
-            timers[deviceID].cancel()
-
         api(deviceControl.set_state(True))
         timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl))
         timer.start()
