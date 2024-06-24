@@ -47,7 +47,7 @@ There are some aspects of the project that are newer to me. I have not made tuto
 | ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 49 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsedetektor-hc-sr501) |
 | ![Push Button](res/img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
 
->    NOTE: Not all of the components I used were bought at the specified stores at the specified prices as already owned some of them.
+> NOTE: Not all of the components I used were bought at the specified stores at the specified prices as already owned some of them.
 
 
 ## Computer setup
@@ -182,9 +182,9 @@ def pollMotion() -> None:
     if prevMotion == detectsMotion: return
 
     if detectsMotion:
-        client.publish(f"motion/{deviceID}", "True")
+        client.publish(f"motion/{deviceID}", "1")
     else:
-        client.publish(f"motion/{deviceID}", "False")
+        client.publish(f"motion/{deviceID}", "0")
 
     prevMotion = detectsMotion
 ```

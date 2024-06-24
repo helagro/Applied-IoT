@@ -16,7 +16,7 @@ class MyLineChart extends StatelessWidget {
   LineChartData get sampleData1 => LineChartData(
       lineBarsData: [lineChartBarData1],
       titlesData: titlesData2,
-      gridData: const FlGridData(show: false),
+      gridData: const FlGridData(show: true, verticalInterval: 3600),
       minX: (DateTime.now().millisecondsSinceEpoch / 1000) - 3600 * 24,
       maxX: DateTime.now().millisecondsSinceEpoch / 1000);
 
