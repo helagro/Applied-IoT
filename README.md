@@ -221,7 +221,7 @@ There was not a lot of constraints guiding which wireless protocol was to be use
 
 **Dashboard:**
 
-> img
+![Dashboard](res/img/dashboard.png)
 
 The dashboard is built in to the Flutter client application. It is built entirely in flutter, using the [FL Chart](https://github.com/imaNNeo/fl_chart) library. When loading data, a HTTP request is sent to the server, which loads it from the local InfluxDB database, and returns it. The data is then used to create the graphs. The data is stored in the database for one day. This is because the data is not very valuable after that, storing it further would cost more resources and it would require extra work to display that data effectively. The user can also filter which sensor device to display data from.
 
