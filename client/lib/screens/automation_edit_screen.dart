@@ -155,31 +155,8 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
   /* --------------------- EVENT LISTENERS -------------------- */
 
   Future<void> onSave(BuildContext context) async {
-    int sensorDeviceID;
-    double threshold;
-    int payload;
-
-    try {
-      sensorDeviceID = int.parse(sensorDeviceController.text);
-      threshold = double.parse(valueController.text);
-      payload = int.parse(payloadController.text);
-    } catch (e) {
-      errorToast("E-14: $e");
-      return;
-    }
-
-    Automation updatedAutomation = Automation(
-        id: widget.automation.id,
-        name: nameController.text,
-        sensor: sensorWrapper.value,
-        threshold: threshold,
-        operatorID: comparatorWrapper.value,
-        tradfriDeviceID: deviceWrapper.value,
-        actionID: actionWrapper.value,
-        actionPayload: payload,
-        sensorDeviceID: sensorDeviceID);
-
-    await widget.backend.updateAutomation(updatedAutomation);
+    updateAutomationDetails();
+    await widget.backend.updateAutomation(widget.automation);
     await widget.backend.loadAutomations();
 
     if (context.mounted) {
@@ -196,12 +173,6 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     }
   }
 
-  bool doSelectAllDevices() {
-    if (allDevicesSelected != null) return allDevicesSelected!;
-
-    return widget.automation.sensorDeviceID == -1;
-  }
-
   void onAllDevicesSelect(bool? selected) {
     String inputSensorDeviceID = sensorDeviceController.text;
     if (selected == true && int.tryParse(inputSensorDeviceID) != null) {
@@ -209,7 +180,39 @@ class _AutomationEditScreenState extends State<AutomationEditScreen> {
     }
 
     setState(() {
+      updateAutomationDetails();
       allDevicesSelected = selected;
     });
+  }
+
+  /* ------------------------ FUNCTIONS ----------------------- */
+
+  void updateAutomationDetails() {
+    int sensorDeviceID;
+    double threshold;
+    int payload;
+
+    try {
+      sensorDeviceID = int.parse(sensorDeviceController.text);
+      threshold = double.parse(valueController.text);
+      payload = int.parse(payloadController.text);
+    } catch (e) {
+      errorToast("E-14: $e");
+      return;
+    }
+
+    widget.automation.name = nameController.text;
+    widget.automation.sensor = sensorWrapper.value;
+    widget.automation.operatorID = comparatorWrapper.value;
+    widget.automation.threshold = threshold;
+    widget.automation.tradfriDeviceID = deviceWrapper.value;
+    widget.automation.actionID = actionWrapper.value;
+    widget.automation.actionPayload = payload;
+    widget.automation.sensorDeviceID = sensorDeviceID;
+  }
+
+  bool doSelectAllDevices() {
+    if (allDevicesSelected != null) return allDevicesSelected!;
+    return widget.automation.sensorDeviceID == -1;
   }
 }
