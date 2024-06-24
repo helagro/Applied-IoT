@@ -11,8 +11,7 @@ org = "se.helagro"
 client = InfluxDBClient(
    url=url,
    org=org,
-   username="helagro",
-   password="doesNotMatter"
+   token="does-not-matter-because-data-not-sensitive",
 )
 
 write_api = client.write_api(write_options=SYNCHRONOUS)

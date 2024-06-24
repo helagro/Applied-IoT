@@ -12,7 +12,7 @@ As shown above, it consists of one-to-many Raspberry Pico W's, a server and a Tr
 
 **Time investment:**
 
-The hardware should not take long, as all it takes is to follow the wiring diagram. The time required to setup the software is depends a lot on experience and luck. I estimate that it would take 1 to 3 hours to complete everything.
+The hardware should not take long, as all it takes is to follow the wiring diagram. The time required to setup the software is depends a lot on experience and luck. I estimate that it would take 30 to 90 minutes to complete everything.
 
 
 ## Objective
@@ -44,7 +44,7 @@ There are some aspects of the project that are newer to me. I have not made tuto
 | ![Jumper Cables](res/img/cables.jpg) | Jumper Cables | 10 cm long, male to male cables used to connect the sensors to the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack) |
 | ![DHT11](res/img/dht11.jpg) | DHT11 | A digital temperature and humidity sensor which can be used with the dht library for easy reading. | 49 SEK at [Electrokit](https://www.electrokit.com/digital-temperatur-och-fuktsensor-dht11) |
 | ![Light Sensor](res/img/light-sensor.jpg) | Light Sensor | An analog light sensor. Very easy to use because it has a seperate pin for reading and it does not need resistors for our application. | 39 SEK at [Electrokit](https://www.electrokit.com/ljussensor) |
-| ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsesensor) |
+| ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 49 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsedetektor-hc-sr501) |
 | ![Push Button](res/img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
 
 >    NOTE: Not all of the components I used were bought at the specified stores at the specified prices as already owned some of them.
@@ -106,17 +106,19 @@ The server should now be running on port 3000 of your device. You can access the
 
 
 **Electrics:**
-Due to the choice of components, this entire setup require no additional resistors. The light sensor has a seperate pin for reading, and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
+
+Due to the choice of components, this entire setup require no additional resistors. The light sensor and the push button has built-in resistors. A two-legged light sensor, without a PCB would typically require a fairly high-impedance resistor to be able to read the value without shorting the circuit. The one used in the project, however, has a 10 kΩ resistor built-in and has simplified the usage by adding a third leg to read from. Using Ohm's law ($I=\frac{V}{R}$), if the resistor provided the only impedance to the path between 3.3V and ground, the current would be $\frac{3.3V}{10kΩ}$ = 0.33mA which is very little current so no other resistor needs to be used.
+
+The DHT11, button and light sensor all perform fine when powered with 3.3V. The DHT11, for instance, has a input power rating range of 3V - 5.5V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
 
 **Production:**
+
 For a production setup, an external power module supply should be used, together more optimised wiring, pin usage and preferably a case of sorts. A case could quite easily be 3D printed, improving both looks, dust protection, ease of directing sensors and durability. 
 
 **Color coding:**
+
 The diagram's wires are color coded, and I would recommend you do that too if possible. Red means power, black means ground and yellow means signal, i.e. where the data is read from.
 
-
-- [ ] *Electrical calculations
-  - [ ] current and voltage
 
 ## Platform
 
@@ -249,9 +251,7 @@ The `Sensor Device` field is used to specify which sensor device the automation 
 
 **Triggers of the data:**
 
-
-
-- [ ] *Automation/triggers of the data.
+When new sensor data is received, the server will execute any applicable automations and store it in the database.
 
 
 ## Finalizing the design

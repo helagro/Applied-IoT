@@ -13,9 +13,19 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=se.helagro
       - DOCKER_INFLUXDB_INIT_RETENTION=25h
       - DOCKER_INFLUXDB_INIT_BUCKET=main
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=does-not-matter-because-data-not-sensitive
     volumes:
       - ./db/data:/var/lib/influxdb2
       - ./db/config:/etc/influxdb2
+    
+  broker:
+    image: eclipse-mosquitto
+    container_name: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
 
   iot:
     build:
@@ -28,14 +38,8 @@ services:
       - TRADFRI_CODE=${TRADFRI_CODE}
     ports:
       - "3000:3000"
+    depends_on:
+      - influxdb
+      - broker
     volumes:
       - ./config:/config
-    
-  broker:
-    image: eclipse-mosquitto
-    container_name: eclipse-mosquitto
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-    volumes:
-      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
