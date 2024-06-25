@@ -12,7 +12,7 @@ As shown above, it consists of one-to-many Raspberry Pico W's, a server and a Tr
 
 **Time investment:**
 
-The hardware should not take long, as all it takes is to follow the wiring diagram. The time required to setup the software is depends a lot on experience and luck. I estimate that it would take 30 to 90 minutes to complete everything.
+The hardware should not take long, as all it takes is to follow the wiring diagram. The time required to setup the software is depends a lot on experience and luck. I estimate that it would take 45 minutes to 2 hours to complete everything.
 
 
 ## Objective
@@ -260,7 +260,12 @@ When new sensor data is received, the server will execute any applicable automat
 
 I think the project went well overall. I completed the MVP very early due to anticipated future time constraints. The main downside of this was low initial code quality, causing time expensive bugs and refactoring. The main improvement potential I noticed was to be more careful about data types in weakly typed languages. Python won't complain during runtime if a variable stores a value different to the one I described in the type hint. This caused some bugs and issues which took longer than it should have to solve. I ended up checking for data type in if-statements, scattered across the code. Ideally, I should have done this earlier and more delieratebly.
 
-- [ ] Show final results of the project - Pictures
+**Result:**
+
+![result](res/img/result.jpeg)
+
+> Please note that the wiring is messier than in the wiring diagram due to me not having the right type of wires.
+
 - [ ] *Video presentation
 
 ---
