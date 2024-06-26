@@ -267,12 +267,11 @@ I think the project went well overall. I completed the MVP very early due to ant
 
 **Result:**
 
+
 ![result](res/img/result.jpeg)
 
 > Please note that the wiring is messier than in the wiring diagram due to me not having the right type of wires.
 
-![Demo video](https://youtu.be/vtmuhuVpsc0)
-
-- [ ] *Video presentation
+[Video Presentation](https://youtu.be/vtmuhuVpsc0)
 
 ---
