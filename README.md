@@ -110,7 +110,11 @@ The server should now be running on port 3000 of your device. You can access the
 
 Due to the choice of components, this entire setup require no additional resistors. The light sensor and the push button has built-in resistors. A two-legged light sensor, without a PCB would typically require a fairly high-impedance resistor to be able to read the value without shorting the circuit. The one used in the project, however, has a 10 kΩ resistor built-in and has simplified the usage by adding a third leg to read from. Using Ohm's law ($I=\frac{V}{R}$), if the resistor provided the only impedance to the path between 3.3V and ground, the current would be $\frac{3.3V}{10kΩ}$ = 0.33mA which is very little current so no other resistor needs to be used.
 
-The DHT11, button and light sensor all perform fine when powered with 3.3V. The DHT11, for instance, has a input power rating range of 3V - 5.5V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. Without it, the signal becomes highly irregular and random. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
+The DHT11, button and light sensor all perform fine when powered with 3.3V. The DHT11, for instance, has a input power rating range of 3V - 5.5V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
+
+**Power Consumption:**
+
+The Pico W's power consumption with WiFi on is estimated as [45 mA](https://stfn.pl/blog/34-pico-power-consumption-solar-panels/). The PIR sensor is rated as [65 mA](https://www.electrokit.com/upload/product/41015/41015509/datasheet.pdf) when active and [0.05 mA](https://www.electrokit.com/upload/product/41015/41015509/datasheet.pdf) when not. 
 
 **Production:**
 
@@ -266,6 +270,8 @@ I think the project went well overall. I completed the MVP very early due to ant
 ![result](res/img/result.jpeg)
 
 > Please note that the wiring is messier than in the wiring diagram due to me not having the right type of wires.
+
+![Demo video](https://youtu.be/vtmuhuVpsc0)
 
 - [ ] *Video presentation
 

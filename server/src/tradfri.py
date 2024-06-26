@@ -83,40 +83,43 @@ def get_devices() -> list[dict]:
         
 
 def execute(deviceID: int, action: int, payload: int) -> None:
-    device = getDevice(deviceID)
-    deviceControl = getDeviceControl(device)
+    try: 
+        device = getDevice(deviceID)
+        deviceControl = getDeviceControl(device)
 
-    print("Executing action:", action, "with payload:", payload, "on device:", device)
-    
-    if(timers.get(deviceID)):
-        timers[deviceID].cancel()
+        print("Executing action:", action, "with payload:", payload, "on device:", device)
+        
+        if(timers.get(deviceID)):
+            timers[deviceID].cancel()
 
-    if action == Action.SET_STATE.value:
-        if payload == 1:
+        if action == Action.SET_STATE.value:
+            if payload == 1:
+                api(deviceControl.set_state(True))
+            elif payload == 0:
+                api(deviceControl.set_state(False))
+            else:
+                print(f"E-22: Invalid payload {payload}")
+
+        elif action == Action.TEMPORARY_ON.value:
             api(deviceControl.set_state(True))
-        elif payload == 0:
-            api(deviceControl.set_state(False))
+            timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl))
+            timer.start()
+            timers[deviceID] = timer
+
+        elif action == Action.TOGGLE.value:
+            if device.has_light_control:
+                api(deviceControl.set_state(not deviceControl.lights[0].state))
+            elif device.has_socket_control:
+                api(deviceControl.set_state(not deviceControl.sockets[0].state))
+            elif device.has_blind_control:
+                api(deviceControl.set_state(not deviceControl.blinds[0].state))
+            else:
+                raise PytradfriError(f"E-7: Device {device.id} has no valid control")
+
         else:
-            print(f"E-22: Invalid payload {payload}")
-
-    elif action == Action.TEMPORARY_ON.value:
-        api(deviceControl.set_state(True))
-        timer = threading.Timer(payload, lambda: afterTemporaryOn(deviceID, deviceControl))
-        timer.start()
-        timers[deviceID] = timer
-
-    elif action == Action.TOGGLE.value:
-        if device.has_light_control:
-            api(deviceControl.set_state(not deviceControl.lights[0].state))
-        elif device.has_socket_control:
-            api(deviceControl.set_state(not deviceControl.sockets[0].state))
-        elif device.has_blind_control:
-            api(deviceControl.set_state(not deviceControl.blinds[0].state))
-        else:
-            raise PytradfriError(f"E-7: Device {device.id} has no valid control")
-
-    else:
-        raise PytradfriError(f"E-5: Invalid action {action}")
+            raise PytradfriError(f"E-5: Invalid action {action}")
+    except Exception as e:
+        print(f"E-57: execute tradfri error: {e}")
 
 
 def getDevice(deviceID: int):
