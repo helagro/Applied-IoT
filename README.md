@@ -1,4 +1,4 @@
-# How to build a automation system for IKEA Tradfri
+# How to build an automation system for IKEA Tradfri
 
 **Author:** Henrik Lagrosen, (hl223qb)
 
@@ -41,7 +41,8 @@ There are some aspects of the project that are newer to me. I have not made tuto
 | ---- | ---- | ---- | ----- |
 | ![Tradfri Gateway](res/img/gateway.jpg) | Tradfri Gateway E1526 | The gateway used to control the Tradfri devices. It is connected to the server over ethernet. **Other gateways are not guarenteed to work!** | Unavailable for new purchase, easy to find used. Around 400 SEK. |
 | ![Pico W](res/img/pico-w.jpg) | Raspberry Pi Pico W | The microcontroller used for connecting the sensors to the application. Comes with a pre-soildered header and a built-in WiFi antenna. | 109 SEK at [Electrokit](https://www.electrokit.com/raspberry-pi-pico-wh) |
-| ![Jumper Cables](res/img/cables.jpg) | Jumper Cables | 10 cm long, male to male cables used to connect the sensors to the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack) |
+| ![Jumper Cables](res/img/cables.jpg) | Male to Male jumper cables | 10 cm long, male to male cables used to connect the sensors to the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack) |
+| ![Jumper Cables](res/img/cables-2.jpg) | Male to female jumper cables | 15 cm long, male to female cables used to connect the sensors to the Pico W. | 29 SEK at [Electrokit](https://www.electrokit.com/labsladd-1-pin-hane-hona-150mm-10-pack) |
 | ![DHT11](res/img/dht11.jpg) | DHT11 | A digital temperature and humidity sensor which can be used with the dht library for easy reading. | 49 SEK at [Electrokit](https://www.electrokit.com/digital-temperatur-och-fuktsensor-dht11) |
 | ![Light Sensor](res/img/light-sensor.jpg) | Light Sensor | An analog light sensor. Very easy to use because it has a seperate pin for reading and it does not need resistors for our application. | 39 SEK at [Electrokit](https://www.electrokit.com/ljussensor) |
 | ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 49 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsedetektor-hc-sr501) |
