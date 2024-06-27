@@ -4,7 +4,7 @@
 
 **Overview:**
 
-This tutorial will show you how to set up a Raspberry Pico W to provide more automation abilities to the Ikea Tradfri system. The resulting system will be able to automate Tradfri commands based on data from the sensors connected to one or more Pico W's. The available sensors to use are a temperature sensor, a humidity sensor, a light sensor and a motion sensor.
+This tutorial will show you how to set up a Raspberry Pico W to provide more automation abilities to the Ikea Tradfri system. The resulting system will be able to automate Tradfri commands based on data from the sensors connected to one or more Pico W's. The available sensors to use are a temperature sensor, button, light sensor and a motion sensor.
 
 ![System Overview](res/img/IoT-diagram.jpg)
 
@@ -19,8 +19,7 @@ The hardware should not take long, as all it takes is to follow the wiring diagr
 
 **Project selection decision:**
 
-I have some previous experience with developing software integrating with the IKEA Tradfri product line. Those projects were aimed to extend the existing functionallity of the smart home system and were highly tailored to suit my own needs. I learned that it was both fun and easy to work with the Tradfri system and as it fitted well with the requirements of the course, I decided to build a project
-that works as an extension to the Tradfri system.
+I have some previous experience with developing software integrating with the IKEA Tradfri product line. Those projects were aimed to extend the existing functionallity of the smart home system and were highly tailored to suit my own needs. I learned that it was both fun and easy to work with the Tradfri system and as it suited the requirements of the course, I decided to build a project that works as an extension to the Tradfri system.
 
 **Purpose:**
 
@@ -39,13 +38,13 @@ There are some aspects of the project that are newer to me. I have not made tuto
 
 |Image | Name | Info | Price |
 | ---- | ---- | ---- | ----- |
-| ![Tradfri Gateway](res/img/gateway.jpg) | Tradfri Gateway E1526 | The gateway used to control the Tradfri devices. It is connected to the server over ethernet. **Other gateways are not guarenteed to work!** | Unavailable for new purchase, easy to find used. Around 400 SEK. |
+| ![Tradfri Gateway](res/img/gateway.jpg) | Tradfri Gateway E1526 | The gateway used to control the Tradfri devices. **Other gateways might not work!** | Unavailable for new purchase, easy to find used. Around 400 SEK. |
 | ![Pico W](res/img/pico-w.jpg) | Raspberry Pi Pico W | The microcontroller used for connecting the sensors to the application. Comes with a pre-soildered header and a built-in WiFi antenna. | 109 SEK at [Electrokit](https://www.electrokit.com/raspberry-pi-pico-wh) |
 | ![Jumper Cables](res/img/cables.jpg) | Male to Male jumper cables | 10 cm long, male to male cables used to connect the sensors to the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack) |
 | ![Jumper Cables](res/img/cables-2.jpg) | Male to female jumper cables | 15 cm long, male to female cables used to connect the sensors to the Pico W. | 29 SEK at [Electrokit](https://www.electrokit.com/labsladd-1-pin-hane-hona-150mm-10-pack) |
 | ![DHT11](res/img/dht11.jpg) | DHT11 | A digital temperature and humidity sensor which can be used with the dht library for easy reading. | 49 SEK at [Electrokit](https://www.electrokit.com/digital-temperatur-och-fuktsensor-dht11) |
 | ![Light Sensor](res/img/light-sensor.jpg) | Light Sensor | An analog light sensor. Very easy to use because it has a seperate pin for reading and it does not need resistors for our application. | 39 SEK at [Electrokit](https://www.electrokit.com/ljussensor) |
-| ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. Requires 5V power, but there is a way to get it from the Pico W. | 49 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsedetektor-hc-sr501) |
+| ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. | 49 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsedetektor-hc-sr501) |
 | ![Push Button](res/img/push-button.jpg) | Push Button | Simple push button with built-in resistors. It has one pin which will be high when the button is pushed. | 19 SEK at [Electrokit](https://www.electrokit.com/tryckknapp-momentan) |
 
 > NOTE: Not all of the components I used were bought at the specified stores at the specified prices as already owned some of them.
@@ -55,7 +54,7 @@ There are some aspects of the project that are newer to me. I have not made tuto
 
 **My IDE choice:**
 
-The IDE I chose for working with this project is Visual Studio Code. The most major factors behind the decision were the extendability of the code editor which allows for fine tuning the editor to my liking, and because I have a lot of previous experience with the editor. You can use whichever editor you prefer, but the instructions will be tailored to Visual Studio Code with the PyMakr plugin.
+The IDE I chose for working with this project is Visual Studio Code. The most major factors behind the decision were the extendability of the code editor which allows for fine tuning the editor to my liking, and because I have previous experience with the editor. You can use different editors but the instructions will be for Visual Studio Code with the PyMakr plugin.
 
 **Setting up Visual Studio Code:**
 
@@ -68,15 +67,15 @@ To be able to deploy MicroPython code on the the Pico W, you need to first flash
 ```python
 WIFI_SSID="" # WiFi name
 WIFI_PASS="" # WiFi password
-BROKER_ADDRESS="" # IP of machine running the server
-BROKER_PORT=1883 # The port on which the MQTT broker is running, default is 1883
+BROKER_ADDRESS="" # IP of server device
+BROKER_PORT=1883 # MQTT port of server, default is 1883
 DEVICE_ID=1 # The unique identifier for the Pico W, MUST be a positive integer
 DISABLED_SENSORS="" # A comma separated list of sensors not in use. The available sensors are "motion", "temperature", "light" and "button". For instance, "motion,light" would disable the motion and light sensors.
 ```
 
 **Setting up the local server:**
 
-The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. In my case, I used a Raspberry Pi 4 running Raspbian, but any Linux/Mac OS should be fine. Windows could work to, but has not been tested. You need to install Docker Engine, Docker CLI and Docker Compose. Luckily, you can install all of these at once by installing Docker Desktop. Instructions for installing Docker Desktop on any platform can be found [here](https://docs.docker.com/desktop/). 
+The server is used to coordinate the Pico W devices (in case there are multiple in your setup), to communicate with the Tradfri gateway and to manage the data. In my case, I used a Raspberry Pi 4 running Raspbian, but any Linux/Mac should be fine. Windows could work too, but has not been tested. You need to install Docker Engine, Docker CLI and Docker Compose. You can install all of these at once by installing Docker Desktop, instructions can be found [here](https://docs.docker.com/desktop/). 
 
 > The following commands will only work for Linux and Mac OS
 
@@ -108,13 +107,11 @@ The server should now be running on port 3000 of your device. You can access the
 
 **Electrics:**
 
-Due to the choice of components, this entire setup require no additional resistors. The light sensor and the push button has built-in resistors. A two-legged light sensor, without a PCB would typically require a fairly high-impedance resistor to be able to read the value without shorting the circuit. The one used in the project, however, has a 10 kΩ resistor built-in and has simplified the usage by adding a third leg to read from. Using Ohm's law ($I=\frac{V}{R}$), if the resistor provided the only impedance to the path between 3.3V and ground, the current would be $\frac{3.3V}{10kΩ}$ = 0.33mA which is very little current so no other resistor needs to be used.
-
-The DHT11, button and light sensor all perform fine when powered with 3.3V. The DHT11, for instance, has a input power rating range of 3V - 5.5V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
+Due to the choice of components, this entire setup require no additional resistors. The light sensor and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The DHT11, for instance, has a input power rating range of 3V - 5.5V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
 
 **Power Consumption:**
 
-The Pico W's power consumption with WiFi on is estimated as [45 mA](https://stfn.pl/blog/34-pico-power-consumption-solar-panels/). The PIR sensor is rated as [65 mA](https://www.electrokit.com/upload/product/41015/41015509/datasheet.pdf) when active and [0.05 mA](https://www.electrokit.com/upload/product/41015/41015509/datasheet.pdf) when not. 
+The Pico W's power consumption with WiFi on is estimated as [45 mA](https://stfn.pl/blog/34-pico-power-consumption-solar-panels/). The DHT11 uses [1 mA](https://www.electrokit.com/upload/product/41015/41015728/DHT11.pdf) on average. The photoresistor has a total resistance of between [20 Ω and 5 MΩ, and an inline-resistor of 10 kΩ](https://abc-rc.pl/en/products/ky-018-light-sensor-photoresistor-light-sensor-module-for-arduino-16386.html). We will be conservative and calculate for 20 Ω. $10kΩ + 20Ω = 10020Ω$. $I=\frac{V}{R}$ gives $I=\frac{3.3V}{10020Ω} \approx 0.33 mA$. The pushbutton uses no power when not pressed, which will be too infrequent to consider. The motion sensor's power consumption proved too difficult to calculate given the complexity of the circuit and different phases of it. It is also highly influenced by user-settings, and would increase power consumption fairly significantly. Given that the software allows for disabling sensors, that sensor will not be used for this calculation. The total power consumption is then $45 mA + 1 mA + 0.33 mA = 46.33 mA$. Connected to a 10000 mAh power bank, the system would last for $\frac{10000 mAh}{46.33 mA} \approx 216 hours \approx 9 days$. Software tweaks could easily improve this, for instance by turning off the WiFi when not in use and putting it into deep sleep, but this is not that important for the intended use.
 
 **Production:**
 
@@ -142,8 +139,6 @@ Using a platform like Adafruit, Ubidots or Node-Red would likely require more us
 These factors all leaned towards installing a local database and using the Flutter client application for visualisation. The development would be easy, it would have a minimal impact on project complexity, it would not bottleneck the system in any significant manner, and the setup could be fully automated.
 
 **Scaling:**
-
-As touched upon earlier, scaling this project should be very easy and the current configuration should be able to handle most realistic usage and traffic. Having a local database is ideal, allowing for very high reponsiveness, and the lack of some of the overhead present with some of the above mentioned platforms is also good for performance. The Flutter library is also more than capable of graphing a large amount of data. 
 
 To allow for distributing the load to multiple servers, the broker, python server and database should be further separated. The client applications should connect to the InfluxDB directly, instead of having all data relayed through the Python server. The database should also be more directly connected to the MQTT broker, as it has to be separated from the Python server. Given that the system is not connected to the internet, no cloud scaling will ever be needed.
 
