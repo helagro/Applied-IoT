@@ -21,6 +21,7 @@ class _DataScreenState extends State<DataScreen> {
   @override
   void initState() {
     setupBackend();
+    super.initState();
   }
 
   @override
@@ -40,7 +41,7 @@ class _DataScreenState extends State<DataScreen> {
       children: [
         Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Row(

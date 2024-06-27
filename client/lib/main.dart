@@ -46,11 +46,11 @@ class MainPage extends StatelessWidget {
                 ],
               ),
             ),
-            body: TabBarView(
+            body: const TabBarView(
               children: [
-                const AutomationsScreen(),
+                AutomationsScreen(),
                 DataScreen(),
-                const Settings(),
+                Settings(),
               ],
             ),
           ),
