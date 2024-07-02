@@ -269,5 +269,6 @@ I think the project went well overall. I completed the MVP very early due to ant
 > Please note that the wiring is messier than in the wiring diagram due to me not having the right type of wires.
 
 [Video Presentation](https://youtu.be/vtmuhuVpsc0)
+[Google Slide](https://docs.google.com/presentation/d/1A0D4UXmOM_xYkLgqSW41-Z8yxQpKY_i_0wlBmtkjzuM)
 
 ---
