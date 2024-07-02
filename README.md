@@ -19,7 +19,7 @@ The hardware should not take long, as all it takes is to follow the wiring diagr
 
 **Project selection decision:**
 
-I have some previous experience with developing software integrating with the IKEA Tradfri product line. Those projects were aimed to extend the existing functionallity of the smart home system and were highly tailored to suit my own needs. I learned that it was both fun and easy to work with the Tradfri system and as it suited the requirements of the course, I decided to build a project that works as an extension to the Tradfri system.
+I have some previous experience with developing software integrating with the IKEA Tradfri product line. I learned that it was both fun and easy to work with the Tradfri system and as it suited the requirements of the course, I decided to build a project that works as an extension to the Tradfri system.
 
 **Purpose:**
 
@@ -31,7 +31,7 @@ The Pico W will send the sensor data to the server. The server will then use thi
 
 **Possible insights:**
 
-There are some aspects of the project that are newer to me. I have not made tutorials of this kind and I think that some of the data-visualisation tools will be new to me as well. I expect to learn more about both areas and how to operate with them more efficiently.
+There are some aspects of the project that are newer to me. I have not made tutorials of this kind and I think that some of the data-visualisation tools will be new to me as well. I expect to learn more about both areas and how to operate with them more efficiently. The data will both give insights to general metrics of the environment, aswell as the results and operations of the automations themselves.
 
 
 ## Material
@@ -42,6 +42,7 @@ There are some aspects of the project that are newer to me. I have not made tuto
 | ![Pico W](res/img/pico-w.jpg) | Raspberry Pi Pico W | The microcontroller used for connecting the sensors to the application. Comes with a pre-soildered header and a built-in WiFi antenna. | 109 SEK at [Electrokit](https://www.electrokit.com/raspberry-pi-pico-wh) |
 | ![Jumper Cables](res/img/cables.jpg) | Male to Male jumper cables | 10 cm long, male to male cables used to connect the sensors to the Pico W. | 39 SEK at [Electrokit](https://www.electrokit.com/labbsladdar-100mm-hane/hane-30-pack) |
 | ![Jumper Cables](res/img/cables-2.jpg) | Male to female jumper cables | 15 cm long, male to female cables used to connect the sensors to the Pico W. | 29 SEK at [Electrokit](https://www.electrokit.com/labsladd-1-pin-hane-hona-150mm-10-pack) |
+| ![Breadboard](res/img/breadboard.jpg) | Breadboard | A breadboard with 840 connections, used to connect the sensors to the Pico W. | 69 SEK at [Electrokit](https://www.electrokit.com/kopplingsdack-840-anslutningar)
 | ![DHT11](res/img/dht11.jpg) | DHT11 | A digital temperature and humidity sensor which can be used with the dht library for easy reading. | 49 SEK at [Electrokit](https://www.electrokit.com/digital-temperatur-och-fuktsensor-dht11) |
 | ![Light Sensor](res/img/light-sensor.jpg) | Light Sensor | An analog light sensor. Very easy to use because it has a seperate pin for reading and it does not need resistors for our application. | 39 SEK at [Electrokit](https://www.electrokit.com/ljussensor) |
 | ![PIR Sensor](res/img/pir-sensor.jpg) | HC-SR501 | A motion sensor that can be used to detect movement. It has a digital output, high if motion is detected, low if not. | 49 SEK at [Electrokit](https://www.electrokit.com/pir-rorelsedetektor-hc-sr501) |
@@ -107,7 +108,7 @@ The server should now be running on port 3000 of your device. You can access the
 
 **Electrics:**
 
-Due to the choice of components, this entire setup require no additional resistors. The light sensor and the push button has built-in resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The DHT11, for instance, has a input power rating range of 3V - 5.5V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).** This is one part of the design which makes it unsuitable for production, but it is fine for a home project. Some other reasons are the innefficient wiring, lack of protection and that the button is not as easy to press as it should be.
+Due to the choice of components, this entire setup require no additional resistors. The DHT11, button and light sensor all perform fine when powered with 3.3V. The DHT11, for instance, has a input power rating range of 3V - 5.5V. The motion sensor requires 5V power, but you can draw that from the USB input using the VBUS pin. This is not ideal as this bypasses features of the Pico W, like voltage regulation, overvoltage protection and backfeeding protection. An example of backfeeding is if you instead of drawing power from the VBUS, you accidentally power it. **This can cause damage to the device that the Pico is connected to (for instance, your expensive computer).**
 
 **Power Consumption:**
 
@@ -119,7 +120,7 @@ For a production setup, an external power module supply should be used, together
 
 **Color coding:**
 
-The diagram's wires are color coded, and I would recommend you do that too if possible. Red means power, black means ground and yellow means signal, i.e. where the data is read from.
+The diagram's wires are color coded, which is recommended. Red means power, black means ground and yellow means signal, i.e. where the data is read from.
 
 
 ## Platform

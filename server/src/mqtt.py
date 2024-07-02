@@ -10,6 +10,7 @@ def on_message(client, userData, msg: any) -> None:
         print("Device:", device, end="  ")
     except ValueError:
         print("Invalid device ID:", msg.topic)
+        return
 
     try:
         value = float(msg.payload.decode())
